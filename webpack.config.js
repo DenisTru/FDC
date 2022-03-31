@@ -1,35 +1,41 @@
-var path = require('path');
-var SRC_DIR = path.join(__dirname, '/client/src');
-var DIST_DIR = path.join(__dirname, '/client/dist');
+const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
-    entry: `${SRC_DIR}/index.jsx`,
-    output: {
-        filename: 'bundle.js',
-        path: DIST_DIR
+  mode: 'development',
+  entry: './src/index.jsx',
+  output: {
+    path: path.join(__dirname, 'public'),
+    filename: 'bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(jsx|js)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+      },
+    ],
+  },
+  devtool: 'eval-cheap-module-source-map',
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
     },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)?/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react"
-                        ],
-                        plugins: [
-                            ["@babel/plugin-transform-runtime",
-                                {
-                                    "regenerator": true
-                                }
-                            ]
-                        ]
-                    }
-                }
-            }
-        ]
-    }
+    compress: true,
+    port: 3000,
+  },
+  plugins: [new ESLintPlugin()],
 };
