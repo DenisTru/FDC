@@ -7,7 +7,7 @@
     "start": "webpack --mode=development",
     "build": "webpack --mode=production",
     "dev": "webpack serve --open",
-    "test": "jest"
+    "test": "jest --env=jsdom"
   },
   "repository": "git+https://github.com/Retailiation/retailiation.git",
   "devDependencies": {
@@ -48,5 +48,11 @@
   "bugs": {
     "url": "https://github.com/Retailiation/retailiation/issues"
   },
-  "homepage": "https://github.com/Retailiation/retailiation#readme"
+  "homepage": "https://github.com/Retailiation/retailiation#readme",
+  "jest": {
+    "verbose": true,
+    "testPathIgnorePatterns": [
+      "./JestTest/components.test.js"
+    ]
+  }
 }
