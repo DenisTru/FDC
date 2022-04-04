@@ -5694,11 +5694,14 @@
   dependencies:
     "escape-string-regexp" "^2.0.0"
 
+<<<<<<< HEAD
 "start@^5.1.0":
   "integrity" "sha1-HBcfDvlIf1bQq5p1Ws6GAWkgh2M="
   "resolved" "https://registry.npmjs.org/start/-/start-5.1.0.tgz"
   "version" "5.1.0"
 
+=======
+>>>>>>> individualReviewTile
 "statuses@>= 1.4.0 < 2", "statuses@>= 1.5.0 < 2", "statuses@~1.5.0":
   "integrity" "sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow="
   "resolved" "https://registry.npmjs.org/statuses/-/statuses-1.5.0.tgz"
