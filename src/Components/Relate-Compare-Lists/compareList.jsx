@@ -1,9 +1,8 @@
 import React from 'react';
+import './relateCompareLists.scss';
 
-function compareList() {
-  return (
-    <div>Your Outfit</div>
-  );
-}
+const compareList = () => (
+  <div>Your Outfit</div>
+);
 
 export default compareList;

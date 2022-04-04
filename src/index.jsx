@@ -81,8 +81,8 @@ class App extends React.Component {
     }
     return (
       <div>
-        <CompareList />
         <RelatedList />
+        <CompareList />
         {/* <RatingReviews
           reviewsNextPage={reviewsNextPage}
           helpOnClick={this.helpOnClick}

@@ -1,10 +1,9 @@
 import React from 'react';
+import './relateCompareLists.scss';
 
-function relatedList() {
-  return (
-    <div>Related Products</div>
-  );
-}
+const relatedList = () => (
+  <div>Related Products</div>
+);
 
 export default relatedList;
 
