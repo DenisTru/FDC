@@ -14,8 +14,8 @@ class App extends React.Component {
       isLoading: true,
       reviews: [],
       reviewsPage: 1,
-      reviewsCount: 2,
-      reviewsSort: 'newest',
+      reviewsCount: 3,
+      reviewsSort: 'helpful',
       reviewsNextPage: [],
       productId: 66643,
     };
@@ -42,6 +42,7 @@ class App extends React.Component {
     });
   }
 
+  // Reviews And Ratings click on help button
   helpOnClick = (id) => {
     const { reviews } = this.state;
     for (let i = 0; i < reviews.length; i += 1) {
@@ -52,6 +53,7 @@ class App extends React.Component {
     this.setState({ reviews });
   };
 
+  // Reviews And Ratings click on more reviews button
   moreReviewsOnClick = () => {
     const {
       reviewsCount,
@@ -65,8 +67,34 @@ class App extends React.Component {
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      console.log('data', data, 'next', reviewsNextPage);
+      // console.log('data', data, 'next', reviewsNextPage);
       this.setState({ reviews, reviewsNextPage: data, reviewsPage });
+    });
+  };
+
+  // Revews And Ratings sort options
+  onSortChange = (sortType) => {
+    const {
+      reviewsCount,
+      productId,
+    } = this.state;
+    let { reviews, reviewsPage, reviewsSort } = this.state;
+    reviewsSort = sortType;
+    reviewsPage = 1;
+    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      reviews = data;
+      console.log('@@@', reviews);
+      return reviews;
+    }).then((newReviews) => {
+      getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+        let { data } = res;
+        data = data.results;
+        this.setState({
+          reviews: newReviews, reviewsNextPage: data, reviewsPage, reviewsSort,
+        });
+      });
     });
   };
 
@@ -84,6 +112,7 @@ class App extends React.Component {
           helpOnClick={this.helpOnClick}
           data={reviews}
           moreReviewsOnClick={this.moreReviewsOnClick}
+          onSortChange={this.onSortChange}
         />
       </div>
     );

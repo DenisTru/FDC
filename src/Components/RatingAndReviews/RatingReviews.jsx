@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import RatingReviewsList from './RatingReviewsList';
 import ReviewButtons from './ReviewButtons';
 import reviewPropTypes from './reviewPropTypes';
+import SortOptions from './SortOptions';
 
 export default function RatingReviews({
   data, helpOnClick, reviewsNextPage, moreReviewsOnClick,
+  onSortChange,
 }) {
   return (
     <div>
+      <div>
+        <SortOptions onSortChange={onSortChange} />
+      </div>
+
       <div>
         {
           data.map((review) => (
@@ -37,6 +43,7 @@ RatingReviews.propTypes = {
   helpOnClick: PropTypes.func.isRequired,
   reviewsNextPage: PropTypes.arrayOf(reviewPropTypes).isRequired,
   moreReviewsOnClick: PropTypes.func.isRequired,
+  onSortChange: PropTypes.func.isRequired,
 };
 RatingReviews.defaultProps = {
 };
