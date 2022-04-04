@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
     'jest/globals': true,
+
   },
   extends: [
     'plugin:react/recommended',
@@ -18,6 +19,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    'jest',
   ],
   rules: {
     'jest/no-disabled-tests': 'warn',
@@ -25,7 +27,6 @@ module.exports = {
     'jest/no-identical-title': 'error',
     'jest/prefer-to-have-length': 'warn',
     'jest/valid-expect': 'error',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
   },
   settings: {
     'import/resolver': {

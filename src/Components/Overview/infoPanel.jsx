@@ -6,11 +6,20 @@ function InfoPanel({ product }) {
   if ($.isEmptyObject(product)) {
     return 'No Item to display';
   }
-  const { category, name } = product;
+  const { category, name, description } = product;
+  if (!product.description || product.description === '') {
+    return (
+      <div>
+        <div>{category}</div>
+        <div>{name}</div>
+      </div>
+    );
+  }
   return (
     <div>
       <div>{category}</div>
       <div>{name}</div>
+      <div>{description}</div>
     </div>
   );
 }
