@@ -9,11 +9,13 @@ const options = {
   method: 'get',
 };
 
-let data;
+// function getData(res) {
+//   const data = res;
+//   return data;
+// }
 
-axios(options).then((res) => {
-  data = res.data;
-  console.log(data);
-});
+const getData = function getData() {
+  return axios(options);
+};
 
-module.exports = data;
+module.exports = getData;
