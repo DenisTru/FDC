@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
+import getMetaReviews from './Components/RatingAndReviews/metaData';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -13,8 +14,9 @@ class App extends React.Component {
     this.state = {
       isLoading: true,
       reviews: [],
+      reviewsMeta: [],
       reviewsPage: 1,
-      reviewsCount: 3,
+      reviewsCount: 2,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
       productId: 66643,
@@ -39,6 +41,16 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       this.setState({ reviewsNextPage: data, isLoading: false });
+    });
+
+    getMetaReviews(productId).then((meta) => {
+      // console.log(meta.data);
+      const { ratings, recommended, characteristics } = meta.data;
+      const { Quality } = characteristics;
+      let { reviewsMeta } = this.state;
+      reviewsMeta = { Quality, recommended, ratings };
+      console.log(reviewsMeta);
+      this.setState({ reviewsMeta });
     });
   }
 
@@ -85,7 +97,7 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       reviews = data;
-      console.log('@@@', reviews);
+      // console.log('@@@', reviews);
       return reviews;
     }).then((newReviews) => {
       getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
