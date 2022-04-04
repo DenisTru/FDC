@@ -337,17 +337,6 @@ eval("\n\nvar bind = __webpack_require__(/*! ./helpers/bind */ \"./node_modules/
 
 /***/ }),
 
-/***/ "./config.js":
-/*!*******************!*\
-  !*** ./config.js ***!
-  \*******************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nvar TOKEN = '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';\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  TOKEN: TOKEN\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9jb25maWcuanMuanMiLCJtYXBwaW5ncyI6Ijs7OztBQUFBO0FBRUE7QUFBQTtBQUFBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vcmV0YWlsaWF0aW9uLy4vY29uZmlnLmpzP2ExYmMiXSwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgVE9LRU4gPSAnZ2hwX3FFZGVjYUhTNTVtdnZIcTJNeDBudEx0MEkyRlI1YjFsWXoyWSc7XG5cbmV4cG9ydCBkZWZhdWx0IHsgVE9LRU4gfTtcbiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./config.js\n");
-
-/***/ }),
-
 /***/ "./src/Components/Overview/infoPanel.jsx":
 /*!***********************************************!*\
   !*** ./src/Components/Overview/infoPanel.jsx ***!
@@ -398,7 +387,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("var axios = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n\nvar config = __webpack_require__(/*! ../../../config */ \"./config.js\");\n\nvar options = {\n  url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews',\n  headers: {\n    Authorization: config.TOKEN\n  },\n  method: 'get'\n};\n\nvar getReviews = function getReviews(page, count, sort, productId) {\n  options.params = {\n    page: page,\n    count: count,\n    sort: sort,\n    product_id: productId\n  };\n  return axios(options);\n};\n\nmodule.exports = getReviews;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvQ29tcG9uZW50cy9SYXRpbmdBbmRSZXZpZXdzL2RhdGEuanMuanMiLCJtYXBwaW5ncyI6IkFBQUE7O0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFEQTtBQUdBO0FBTEE7O0FBUUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBSkE7QUFNQTtBQUNBOztBQUVBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vcmV0YWlsaWF0aW9uLy4vc3JjL0NvbXBvbmVudHMvUmF0aW5nQW5kUmV2aWV3cy9kYXRhLmpzPzMxMTQiXSwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgYXhpb3MgPSByZXF1aXJlKCdheGlvcycpO1xuY29uc3QgY29uZmlnID0gcmVxdWlyZSgnLi4vLi4vLi4vY29uZmlnJyk7XG5cbmNvbnN0IG9wdGlvbnMgPSB7XG4gIHVybDogJ2h0dHBzOi8vYXBwLWhyc2VpLWFwaS5oZXJva3VhcHAuY29tL2FwaS9mZWMyL2hyLXJmYy9yZXZpZXdzJyxcbiAgaGVhZGVyczoge1xuICAgIEF1dGhvcml6YXRpb246IGNvbmZpZy5UT0tFTixcbiAgfSxcbiAgbWV0aG9kOiAnZ2V0Jyxcbn07XG5cbmNvbnN0IGdldFJldmlld3MgPSBmdW5jdGlvbiBnZXRSZXZpZXdzKHBhZ2UsIGNvdW50LCBzb3J0LCBwcm9kdWN0SWQpIHtcbiAgb3B0aW9ucy5wYXJhbXMgPSB7XG4gICAgcGFnZSxcbiAgICBjb3VudCxcbiAgICBzb3J0LFxuICAgIHByb2R1Y3RfaWQ6IHByb2R1Y3RJZCxcbiAgfTtcbiAgcmV0dXJuIGF4aW9zKG9wdGlvbnMpO1xufTtcblxubW9kdWxlLmV4cG9ydHMgPSBnZXRSZXZpZXdzO1xuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/Components/RatingAndReviews/data.js\n");
+eval("var axios = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n\nvar config = __webpack_require__(/*! ../../config */ \"./src/config.js\");\n\nvar options = {\n  url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews',\n  headers: {\n    Authorization: config.TOKEN\n  },\n  method: 'get'\n};\n\nvar getReviews = function getReviews(page, count, sort, productId) {\n  options.params = {\n    page: page,\n    count: count,\n    sort: sort,\n    product_id: productId\n  };\n  return axios(options);\n};\n\nmodule.exports = getReviews;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvQ29tcG9uZW50cy9SYXRpbmdBbmRSZXZpZXdzL2RhdGEuanMuanMiLCJtYXBwaW5ncyI6IkFBQUE7O0FBQ0E7O0FBRUE7QUFDQTtBQUNBO0FBQ0E7QUFEQTtBQUdBO0FBTEE7O0FBUUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBSkE7QUFNQTtBQUNBOztBQUVBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vcmV0YWlsaWF0aW9uLy4vc3JjL0NvbXBvbmVudHMvUmF0aW5nQW5kUmV2aWV3cy9kYXRhLmpzPzMxMTQiXSwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgYXhpb3MgPSByZXF1aXJlKCdheGlvcycpO1xuY29uc3QgY29uZmlnID0gcmVxdWlyZSgnLi4vLi4vY29uZmlnJyk7XG5cbmNvbnN0IG9wdGlvbnMgPSB7XG4gIHVybDogJ2h0dHBzOi8vYXBwLWhyc2VpLWFwaS5oZXJva3VhcHAuY29tL2FwaS9mZWMyL2hyLXJmYy9yZXZpZXdzJyxcbiAgaGVhZGVyczoge1xuICAgIEF1dGhvcml6YXRpb246IGNvbmZpZy5UT0tFTixcbiAgfSxcbiAgbWV0aG9kOiAnZ2V0Jyxcbn07XG5cbmNvbnN0IGdldFJldmlld3MgPSBmdW5jdGlvbiBnZXRSZXZpZXdzKHBhZ2UsIGNvdW50LCBzb3J0LCBwcm9kdWN0SWQpIHtcbiAgb3B0aW9ucy5wYXJhbXMgPSB7XG4gICAgcGFnZSxcbiAgICBjb3VudCxcbiAgICBzb3J0LFxuICAgIHByb2R1Y3RfaWQ6IHByb2R1Y3RJZCxcbiAgfTtcbiAgcmV0dXJuIGF4aW9zKG9wdGlvbnMpO1xufTtcblxubW9kdWxlLmV4cG9ydHMgPSBnZXRSZXZpZXdzO1xuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/Components/RatingAndReviews/data.js\n");
 
 /***/ }),
 
@@ -410,6 +399,17 @@ eval("var axios = __webpack_require__(/*! axios */ \"./node_modules/axios/index.
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ \"./node_modules/prop-types/index.js\");\n/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);\n\nvar reviewPropTypes = prop_types__WEBPACK_IMPORTED_MODULE_0___default().shape({\n  body: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),\n  date: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),\n  helpfulness: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().number),\n  rating: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().number),\n  recommend: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().bool),\n  response: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),\n  review_id: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().number),\n  reviewer_name: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),\n  summary: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string)\n});\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (reviewPropTypes); // module.exports = reviewPropTypes;//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvQ29tcG9uZW50cy9SYXRpbmdBbmRSZXZpZXdzL3Jldmlld1Byb3BUeXBlcy5qcy5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQTtBQUVBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBVEE7QUFZQSIsInNvdXJjZXMiOlsid2VicGFjazovL3JldGFpbGlhdGlvbi8uL3NyYy9Db21wb25lbnRzL1JhdGluZ0FuZFJldmlld3MvcmV2aWV3UHJvcFR5cGVzLmpzPzU4Y2IiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFByb3BUeXBlcyBmcm9tICdwcm9wLXR5cGVzJztcblxuY29uc3QgcmV2aWV3UHJvcFR5cGVzID0gUHJvcFR5cGVzLnNoYXBlKHtcbiAgYm9keTogUHJvcFR5cGVzLnN0cmluZyxcbiAgZGF0ZTogUHJvcFR5cGVzLnN0cmluZyxcbiAgaGVscGZ1bG5lc3M6IFByb3BUeXBlcy5udW1iZXIsXG4gIHJhdGluZzogUHJvcFR5cGVzLm51bWJlcixcbiAgcmVjb21tZW5kOiBQcm9wVHlwZXMuYm9vbCxcbiAgcmVzcG9uc2U6IFByb3BUeXBlcy5zdHJpbmcsXG4gIHJldmlld19pZDogUHJvcFR5cGVzLm51bWJlcixcbiAgcmV2aWV3ZXJfbmFtZTogUHJvcFR5cGVzLnN0cmluZyxcbiAgc3VtbWFyeTogUHJvcFR5cGVzLnN0cmluZyxcbn0pO1xuXG5leHBvcnQgZGVmYXVsdCByZXZpZXdQcm9wVHlwZXM7XG4vLyBtb2R1bGUuZXhwb3J0cyA9IHJldmlld1Byb3BUeXBlcztcbiJdLCJuYW1lcyI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/Components/RatingAndReviews/reviewPropTypes.js\n");
+
+/***/ }),
+
+/***/ "./src/config.js":
+/*!***********************!*\
+  !*** ./src/config.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nvar TOKEN = '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';\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  TOKEN: TOKEN\n});//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvY29uZmlnLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7QUFBQTtBQUVBO0FBQUE7QUFBQSIsInNvdXJjZXMiOlsid2VicGFjazovL3JldGFpbGlhdGlvbi8uL3NyYy9jb25maWcuanM/ZGI0OSJdLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCBUT0tFTiA9ICdnaHBfcUVkZWNhSFM1NW12dkhxMk14MG50THQwSTJGUjViMWxZejJZJztcblxuZXhwb3J0IGRlZmF1bHQgeyBUT0tFTiB9O1xuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/config.js\n");
 
 /***/ }),
 
