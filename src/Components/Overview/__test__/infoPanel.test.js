@@ -12,6 +12,15 @@ const mockProduct = {
   default_price: '140',
 };
 
+const mockProductNoDESC = {
+  id: 1,
+  name: 'Camo Onesie',
+  slogan: 'Blend in to your crowd',
+  description: '',
+  category: 'Jackets',
+  default_price: '140',
+};
+
 it('shows a default message if there is an empty object passed in', () => {
   // Your tests come here...
   render(<InfoPanel product={{}} />);
@@ -36,4 +45,20 @@ it('renders the product category & title with correct id & name', () => {
   expect(id).toHaveTextContent(mockProduct.category);
   expect(name).toBeInTheDocument();
   expect(name).toHaveTextContent(mockProduct.name);
+});
+
+it('does not render a description div if a description is not avaiable', () => {
+  render(<InfoPanel product={mockProductNoDESC} />);
+  const overView = screen.queryByText(mockProduct.description);
+  expect(overView).not.toBeInTheDocument();
+});
+
+it('renders description if it is available', () => {
+  render(<InfoPanel product={mockProduct} />);
+  const overView = screen.getByText(mockProduct.description);
+
+  if (mockProduct.overview) {
+    expect(overView).toBeInTheDocument();
+    expect(overView).toHaveTextContent(mockProduct.description);
+  }
 });
