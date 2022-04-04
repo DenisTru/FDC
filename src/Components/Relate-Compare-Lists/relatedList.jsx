@@ -7,3 +7,5 @@ function relatedList() {
 }
 
 export default relatedList;
+
+// Input = Array

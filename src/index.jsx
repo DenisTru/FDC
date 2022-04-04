@@ -4,8 +4,8 @@ import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
-import CompareList from './Components/Relate-Compare-Lists/Compare_Items_List';
-import RelatedList from './Components/Relate-Compare-Lists/Related_Items_List';
+import CompareList from './Components/Relate-Compare-Lists/compareList';
+import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -83,12 +83,12 @@ class App extends React.Component {
       <div>
         <CompareList />
         <RelatedList />
-        <RatingReviews
+        {/* <RatingReviews
           reviewsNextPage={reviewsNextPage}
           helpOnClick={this.helpOnClick}
           data={reviews}
           moreReviewsOnClick={this.moreReviewsOnClick}
-        />
+        /> */}
       </div>
     );
   }
