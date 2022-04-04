@@ -2,7 +2,7 @@ import React from 'react';
 
 function compareList() {
   return (
-    <div>Comparison List Here</div>
+    <div>Your Outfit</div>
   );
 }
 

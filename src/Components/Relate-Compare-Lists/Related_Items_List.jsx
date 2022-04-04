@@ -2,7 +2,7 @@ import React from 'react';
 
 function relatedList() {
   return (
-    <div>Related List Here</div>
+    <div>Related Products</div>
   );
 }
 
