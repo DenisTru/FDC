@@ -5,6 +5,8 @@ import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
+import CompareList from './Components/Relate-Compare-Lists/compareList';
+import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -120,6 +122,8 @@ class App extends React.Component {
     }
     return (
       <div>
+        <RelatedList />
+        <CompareList />
         <RatingReviews
           characteristics={characteristics}
           ratings={ratings}

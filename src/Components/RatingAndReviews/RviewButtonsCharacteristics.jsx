@@ -29,8 +29,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(name, calories, fat, carbs, protein, x) {
+  return {
+    name, calories, fat, carbs, protein, x
+  };
 }
 
 const rows = [
@@ -97,11 +99,12 @@ export default function ReviewButtonsCharacteristics() {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-              <StyledTableCell align="right">Calories</StyledTableCell>
-              <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+              <StyledTableCell>Type</StyledTableCell>
+              <StyledTableCell align="right">1</StyledTableCell>
+              <StyledTableCell align="right">2</StyledTableCell>
+              <StyledTableCell align="right">3</StyledTableCell>
+              <StyledTableCell align="right">4</StyledTableCell>
+              <StyledTableCell align="right">5</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -114,6 +117,7 @@ export default function ReviewButtonsCharacteristics() {
                 <StyledTableCell align="right">{row.fat}</StyledTableCell>
                 <StyledTableCell align="right">{row.carbs}</StyledTableCell>
                 <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                <StyledTableCell align="right">{row.x}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
