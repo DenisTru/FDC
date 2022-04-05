@@ -40,15 +40,13 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       return data;
-      // this.setState({ reviewsNextPage: data, isLoading: false });
     }).then((reviewsData) => {
       getMetaReviews(productId).then((meta) => {
         // console.log(meta);
         const { ratings, recommended, characteristics } = meta.data;
-        const { Quality } = characteristics;
+        // console.log(characteristics);
         let { reviewsMeta } = this.state;
-        reviewsMeta = { Quality, recommended, ratings };
-        // console.log(reviewsMeta);
+        reviewsMeta = { characteristics, recommended, ratings };
         this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
       });
     });
@@ -114,7 +112,7 @@ class App extends React.Component {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
     } = this.state;
-    const { Quality, ratings, recommended } = reviewsMeta;
+    const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
       return (
         <div>App is Loading</div>
@@ -123,7 +121,7 @@ class App extends React.Component {
     return (
       <div>
         <RatingReviews
-          Quality={Quality}
+          characteristics={characteristics}
           ratings={ratings}
           recommended={recommended}
           reviewsNextPage={reviewsNextPage}

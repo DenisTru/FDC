@@ -57,10 +57,6 @@ export default function RatingBreakdown({ ratings, recommended }) {
 }
 
 RatingBreakdown.propTypes = {
-  Quality: PropTypes.shape({
-    id: PropTypes.number,
-    value: PropTypes.string,
-  }),
   ratings: PropTypes.shape({
     2: PropTypes.string,
     3: PropTypes.string,
@@ -73,10 +69,10 @@ RatingBreakdown.propTypes = {
     true: PropTypes.string,
   }),
 };
+
 RatingBreakdown.defaultProps = {
   ratings: {
     1: '0', 2: '0', 3: '0', 4: '0', 5: '0',
   },
-  Quality: {},
   recommended: {},
 };
