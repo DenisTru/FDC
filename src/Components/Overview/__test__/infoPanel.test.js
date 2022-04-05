@@ -84,7 +84,67 @@ const mockItemStyles = {
         },
       },
     },
+    {
+      style_id: 411539,
+      name: 'Dark Grey & Black',
+      original_price: '170.00',
+      sale_price: null,
+      'default?': false,
+      photos: [
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1514866726862-0f081731e63f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1514866726862-0f081731e63f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1519689373023-dd07c7988603?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1519689373023-dd07c7988603?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1506932248762-69d978912b80?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1506932248762-69d978912b80?ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1535639818669-c059d2f038e6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1535639818669-c059d2f038e6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1498098662025-04e60a212db4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1498098662025-04e60a212db4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1421941027568-40ab08ee5592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1421941027568-40ab08ee5592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80',
+        },
+      ],
+      skus: {
+        2390387: {
+          quantity: 8,
+          size: 'XS',
+        },
+        2390388: {
+          quantity: 16,
+          size: 'S',
+        },
+        2390389: {
+          quantity: 17,
+          size: 'M',
+        },
+        2390390: {
+          quantity: 10,
+          size: 'L',
+        },
+        2390391: {
+          quantity: 15,
+          size: 'XL',
+        },
+        2390392: {
+          quantity: 6,
+          size: 'XXL',
+        },
+      },
+    },
   ],
+
 };
 
 const mockStyleOnClick = (selectedProduct) => {
@@ -115,10 +175,10 @@ it('renders the product category & title with correct id & name', () => {
     currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
   />);
-  const id = screen.getByText(mockProduct.category);
+  const category = screen.getByText(mockProduct.category);
   const name = screen.getByText(mockProduct.name);
-  expect(id).toBeInTheDocument();
-  expect(id).toHaveTextContent(mockProduct.category);
+  expect(category).toBeInTheDocument();
+  expect(category).toHaveTextContent(mockProduct.category);
   expect(name).toBeInTheDocument();
   expect(name).toHaveTextContent(mockProduct.name);
 });
@@ -146,3 +206,22 @@ it('renders description if it is available', () => {
     expect(overView).toHaveTextContent(mockProduct.description);
   }
 });
+
+it('it renders a default style', () => {
+  render(<InfoPanel
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+  />);
+  expect(screen.getByText(/Forest Green & Black/)).toBeInTheDocument();
+});
+
+// it('should render all available styles', () => {
+//   render(<ItemStyles
+//     productStyles={mockItemStyles}
+//     currentSelectedStyle={mockItemStyles.results[0]}
+//     handleClick={mockStyleOnClick}
+//   />);
+
+//   expect(screen.getByRole("list")).toHaveTextContent(/Lorem ipsum dolor sit amet/);
+// });
