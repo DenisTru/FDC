@@ -48,5 +48,20 @@ InfoPanel.propTypes = {
     category: PropTypes.string,
     default_price: PropTypes.string,
   }),
+  handleClick: PropTypes.func.isRequired,
+  currentStyle: PropTypes.shape({
+    style_id: PropTypes.number,
+    name: PropTypes.string,
+    original_price: PropTypes.string,
+    sale_price: PropTypes.string,
+    'default?': PropTypes.bool,
+    photos: PropTypes.arrayOf(PropTypes.shape({ thumbnail_url: PropTypes.string })),
+    skus: PropTypes.objectOf(
+      PropTypes.shape({
+        quantity: PropTypes.number.isRequired,
+        size: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
 };
 export default InfoPanel;

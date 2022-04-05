@@ -27,6 +27,7 @@ module.exports = {
     'jest/no-identical-title': 'error',
     'jest/prefer-to-have-length': 'warn',
     'jest/valid-expect': 'error',
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
   },
   settings: {
     'import/resolver': {
