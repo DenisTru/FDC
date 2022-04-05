@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import InfoPanel from '../infoPanel';
+import ItemStyles from '../itemStyles';
 
 const mockProduct = {
   id: 1,
@@ -86,6 +87,12 @@ const mockItemStyles = {
   ],
 };
 
+const mockStyleOnClick = (selectedProduct) => {
+  this.setState({
+    currentSelectedStyle: selectedProduct,
+  });
+};
+
 it('shows a default message if there is an empty object passed in', () => {
   // Your tests come here...
   render(<InfoPanel product={{}} />);
@@ -103,7 +110,11 @@ it('shows a default message if there is no product passed in', () => {
 });
 
 it('renders the product category & title with correct id & name', () => {
-  render(<InfoPanel product={mockProduct} />);
+  render(<InfoPanel
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+  />);
   const id = screen.getByText(mockProduct.category);
   const name = screen.getByText(mockProduct.name);
   expect(id).toBeInTheDocument();
@@ -113,13 +124,21 @@ it('renders the product category & title with correct id & name', () => {
 });
 
 it('does not render a description div if a description is not avaiable', () => {
-  render(<InfoPanel product={mockProductNoDESC} />);
+  render(<InfoPanel
+    product={mockProductNoDESC}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+  />);
   const overView = screen.queryByText(mockProduct.description);
   expect(overView).not.toBeInTheDocument();
 });
 
 it('renders description if it is available', () => {
-  render(<InfoPanel product={mockProduct} />);
+  render(<InfoPanel
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+  />);
   const overView = screen.getByText(mockProduct.description);
 
   if (mockProduct.overview) {

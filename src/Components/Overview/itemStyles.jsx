@@ -1,7 +1,7 @@
 import React from 'react';
 import './ItemStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle} from '@fortawesome/free-solid-svg-icons'
+import { faCheckCircle, faGreaterThan} from '@fortawesome/free-solid-svg-icons'
 
 const mockItemStyles = {
   "product_id": "66642",
@@ -428,7 +428,7 @@ function ItemStyles({ productStyles = mockItemStyles , currentSelectedStyle, han
   return (
 
     <div className ='items-styles-body'>
-      <span> Style  > {currentSelectedStyle.name} </span>
+      <span> Style  <FontAwesomeIcon icon={faGreaterThan} /> {currentSelectedStyle.name} </span>
       <div className='styles-container'>
       {productStyles.results.map((style,i) => {
         if(style.style_id === currentSelectedStyle.style_id) {
