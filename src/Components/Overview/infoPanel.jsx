@@ -14,7 +14,7 @@ function InfoPanel({ product, handleClick, currentStyle }) {
       <div>
         <div>{category}</div>
         <div>{name}</div>
-        <ItemStyles />
+        <ItemStyles handleClick={handleClick} currentSelectedStyle={currentStyle} />
       </div>
     );
   }

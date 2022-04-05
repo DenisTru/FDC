@@ -428,10 +428,10 @@ function ItemStyles({ productStyles = mockItemStyles , currentSelectedStyle, han
   return (
 
     <div className ='items-styles-body'>
-      <span> Style  > dynamically render name here' </span>
+      <span> Style  > {currentSelectedStyle.name} </span>
       <div className='styles-container'>
       {productStyles.results.map((style,i) => {
-        if(style.style_id === currentSelectedStyle) {
+        if(style.style_id === currentSelectedStyle.style_id) {
           return(
             <div key={i} className ='thumb-image-container'>
               <label className='label' htmlFor='chx'
@@ -444,7 +444,7 @@ function ItemStyles({ productStyles = mockItemStyles , currentSelectedStyle, han
         }
       return <div key={i} className ='thumb-image-container'>
         <img src={style.photos[0].thumbnail_url} className="image--cover"
-        onClick={(e)=> handleClick(style.style_id)}
+        onClick={(e)=> handleClick(style)}
         ></img>
         </div>
     })}
