@@ -16,7 +16,7 @@ class App extends React.Component {
       reviews: [],
       reviewsMeta: [],
       reviewsPage: 1,
-      reviewsCount: 2,
+      reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
       productId: 66643,
@@ -34,23 +34,23 @@ class App extends React.Component {
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      // console.log(data);
       this.setState({ reviews: data, isLoading: false });
     });
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      this.setState({ reviewsNextPage: data, isLoading: false });
-    });
-
-    getMetaReviews(productId).then((meta) => {
-      // console.log(meta.data);
-      const { ratings, recommended, characteristics } = meta.data;
-      const { Quality } = characteristics;
-      let { reviewsMeta } = this.state;
-      reviewsMeta = { Quality, recommended, ratings };
-      console.log(reviewsMeta);
-      this.setState({ reviewsMeta });
+      return data;
+      // this.setState({ reviewsNextPage: data, isLoading: false });
+    }).then((reviewsData) => {
+      getMetaReviews(productId).then((meta) => {
+        // console.log(meta);
+        const { ratings, recommended, characteristics } = meta.data;
+        const { Quality } = characteristics;
+        let { reviewsMeta } = this.state;
+        reviewsMeta = { Quality, recommended, ratings };
+        // console.log(reviewsMeta);
+        this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
+      });
     });
   }
 
@@ -111,7 +111,10 @@ class App extends React.Component {
   };
 
   render() {
-    const { reviews, isLoading, reviewsNextPage } = this.state;
+    const {
+      reviews, isLoading, reviewsNextPage, reviewsMeta,
+    } = this.state;
+    const { Quality, ratings, recommended } = reviewsMeta;
     if (isLoading) {
       return (
         <div>App is Loading</div>
@@ -120,6 +123,9 @@ class App extends React.Component {
     return (
       <div>
         <RatingReviews
+          Quality={Quality}
+          ratings={ratings}
+          recommended={recommended}
           reviewsNextPage={reviewsNextPage}
           helpOnClick={this.helpOnClick}
           data={reviews}
