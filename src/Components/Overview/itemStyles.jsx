@@ -436,7 +436,7 @@ function ItemStyles({ productStyles = mockItemStyles, currentSelectedStyle, hand
         {' '}
       </div>
       <div className="styles-container">
-        {productStyles.results.map((style, i) => {
+        {productStyles.results.map((style) => {
           if (style.style_id === currentSelectedStyle.style_id) {
             return (
               <div className="thumb-image-container">

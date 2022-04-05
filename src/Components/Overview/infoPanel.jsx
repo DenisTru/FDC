@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
+import './infoPanel.scss';
 
 function InfoPanel({ product, handleClick, currentStyle }) {
   if ($.isEmptyObject(product)) {
@@ -22,6 +23,12 @@ function InfoPanel({ product, handleClick, currentStyle }) {
     <div>
       <div>{category}</div>
       <div>{name}</div>
+      <div className="sale-price">
+        {currentStyle.sale_price ? currentStyle.sale_price : ''}
+        {' '}
+        {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
+        {' '}
+      </div>
       <ItemStyles handleClick={handleClick} currentSelectedStyle={currentStyle} />
       <div>{description}</div>
     </div>
