@@ -1,5 +1,7 @@
 import React from 'react';
 import './ItemStyles.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 
 const mockItemStyles = {
   "product_id": "66642",
@@ -420,13 +422,24 @@ const mockItemStyles = {
 
   ]
 };
-function ItemStyles({ productStyles = mockItemStyles }) {
+function ItemStyles({ productStyles = mockItemStyles , currentSelectedStyle = 411534}) {
   return (
     <div className ='items-styles-body'>
-      <span> Style  > 'dynamically render name here' </span>
-      <br></br>
+      <span> Style  > dynamically render name here' </span>
       <div className='styles-container'>
       {productStyles.results.map((style) => {
+        if(style.style_id === currentSelectedStyle) {
+          return(
+            <div className ='thumb-image-container'>
+              <label className='label' htmlFor='chx'
+              style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})`}}>
+                <FontAwesomeIcon icon={faCheckCircle} />
+              </label>
+
+
+            </div>
+          )
+        }
       return <div className ='thumb-image-container'>
         <img src={style.photos[0].thumbnail_url} className="image--cover" ></img>
         </div>

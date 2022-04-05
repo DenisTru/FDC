@@ -28,6 +28,7 @@ class App extends React.Component {
       reviewsSort: 'newest',
       reviewsNextPage: [],
       productId: 66643,
+      currentSelectedStyle: 411534,
     };
   }
 
@@ -80,9 +81,11 @@ class App extends React.Component {
   };
 
   render() {
-    const { reviews, isLoading, reviewsNextPage } = this.state;
+    const {
+      reviews, isLoading, reviewsNextPage, currentSelectedStyle,
+    } = this.state;
     if (isLoading) {
-      return (<InfoPanel product={mockProduct} />);
+      return (<InfoPanel product={mockProduct} currentStyle={currentSelectedStyle} />);
       // return (
       //   <div>App is Loading</div>
       // );

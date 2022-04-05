@@ -3,7 +3,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
 
-function InfoPanel({ product }) {
+function InfoPanel({ product, currentStyle }) {
   if ($.isEmptyObject(product)) {
     return 'No Item to display';
   }
@@ -41,5 +41,6 @@ InfoPanel.propTypes = {
     category: PropTypes.string,
     default_price: PropTypes.string,
   }),
+  currentStyle: PropTypes.number,
 };
 export default InfoPanel;
