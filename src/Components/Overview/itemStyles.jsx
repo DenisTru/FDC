@@ -422,26 +422,30 @@ const mockItemStyles = {
 
   ]
 };
-function ItemStyles({ productStyles = mockItemStyles , currentSelectedStyle = 411534}) {
+function ItemStyles({ productStyles = mockItemStyles , currentSelectedStyle, handleClick}) {
+
+
   return (
+
     <div className ='items-styles-body'>
       <span> Style  > dynamically render name here' </span>
       <div className='styles-container'>
-      {productStyles.results.map((style) => {
+      {productStyles.results.map((style,i) => {
         if(style.style_id === currentSelectedStyle) {
           return(
-            <div className ='thumb-image-container'>
+            <div key={i} className ='thumb-image-container'>
               <label className='label' htmlFor='chx'
-              style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})`}}>
+              style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})`}}
+              >
                 <FontAwesomeIcon icon={faCheckCircle} />
               </label>
-
-
             </div>
           )
         }
-      return <div className ='thumb-image-container'>
-        <img src={style.photos[0].thumbnail_url} className="image--cover" ></img>
+      return <div key={i} className ='thumb-image-container'>
+        <img src={style.photos[0].thumbnail_url} className="image--cover"
+        onClick={(e)=> handleClick(style.style_id)}
+        ></img>
         </div>
     })}
       </div>

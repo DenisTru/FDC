@@ -53,6 +53,13 @@ class App extends React.Component {
     // });
   }
 
+  styleOnClick = (selectedProduct) => {
+    this.setState({
+      currentSelectedStyle: selectedProduct,
+    });
+    //style changes but does not re render
+  };
+
   helpOnClick = (id) => {
     const { reviews } = this.state;
     for (let i = 0; i < reviews.length; i += 1) {
@@ -85,7 +92,13 @@ class App extends React.Component {
       reviews, isLoading, reviewsNextPage, currentSelectedStyle,
     } = this.state;
     if (isLoading) {
-      return (<InfoPanel product={mockProduct} currentStyle={currentSelectedStyle} />);
+      return (
+        <InfoPanel
+          product={mockProduct}
+          currentStyle={currentSelectedStyle}
+          handleClick={this.styleOnClick}
+        />
+      );
       // return (
       //   <div>App is Loading</div>
       // );
