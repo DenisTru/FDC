@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
+import CompareList from './Components/Relate-Compare-Lists/compareList';
+import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -65,7 +67,7 @@ class App extends React.Component {
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      console.log('data', data, 'next', reviewsNextPage);
+      // console.log('data', data, 'next', reviewsNextPage);
       this.setState({ reviews, reviewsNextPage: data, reviewsPage });
     });
   };
@@ -79,6 +81,8 @@ class App extends React.Component {
     }
     return (
       <div>
+        <RelatedList />
+        <CompareList />
         <RatingReviews
           reviewsNextPage={reviewsNextPage}
           helpOnClick={this.helpOnClick}
