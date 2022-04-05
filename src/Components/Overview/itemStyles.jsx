@@ -422,13 +422,13 @@ const mockItemStyles = {
 };
 function ItemStyles({ productStyles = mockItemStyles }) {
   return (
-    <div class ='items-styles-body'>
+    <div className ='items-styles-body'>
       <span> Style  > 'dynamically render name here' </span>
       <br></br>
-      <div class='styles-container'>
+      <div className='styles-container'>
       {productStyles.results.map((style) => {
-      return <div class ='thumb-image-container'>
-        <img src={style.photos[0].thumbnail_url} class="image--cover" ></img>
+      return <div className ='thumb-image-container'>
+        <img src={style.photos[0].thumbnail_url} className="image--cover" ></img>
         </div>
     })}
       </div>
