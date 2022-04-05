@@ -88,7 +88,7 @@ const mockItemStyles = {
       style_id: 411539,
       name: 'Dark Grey & Black',
       original_price: '170.00',
-      sale_price: null,
+      sale_price: '100.00',
       'default?': false,
       photos: [
         {
@@ -207,7 +207,7 @@ it('renders description if it is available', () => {
   }
 });
 
-it('it renders a default style', () => {
+it('renders a default style', () => {
   render(<InfoPanel
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
@@ -225,3 +225,20 @@ it('it renders a default style', () => {
 
 //   expect(screen.getByRole("list")).toHaveTextContent(/Lorem ipsum dolor sit amet/);
 // });
+it('should render the item price', () => {
+  render(<InfoPanel
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+  />);
+  expect(screen.getByText(/140/)).toBeInTheDocument();
+});
+
+it('should render the item price if it is on sale', () => {
+  render(<InfoPanel
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[1]}
+    handleClick={mockStyleOnClick}
+  />);
+  expect(screen.getByText(/100/)).toBeInTheDocument();
+});
