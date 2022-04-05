@@ -38,4 +38,5 @@ module.exports = {
     port: 3000,
   },
   plugins: [new ESLintPlugin()],
+  resolve: { extensions: ['.js', '.jsx'] },
 };

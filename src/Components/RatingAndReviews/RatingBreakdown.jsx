@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function RatingBreakdown({ ratings, recommended }) {
-  // console.log(ratings);
   const recommendPercent = Number(recommended.true)
     / (Number(recommended.true) + Number(recommended.false));
   const sum = Object.entries(ratings).slice().reduce((res, x) => {
