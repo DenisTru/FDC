@@ -3,24 +3,39 @@
   display: flex;
   align-items: center;
   width: 90%;
-  height: 210px;
+  height: 300px;
 }
 
-.slider {
+#related-slider,
+#compare-slider {
   width: 100%;
   height: 100%;
   white-space: nowrap;
   overflow-x: scroll;
+  scroll-behavior: smooth;
 }
 
 .slider-cards {
-  width: 275px;
-  height: 90%;
+  position: relative;
+  width: 230px;
+  height: 300px;
   background: red;
-  border-radius: 10px;
   display: inline-block;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+#image {
+  width: 230px;
+  height: 75%;
+  background: purple;
+}
+
+#favorite-star {
+  position: absolute;
+  background: blue;
+  right: 0;
+  top: 0;
 }
 
 .arrow-button-left {

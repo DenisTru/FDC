@@ -5,8 +5,8 @@ import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
-import CompareList from './Components/Relate-Compare-Lists/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/relatedList';
+import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
+import RelatedList from './Components/Relate-Compare-Lists/Related-List/relatedList';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -44,9 +44,7 @@ class App extends React.Component {
       return data;
     }).then((reviewsData) => {
       getMetaReviews(productId).then((meta) => {
-        // console.log(meta);
         const { ratings, recommended, characteristics } = meta.data;
-        // console.log(characteristics);
         let { reviewsMeta } = this.state;
         reviewsMeta = { characteristics, recommended, ratings };
         this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
@@ -79,7 +77,6 @@ class App extends React.Component {
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      // console.log('data', data, 'next', reviewsNextPage);
       this.setState({ reviews, reviewsNextPage: data, reviewsPage });
     });
   };
@@ -97,7 +94,6 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       reviews = data;
-      // console.log('@@@', reviews);
       return reviews;
     }).then((newReviews) => {
       getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {

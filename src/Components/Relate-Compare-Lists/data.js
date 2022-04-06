@@ -9,11 +9,6 @@ const options = {
   method: 'get',
 };
 
-// function getData(res) {
-//   const data = res;
-//   return data;
-// }
-
 const getData = function getData() {
   return axios(options);
 };
