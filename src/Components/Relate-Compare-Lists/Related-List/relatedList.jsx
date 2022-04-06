@@ -15,10 +15,10 @@ const slideRight = () => {
 
 const relatedList = () => (
   <div>
-    <p>RELATED PRODUCTS</p>
+    <p id="section-name">RELATED PRODUCTS</p>
     <div className="slider-container">
-      <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
       <RelatedCards />
+      <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
       <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />
     </div>
   </div>
