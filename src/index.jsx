@@ -53,7 +53,7 @@ const mockItemStyles = {
       ],
       skus: {
         2390357: {
-          quantity: 8,
+          quantity: 0,
           size: 'XS',
         },
         2390358: {
@@ -74,7 +74,7 @@ const mockItemStyles = {
         },
         2390362: {
           quantity: 4,
-          size: 'XL',
+          size: 'XXL',
         },
       },
     },
@@ -374,7 +374,7 @@ const mockItemStyles = {
       },
     },
     {
-      style_id: 411539,
+      style_id: 41153849,
       name: 'Dark Grey & Black',
       original_price: '170.00',
       sale_price: null,
@@ -407,27 +407,27 @@ const mockItemStyles = {
       ],
       skus: {
         2390387: {
-          quantity: 8,
+          quantity: 0,
           size: 'XS',
         },
         2390388: {
-          quantity: 16,
+          quantity: 0,
           size: 'S',
         },
         2390389: {
-          quantity: 17,
+          quantity: 0,
           size: 'M',
         },
         2390390: {
-          quantity: 10,
+          quantity: 0,
           size: 'L',
         },
         2390391: {
-          quantity: 15,
+          quantity: 0,
           size: 'XL',
         },
         2390392: {
-          quantity: 6,
+          quantity: 0,
           size: 'XXL',
         },
       },
@@ -507,7 +507,7 @@ class App extends React.Component {
 
   render() {
     const {
-      reviews, isLoading, reviewsNextPage, currentSelectedStyle,
+      reviews, isLoading, reviewsNextPage, currentSelectedStyle, productStock, productSize
     } = this.state;
     if (isLoading) {
       return (
@@ -515,6 +515,7 @@ class App extends React.Component {
           product={mockProduct}
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
+          productStyles={mockItemStyles}
         />
       );
       // return (
