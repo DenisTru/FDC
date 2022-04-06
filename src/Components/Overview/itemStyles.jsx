@@ -1,5 +1,5 @@
 import React from 'react';
-import './ItemStyles.scss';
+import './styles/itemStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faGreaterThan } from '@fortawesome/free-solid-svg-icons';
 
@@ -426,14 +426,10 @@ function ItemStyles({ productStyles = mockItemStyles, currentSelectedStyle, hand
   return (
 
     <div className="items-styles-body">
-      <div>
-        {' '}
-        Style
-        {' '}
+      <div className="style-title">
+        <h3>Style</h3>
         <FontAwesomeIcon icon={faGreaterThan} />
-        {' '}
-        {currentSelectedStyle.name}
-        {' '}
+        <div className="current-style">{currentSelectedStyle.name}</div>
       </div>
       <div className="styles-container">
         {productStyles.results.map((style) => {
