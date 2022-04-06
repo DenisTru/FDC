@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import InfoPanel from '../infoPanel';
-import ItemStyles from '../itemStyles';
 
 const mockProduct = {
   id: 1,
@@ -241,4 +240,15 @@ it('should render the item price if it is on sale', () => {
     handleClick={mockStyleOnClick}
   />);
   expect(screen.getByText(/100/)).toBeInTheDocument();
+});
+
+it('should show stars and reviews if they are given', () => {
+  render(<InfoPanel
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[1]}
+    handleClick={mockStyleOnClick}
+    reviews={2.8}
+  />);
+
+  expect(screen.getByLabelText(/Rating of this product is 2.3 out of 5./i)).toBeInTheDocument();
 });
