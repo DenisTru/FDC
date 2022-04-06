@@ -21,6 +21,7 @@ class App extends React.Component {
       reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
+      reviewsNew: {},
       productId: 66643,
     };
   }
@@ -110,6 +111,13 @@ class App extends React.Component {
     });
   };
 
+  onFieldChange = (value, fieldName) => {
+    const { reviewsNew } = this.state;
+    reviewsNew[fieldName] = value;
+    console.log(value, fieldName);
+    this.setState({ reviewsNew });
+  };
+
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
@@ -133,6 +141,7 @@ class App extends React.Component {
           data={reviews}
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
+          onFieldChange={this.onFieldChange}
         />
       </div>
     );

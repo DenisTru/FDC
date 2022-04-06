@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+import TextRating from './StaticStars';
 
 export default function RatingBreakdown({ ratings, recommended }) {
   const recommendPercent = Number(recommended.true)
@@ -17,10 +20,11 @@ export default function RatingBreakdown({ ratings, recommended }) {
   const ratingValue = sum / count;
 
   return (
-    <div>
+    <div style={{ width: '20%' }}>
       <div>
         ratingValue:
         {ratingValue}
+        <TextRating ratingValue={ratingValue} />
       </div>
       <div>
         {recommendPercent}
@@ -28,8 +32,10 @@ export default function RatingBreakdown({ ratings, recommended }) {
       </div>
       <div>
         <div>
-          5 stars
-          {Number(ratings['5']) / count}
+          <Box sx={{ width: '60%' }}>
+            5 stars
+            <LinearProgress sx={{ height: '15px' }} thickness={4} variant="determinate" value={(Number(ratings['5']) / count) * 100} />
+          </Box>
         </div>
         <div>
           4 stars

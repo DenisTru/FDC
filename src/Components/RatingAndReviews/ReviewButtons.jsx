@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ReviewButtonsCharacteristics from './RviewButtonsCharacteristics';
+import ReviewButtonsPhoto from './ReviewButtonsPhoto';
+import HoverRating from './StarsHoverRating';
 
 const style = {
   position: 'absolute',
@@ -19,7 +21,10 @@ const style = {
   p: 4,
 };
 
-export default function ReviewButtons({ nextPageLength, moreReviewsOnClick }) {
+export default function ReviewButtons({
+  nextPageLength, moreReviewsOnClick,
+  onFieldChange,
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -43,43 +48,45 @@ export default function ReviewButtons({ nextPageLength, moreReviewsOnClick }) {
             </Typography>
             <div>
               stars
+              <HoverRating onFieldChange={onFieldChange} />
             </div>
             <div>
               Do you recommend this product?
               <form action="#">
                 <fieldset id="group1">
                   <label htmlFor="yes">
-                    <input type="radio" name="radAnswer" />
+                    <input type="radio" name="yes" />
                     yes
                   </label>
 
                   <label htmlFor="no">
-                    <input type="radio" name="radAnswer" />
+                    <input type="radio" name="no" />
                     no
                   </label>
                 </fieldset>
               </form>
               <div>
-                <ReviewButtonsCharacteristics />
+                <ReviewButtonsCharacteristics onFieldChange={onFieldChange} />
               </div>
               <div>
                 Review Summary
-                <input type="text" />
+                <input type="text" onChange={(e) => { onFieldChange(e.target.value, 'summary'); }} />
               </div>
               <div>
                 Review Body
-                <input type="text" />
+                <input type="text" onChange={(e) => { onFieldChange(e.target.value, 'body'); }} />
               </div>
               <div>
                 Upload your photo
+                <ReviewButtonsPhoto />
               </div>
               <div>
                 name
-                <input type="text" />
+                <input type="text" onChange={(e) => { onFieldChange(e.target.value, 'name'); }} />
               </div>
               <div>
                 email
-                <input type="email" />
+                <input type="email" onChange={(e) => { onFieldChange(e.target.value, 'email'); }} />
               </div>
               <button type="button">Submit</button>
             </div>
@@ -95,4 +102,5 @@ export default function ReviewButtons({ nextPageLength, moreReviewsOnClick }) {
 ReviewButtons.propTypes = {
   nextPageLength: PropTypes.number.isRequired,
   moreReviewsOnClick: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
 };

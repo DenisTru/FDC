@@ -1,129 +1,63 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Typography from '@mui/material/Typography';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
+const size = ['A size too small', '1/2 a size too small', 'Perfect', '1/2 a size too big', 'A size too wide'];
+const width = ['Too narrow', 'Slightly narrow', 'Perfect', 'Slightly wide', 'Too wide'];
+const comfort = ['Uncomfortable', 'Slightly uncomfortable', 'Ok', 'Comfortable', 'Perfect'];
+const quality = ['Poor', 'Below average', 'What I expected', 'Pretty great', 'Perfect'];
+const length = ['Runs Short', 'Runs,slightly short', 'Perfect', 'Runs slightly long', 'Runs long'];
+const fit = ['Runs tight', 'Runs slightly tight', 'Perfect', 'Runs slightly long', 'Runs long'];
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
+const formObj = {
+  size: { values: size, name: 'Size' },
+  width: { values: width, name: 'Width' },
+  comfort: { values: comfort, name: 'Comfort' },
+  quality: { values: quality, name: 'Quality' },
+  length: { values: length, name: 'Length' },
+  fit: { values: fit, name: 'Fit' },
+};
 
-function createData(name, calories, fat, carbs, protein, x) {
-  return {
-    name, calories, fat, carbs, protein, x
-  };
-}
-
-const rows = [
-  createData(
-    'Size',
-    'A size too small',
-    'a size too small',
-    'Perfect',
-    'a size too big',
-    'A size too wide',
-  ),
-  createData(
-    'Width',
-    'Too narrow',
-    'Slightly narrow',
-    'Perfect',
-    'Slightly wide',
-    'Too wide',
-
-  ),
-  createData(
-    'Comfort',
-    'Uncomfortable',
-    'Slightly uncomfortable',
-    'Ok',
-    'Comfortable',
-    'Perfect',
-
-  ),
-  createData(
-    'Quality',
-    'Poor',
-    'Below average',
-    'What I expected',
-    'Pretty great',
-    'Perfect',
-  ),
-  createData(
-    'Length',
-    'Runs Short',
-    'Runs slightly short',
-    'Perfect',
-    'Runs slightly long',
-    'Runs long',
-
-  ),
-  createData(
-    'Fit',
-    'Runs tight',
-    'Runs slightly tight',
-    'Perfect',
-    'Runs slightly long',
-    'Runs long',
-
-  ),
-
-];
-
-export default function ReviewButtonsCharacteristics() {
+export default function ReviewButtonsCharacteristics({ onFieldChange }) {
   return (
     <div>
       <div>Characteristics Title</div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Type</StyledTableCell>
-              <StyledTableCell align="right">1</StyledTableCell>
-              <StyledTableCell align="right">2</StyledTableCell>
-              <StyledTableCell align="right">3</StyledTableCell>
-              <StyledTableCell align="right">4</StyledTableCell>
-              <StyledTableCell align="right">5</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {row.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                <StyledTableCell align="right">{row.x}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
+      <div style={{ padding: '10px' }}>
+        {
+          Object.keys(formObj).map((id) => (
+            <FormControl key={id}>
+              <FormLabel>{formObj[id].name}</FormLabel>
+              <RadioGroup
+                sx={{
+                  '& .MuiSvgIcon-root': {
+                    fontSize: 15,
+                  },
+                }}
+                row
+              >
+                {
+                  formObj[id].values.map((value, ind) => (
+                    <FormControlLabel
+                      key={value}
+                      value={ind + 1}
+                      control={<Radio onChange={(e) => onFieldChange(e.target.value, id)} />}
+                      label={(
+                        <Typography sx={{ fontSize: 14 }}>
+                          {value}
+                        </Typography>
+                      )}
+                    />
+                  ))
+                }
+              </RadioGroup>
+            </FormControl>
+          ))
+        }
+      </div>
     </div>
   );
 }
