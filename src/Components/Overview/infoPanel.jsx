@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
 import './styles/infoPanel.scss';
 import StarRating from './starRating';
+import SizeSelector from './sizeSelector';
 
 function InfoPanel({
   product, handleClick, currentStyle, reviews = 2.8,
@@ -19,6 +20,7 @@ function InfoPanel({
         <div className="category-title">{category}</div>
         <div className="name-title">{name}</div>
         <ItemStyles handleClick={handleClick} currentSelectedStyle={currentStyle} />
+        <SizeSelector />
       </div>
     );
   }
@@ -36,7 +38,8 @@ function InfoPanel({
         {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
       </div>
       <ItemStyles handleClick={handleClick} currentSelectedStyle={currentStyle} />
-      <div className="product-description">{description}</div>
+      <SizeSelector />
+      {/* <div className="product-description">{description}</div> */}
     </div>
   );
 }

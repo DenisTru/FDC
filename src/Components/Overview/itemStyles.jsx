@@ -436,13 +436,12 @@ function ItemStyles({ productStyles = mockItemStyles, currentSelectedStyle, hand
           if (style.style_id === currentSelectedStyle.style_id) {
             return (
               <div className="thumb-image-container">
-                <label
+                <div
                   className="label"
-                  htmlFor="chx"
                   style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
                 >
                   <FontAwesomeIcon icon={faCheckCircle} />
-                </label>
+                </div>
               </div>
             );
           }
