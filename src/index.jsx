@@ -408,6 +408,8 @@ class App extends React.Component {
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
+      styleImages: [],
+      currentShownImage: '',
     };
   }
 
@@ -417,6 +419,7 @@ class App extends React.Component {
       reviewsCount,
       reviewsSort,
       productId,
+      currentShownImage,
     } = this.state;
 
     getProduct(productId)
@@ -433,10 +436,14 @@ class App extends React.Component {
             const styles = styleData.data.results;
             this.setState({
               productStyles: styles,
+              currentShownImage: styles[0].photos[0].url,
             });
           });
       })
       .catch();
+
+
+
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
@@ -457,10 +464,13 @@ class App extends React.Component {
     });
   }
 
-  styleOnClick = (selectedProduct) => {
+  styleOnClick = (selectedStyle) => {
     this.setState({
-      currentSelectedStyle: selectedProduct,
-    });
+      currentSelectedStyle: selectedStyle,
+    }, () => this.setState({
+      styleImages: selectedStyle.photos,
+      currentShownImage: selectedStyle.photos[0].url,
+    },()=> console.log(this.state.styleImages)));
   };
 
   // Reviews And Ratings click on help button
@@ -521,7 +531,7 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      currentSelectedStyle, productId, productStyles, product, reviewsStarAverage,
+      currentSelectedStyle, productId, productStyles, product, reviewsStarAverage,currentShownImage,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -538,6 +548,7 @@ class App extends React.Component {
           handleClick={this.styleOnClick}
           productStyles={productStyles}
           reviewsStarAverage={reviewsStarAverage}
+          currentShownImage={currentShownImage}
         />
         <RelatedList />
         <CompareList />

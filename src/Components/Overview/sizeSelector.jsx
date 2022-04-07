@@ -43,10 +43,11 @@ function SizeSelector({
       <div className="custom-select">
         <select defaultValue={itemStock ? 'ONE' : 'DEFAULT'} onChange={(e) => handleChangeQuantity(e)} disabled={!itemStock}>
           <option key="default-7" value={itemStock ? 'ONE' : 'DEFAULT'} disabled={itemStock ? 'ONE' : 'DEFAULT'}>-</option>
-          {
-            currentStock.filter((quantity) => quantity < 15)
-              .map((quantity) => <option key={quantity + 1}>{quantity + 1}</option>)
-          }
+          {Array.from(Array(Number(itemStock)), (e, i) => {
+            if (i < 14) {
+              return <option key={i + 2}>{i + 2}</option>;
+            }
+          })}
         </select>
       </div>
     </div>

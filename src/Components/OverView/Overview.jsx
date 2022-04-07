@@ -14,7 +14,6 @@ class Overview extends React.Component {
       itemStock: '',
       quantityToPurchase: 0,
       itemSku: 0,
-      slideIndex: 1,
     };
   }
 
@@ -69,7 +68,7 @@ class Overview extends React.Component {
   render() {
     const {
       product, handleClick, currentStyle, reviewsStarAverage,
-      productStyles,
+      productStyles,currentShownImage,
     } = this.props;
     const { itemStock, quantityToPurchase } = this.state;
     if ($.isEmptyObject(product)) {
@@ -107,10 +106,19 @@ class Overview extends React.Component {
           <button type="submit" onClick={this.handleCart}>
             Add To Cart
           </button>
-          <div className="product-slogan">{slogan || 's'}</div>
-          <div className="product-description">{description || 's'}</div>
         </div>
-        <ImageCarousel className="image-carousel" />
+        <div
+          className="image-carousel"
+        >
+          <ImageCarousel mainImage={currentShownImage} />
+        </div>
+        <div className="product-info-container">
+          <div className="body">
+            <div className="product-slogan">{slogan || 's'}</div>
+            <div className="product-description">{description || 's'}</div>
+          </div>
+
+        </div>
       </div>
     );
   }
