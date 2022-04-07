@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import { DialogContent } from '@mui/material';
+import Button from '@mui/material/Button';
 import ReviewButtonsCharacteristics from './RviewButtonsCharacteristics';
 import ReviewButtonsPhoto from './ReviewButtonsPhoto';
 import HoverRating from './StarsHoverRating';
@@ -15,10 +16,25 @@ export default function ReviewButtons({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
-    <div>
-      {nextPageLength > 0 ? <button onClick={moreReviewsOnClick} type="button">More Reviews</button> : <div />}
+    <div style={{ display: 'flex' }}>
+      {nextPageLength > 0 ? (
+        <Button
+          sx={{ color: '#616161', borderColor: 'gray' }}
+          variant="outlined"
+          onClick={moreReviewsOnClick}
+          type="button"
+        >
+          More Reviews
+        </Button>
+      ) : <div />}
       <div>
-        <button type="button" onClick={handleOpen}>Add A Review +</button>
+        <Button
+          sx={{ color: '#616161', borderColor: 'gray' }}
+          variant="outlined"
+          onClick={handleOpen}
+        >
+          Add A Review +
+        </Button>
         <Dialog
           maxWidth="md"
           open={open}

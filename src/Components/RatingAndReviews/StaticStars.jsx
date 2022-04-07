@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import PropTypes from 'prop-types';
 
 const labels = {
   0.5: 'Poor-',
@@ -43,3 +44,7 @@ export default function TextRating({ ratingValue }) {
     </Box>
   );
 }
+
+TextRating.propTypes = {
+  ratingValue: PropTypes.number.isRequired,
+};

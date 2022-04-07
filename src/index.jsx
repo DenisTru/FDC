@@ -48,12 +48,26 @@ class App extends React.Component {
       return data;
     }).then((reviewsData) => {
       getMetaReviews(productId).then((meta) => {
-        // console.log(meta);
         const { ratings, recommended, characteristics } = meta.data;
-        // console.log(characteristics);
         let { reviewsMeta } = this.state;
         reviewsMeta = { characteristics, recommended, ratings };
-        this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
+        const sum = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[0]) * Number(x[1]);
+          return res;
+        }, 0);
+        const count = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[1]);
+          return res;
+        }, 0);
+        const ratingValue = sum / count;
+        this.setState({
+          reviewsMeta,
+          reviewsNextPage: reviewsData,
+          isLoading: false,
+          reviewsAverageRating: ratingValue,
+        });
       });
     });
   }
@@ -125,6 +139,7 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
+      reviewsAverageRating,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -146,6 +161,7 @@ class App extends React.Component {
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
+          reviewsAverageRating={reviewsAverageRating}
         />
       </div>
     );

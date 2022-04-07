@@ -5,21 +5,15 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import TextRating from './StaticStars';
 
-export default function RatingBreakdown({ ratings, recommended }) {
+export default function RatingBreakdown({ ratings, recommended, reviewsAverageRating }) {
   let recommendPercent = Number(recommended.true)
     / (Number(recommended.true) + Number(recommended.false));
   recommendPercent = `${(recommendPercent * 100).toFixed(0)}%`;
-  const sum = Object.entries(ratings).slice().reduce((res, x) => {
-    // eslint-disable-next-line no-param-reassign
-    res += Number(x[0]) * Number(x[1]);
-    return res;
-  }, 0);
   const count = Object.entries(ratings).slice().reduce((res, x) => {
     // eslint-disable-next-line no-param-reassign
     res += Number(x[1]);
     return res;
   }, 0);
-  const ratingValue = sum / count;
   const starRange = ['5', '4', '3', '2', '1'];
 
   return (
@@ -27,9 +21,9 @@ export default function RatingBreakdown({ ratings, recommended }) {
       <div style={{ marginBottom: '20px' }}>Ratings And Reviews</div>
       <div style={{ marginBottom: '10px', display: 'flex' }}>
         <div style={{ fontSize: '2rem', paddingRight: '10px' }}>
-          {ratingValue}
+          {reviewsAverageRating}
         </div>
-        <TextRating ratingValue={ratingValue} />
+        <TextRating ratingValue={reviewsAverageRating} />
       </div>
       <div style={{ marginBottom: '10px' }}>
         {`${recommendPercent} `}
@@ -39,8 +33,8 @@ export default function RatingBreakdown({ ratings, recommended }) {
         <div>
           {
             starRange.map((range) => (
-              <div style={{ width: '60%' }}>
-                <Box key={range}>
+              <div key={range} style={{ width: '60%' }}>
+                <Box>
                   {`${range} `}
                   stars
                   <LinearProgress
@@ -75,6 +69,7 @@ RatingBreakdown.propTypes = {
     false: PropTypes.string,
     true: PropTypes.string,
   }),
+  reviewsAverageRating: PropTypes.number.isRequired,
 };
 
 RatingBreakdown.defaultProps = {

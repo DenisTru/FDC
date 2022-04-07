@@ -30,11 +30,11 @@ export default function RatingReviewsList({ review, helpOnClick }) {
     <div style={{ marginRight: '0' }}>
       <div><TextRating ratingValue={rating} /></div>
       {/* <div>{reviewId}</div> */}
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', marginTop: '10px' }}>
         <div>{reviewerName}</div>
-        <div>{moment(createdAt).format('MMM Do YYYY')}</div>
+        <div style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
       </div>
-      <div><strong>{summary}</strong></div>
+      <div style={{ marginTop: '20px', marginBottom: '20px' }}><strong>{summary}</strong></div>
       <div>
         {
           body.length > 250 && displayMore === 'false' ? (
@@ -69,9 +69,8 @@ export default function RatingReviewsList({ review, helpOnClick }) {
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         {
           photos.map((photo) => (
-            <div onClick={() => { setId(photo.url); handleOpen(); }} onKeyDown={() => { }} role="button" tabIndex={0}>
+            <div key={photo.id} onClick={() => { setId(photo.url); handleOpen(); }} onKeyDown={() => { }} role="button" tabIndex={0}>
               <img
-                key={photo.id}
                 src={photo.url}
                 alt=""
                 style={{

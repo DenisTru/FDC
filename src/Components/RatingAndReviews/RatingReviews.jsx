@@ -10,7 +10,7 @@ import ProductBreakdown from './ProductBreakdown';
 export default function RatingReviews({
   data, helpOnClick, reviewsNextPage, moreReviewsOnClick,
   onSortChange, characteristics, ratings, recommended,
-  onFieldChange,
+  onFieldChange, reviewsAverageRating,
 }) {
   return (
     <div style={{
@@ -21,6 +21,7 @@ export default function RatingReviews({
         <RatingBreakdown
           ratings={ratings}
           recommended={recommended}
+          reviewsAverageRating={reviewsAverageRating}
         />
         <ProductBreakdown characteristics={characteristics} />
       </div>
@@ -88,6 +89,7 @@ RatingReviews.propTypes = {
     }),
   }),
   onFieldChange: PropTypes.func.isRequired,
+  reviewsAverageRating: PropTypes.number.isRequired,
 };
 RatingReviews.defaultProps = {
   ratings: {
