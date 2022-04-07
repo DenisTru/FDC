@@ -13,11 +13,12 @@ function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
         <div className="current-style">{currentSelectedStyle.name}</div>
       </div>
       <div className="styles-container">
-        {productStyles.results.map((style) => {
+        {productStyles.map((style) => {
           if (style.style_id === currentSelectedStyle.style_id) {
             return (
-              <div className="thumb-image-container">
+              <div key={style.style_id} className="thumb-image-container">
                 <div
+                  key={style.style_id}
                   className="label"
                   style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
                 >
@@ -28,6 +29,7 @@ function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
           }
           return (
             <div
+              key={style.style_id}
               role="checkbox"
               aria-checked="false"
               tabIndex={0}

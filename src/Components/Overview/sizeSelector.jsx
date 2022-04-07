@@ -11,7 +11,7 @@ function SizeSelector({
       <div className="selectSize-container">
         <div className="custom-select">
           <select disabled>
-            <option value="" disabled selected>Out of Stock</option>
+            <option key="default-5" value="" disabled selected>Out of Stock</option>
           </select>
         </div>
       </div>
@@ -20,12 +20,16 @@ function SizeSelector({
   return (
     <div className="selectSize-container">
       <div className="custom-select">
-        <select onChange={(e) => handleChangeSize(e)}>
-          <option selected disabled>Select Size</option>
+        <select
+          defaultValue="DEFAULT"
+          onChange={(e) => handleChangeSize(e)}
+        >
+          <option key="default-6" value="DEFAULT" disabled>Select Size</option>
           {Object.entries(currentSelectedStyle.skus).map((item) => {
             if (item[1].quantity > 0) {
               return (
                 <option
+                  key={item[0]}
                   data-sku={item[0]}
                   value={JSON.stringify(item[1].quantity)}
                 >
@@ -37,9 +41,9 @@ function SizeSelector({
         </select>
       </div>
       <div className="custom-select">
-        <select onChange={(e) => handleChangeQuantity(e)} disabled={!itemStock}>
-          <option selected disabled>-</option>
-          <option selected={itemStock} value="1">1</option>
+        <select defaultValue={itemStock ? 'ONE' : 'DEFAULT'} onChange={(e) => handleChangeQuantity(e)} disabled={!itemStock}>
+          <option value="DEFAULT" disabled>-</option>
+          <option selected={itemStock} value="ONE">1</option>
           {Array.from(Array(Number(itemStock)), (e, i) => {
             if (i < 14) {
               return <option key={i + 2}>{i + 2}</option>;

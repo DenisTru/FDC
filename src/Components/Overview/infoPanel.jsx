@@ -18,7 +18,6 @@ class InfoPanel extends React.Component {
 
   handleChangeSize = (e) => {
     const sku = $(`option[value="${e.target.value}"]`).attr('sku');
-
     this.setState({ itemStock: Number(e.target.value), itemSku: sku });
   };
 
@@ -61,9 +60,9 @@ class InfoPanel extends React.Component {
       productStyles,
     } = this.props;
     const { itemStock, quantityToPurchase } = this.state;
-    if ($.isEmptyObject(product)) {
-      return 'No Item to display';
-    }
+    // if ($.isEmptyObject(product)) {
+    //   return 'No Item to display';
+    // }
     const {
       category, name, slogan, description,
     } = product;
@@ -78,7 +77,7 @@ class InfoPanel extends React.Component {
             currentSelectedStyle={currentStyle}
             productStyles={productStyles}
           />
-          <SizeSelector />
+          {/* <SizeSelector /> */}
         </div>
       );
     }
@@ -127,13 +126,14 @@ InfoPanel.defaultProps = {
 InfoPanel.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number,
+    campus: PropTypes.string,
     name: PropTypes.string,
     slogan: PropTypes.string,
     description: PropTypes.string,
     category: PropTypes.string,
     default_price: PropTypes.string,
   }),
-  handleClick: PropTypes.func,
+  handleClick: PropTypes.func.isRequired,
   currentStyle: PropTypes.shape({
     style_id: PropTypes.number,
     name: PropTypes.string,
