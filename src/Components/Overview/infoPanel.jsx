@@ -64,7 +64,9 @@ class InfoPanel extends React.Component {
     if ($.isEmptyObject(product)) {
       return 'No Item to display';
     }
-    const { category, name, description } = product;
+    const {
+      category, name, slogan, description,
+    } = product;
     if (!description
     || description === '') {
       return (
@@ -108,7 +110,11 @@ class InfoPanel extends React.Component {
         <button type="submit" onClick={this.handleCart}>
           Add To Cart
         </button>
-        {/* <div className="product-description">{description}</div> */}
+        <div className="item-description-container">
+          <div className="product-slogan">{slogan || ''}</div>
+          <div className="product-description">{description || ''}</div>
+        </div>
+
       </div>
     );
   }
