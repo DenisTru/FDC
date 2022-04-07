@@ -18,11 +18,17 @@ class InfoPanel extends React.Component {
 
   handleChangeSize = (e) => {
     const sku = $(`option[value="${e.target.value}"]`).attr('sku');
-    this.setState({ itemStock: Number(e.target.value), itemSku: sku });
+    this.setState(
+      { itemStock: Number(e.target.value), itemSku: sku },
+      () => console.log(this.state.itemStock),
+    );
   };
 
   handleChangeQuantity = (e) => {
-    this.setState({ quantityToPurchase: e.target.value });
+    this.setState(
+      { quantityToPurchase: e.target.value },
+      () => console.log(this.state.quantityToPurchase),
+    );
   };
 
   handleCart = (e) => {
@@ -30,14 +36,14 @@ class InfoPanel extends React.Component {
     const promises = [];
     const { quantityToPurchase, itemSku } = this.state;
 
-    function addCart(itemSku) {
+    function addCart(item) {
       return fetch('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart', {
         method: 'POST',
         headers: {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ sku_id: itemSku }),
+        body: JSON.stringify({ sku_id: item }),
       });
     }
 
@@ -47,16 +53,16 @@ class InfoPanel extends React.Component {
 
     Promise.all(promises)
       .then(() => {
-        console.log('successfully posted all requests');
+
       })
       .catch(() => {
-        console.log('error with fetch requests');
+
       });
   };
 
   render() {
     const {
-      product, handleClick, currentStyle, reviews = 2.5,
+      product, handleClick, currentStyle, reviewsStarAverage,
       productStyles,
     } = this.props;
     const { itemStock, quantityToPurchase } = this.state;
@@ -84,8 +90,8 @@ class InfoPanel extends React.Component {
     return (
       <div>
         <div>
-          {reviews ? <StarRating reviews={reviews} /> : ''}
-          {reviews ? <a className="read-reviews">Read all reviews</a> : ''}
+          {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
+          {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
         </div>
         <div className="category-title">{category}</div>
         <div className="name-title">{name}</div>
@@ -121,6 +127,7 @@ class InfoPanel extends React.Component {
 
 InfoPanel.defaultProps = {
   product: {},
+  reviewsStarAverage: null,
 };
 
 InfoPanel.propTypes = {
@@ -148,6 +155,25 @@ InfoPanel.propTypes = {
       }),
     ).isRequired,
   }).isRequired,
+  productStyles: PropTypes.arrayOf(PropTypes.shape({
+    style_id: PropTypes.number,
+    name: PropTypes.string,
+    original_price: PropTypes.string,
+    sale_price: PropTypes.string,
+    'default?': PropTypes.bool,
+    photos: PropTypes.arrayOf(PropTypes.shape({
+      thumbnail_url: PropTypes.string,
+      url: PropTypes.string,
+    })),
+    skus: PropTypes.objectOf(
+      PropTypes.shape({
+        quantity: PropTypes.number,
+        size: PropTypes.string,
+      }),
+    ),
+
+  })).isRequired,
+  reviewsStarAverage: PropTypes.number,
 };
 
 export default InfoPanel;

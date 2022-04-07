@@ -403,6 +403,7 @@ class App extends React.Component {
       reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
+      reviewsStarAverage: 2.5,
       productId: 66642,
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
@@ -415,8 +416,6 @@ class App extends React.Component {
     //   reviewsPage,
     //   reviewsCount,
     //   reviewsSort,
-      product,
-      productStyles,
       productId,
     } = this.state;
 
@@ -437,7 +436,7 @@ class App extends React.Component {
             });
           });
       })
-      .catch((err) => console.log(err));
+      .catch();
 
     // getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
     //   let { data } = res;
@@ -450,9 +449,9 @@ class App extends React.Component {
     //   return data;
     // }).then((reviewsData) => {
     //   getMetaReviews(productId).then((meta) => {
-    //     // console.log(meta);
+
     //     const { ratings, recommended, characteristics } = meta.data;
-    //     // console.log(characteristics);
+
     //     let { reviewsMeta } = this.state;
     //     reviewsMeta = { characteristics, recommended, ratings };
     //     this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
@@ -524,7 +523,7 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      currentSelectedStyle, productId, productStyles, product,
+      currentSelectedStyle, productId, productStyles, product, reviewsStarAverage,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -535,6 +534,7 @@ class App extends React.Component {
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
           productStyles={productStyles}
+          reviewsStarAverage={reviewsStarAverage}
         />
       );
       // return (

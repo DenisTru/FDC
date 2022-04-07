@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './styles/sizeSelector.scss';
 
 function SizeSelector({
-  currentSelectedStyle, itemStock, quantityToPurchase, handleChangeSize, handleChangeQuantity,
+  currentSelectedStyle, itemStock, handleChangeSize, handleChangeQuantity,
 }) {
   const skuOptions = Object.entries(currentSelectedStyle.skus);
   const sumStock = skuOptions.reduce((prev, current) => prev + current[1].quantity, 0);
@@ -22,22 +23,19 @@ function SizeSelector({
       <div className="custom-select">
         <select
           defaultValue="DEFAULT"
-          onChange={(e) => handleChangeSize(e)}
+          onChange={handleChangeSize}
         >
           <option key="default-6" value="DEFAULT" disabled>Select Size</option>
-          {Object.entries(currentSelectedStyle.skus).map((item) => {
-            if (item[1].quantity > 0) {
-              return (
-                <option
-                  key={item[0]}
-                  data-sku={item[0]}
-                  value={JSON.stringify(item[1].quantity)}
-                >
-                  {item[1].size}
-                </option>
-              );
-            }
-          })}
+          {Object.entries(currentSelectedStyle.skus).filter((item) => item[1].quantity > 0)
+            .map((item) => (
+              <option
+                key={item[0]}
+                data-sku={item[0]}
+                value={JSON.stringify(item[1].quantity)}
+              >
+                {item[1].size}
+              </option>
+            ))}
         </select>
       </div>
       <div className="custom-select">
@@ -54,5 +52,26 @@ function SizeSelector({
     </div>
   );
 }
+
+SizeSelector.propTypes = {
+  currentSelectedStyle: PropTypes.shape({
+    style_id: PropTypes.number,
+    name: PropTypes.string,
+    original_price: PropTypes.string,
+    sale_price: PropTypes.string,
+    'default?': PropTypes.bool,
+    photos: PropTypes.arrayOf(PropTypes.shape({ thumbnail_url: PropTypes.string })),
+    skus: PropTypes.objectOf(
+      PropTypes.shape({
+        quantity: PropTypes.number.isRequired,
+        size: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+  itemStock: PropTypes.string.isRequired,
+  handleChangeSize: PropTypes.func.isRequired,
+  handleChangeQuantity: PropTypes.func.isRequired,
+
+};
 
 export default SizeSelector;
