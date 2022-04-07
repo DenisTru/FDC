@@ -5,6 +5,9 @@ import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
 import InfoPanel from './Components/Overview/infoPanel.jsx';
+import getMetaReviews from './Components/RatingAndReviews/metaData';
+import CompareList from './Components/Relate-Compare-Lists/compareList';
+import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -442,9 +445,10 @@ class App extends React.Component {
     this.state = {
       isLoading: true,
       reviews: [],
+      reviewsMeta: [],
       reviewsPage: 1,
-      reviewsCount: 2,
-      reviewsSort: 'newest',
+      reviewsCount: 3,
+      reviewsSort: 'helpful',
       reviewsNextPage: [],
       productId: 66643,
       currentSelectedStyle: mockItemStyles.results[0],
@@ -453,22 +457,30 @@ class App extends React.Component {
 
   componentDidMount() {
     // const {
-    //   // reviewsPage,
-    //   // reviewsCount,
-    //   // reviewsSort,
+    //   reviewsPage,
+    //   reviewsCount,
+    //   reviewsSort,
     //   productId,
     // } = this.state;
 
     // getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
     //   let { data } = res;
     //   data = data.results;
-    //   // console.log(data);
     //   this.setState({ reviews: data, isLoading: false });
     // });
     // getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
     //   let { data } = res;
     //   data = data.results;
-    //   this.setState({ reviewsNextPage: data, isLoading: false });
+    //   return data;
+    // }).then((reviewsData) => {
+    //   getMetaReviews(productId).then((meta) => {
+    //     // console.log(meta);
+    //     const { ratings, recommended, characteristics } = meta.data;
+    //     // console.log(characteristics);
+    //     let { reviewsMeta } = this.state;
+    //     reviewsMeta = { characteristics, recommended, ratings };
+    //     this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
+    //   });
     // });
   }
 
@@ -478,6 +490,7 @@ class App extends React.Component {
     });
   };
 
+  // Reviews And Ratings click on help button
   helpOnClick = (id) => {
     const { reviews } = this.state;
     for (let i = 0; i < reviews.length; i += 1) {
@@ -488,6 +501,7 @@ class App extends React.Component {
     this.setState({ reviews });
   };
 
+  // Reviews And Ratings click on more reviews button
   moreReviewsOnClick = () => {
     const {
       reviewsCount,
@@ -505,10 +519,38 @@ class App extends React.Component {
     });
   };
 
+  // Revews And Ratings sort options
+  onSortChange = (sortType) => {
+    const {
+      reviewsCount,
+      productId,
+    } = this.state;
+    let { reviews, reviewsPage, reviewsSort } = this.state;
+    reviewsSort = sortType;
+    reviewsPage = 1;
+    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      reviews = data;
+      // console.log('@@@', reviews);
+      return reviews;
+    }).then((newReviews) => {
+      getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+        let { data } = res;
+        data = data.results;
+        this.setState({
+          reviews: newReviews, reviewsNextPage: data, reviewsPage, reviewsSort,
+        });
+      });
+    });
+  };
+
   render() {
     const {
-      reviews, isLoading, reviewsNextPage, currentSelectedStyle, productStock, productSize
+      reviews, isLoading, reviewsNextPage, reviewsMeta,
+      currentSelectedStyle,
     } = this.state;
+    const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
       return (
         <InfoPanel
@@ -524,11 +566,17 @@ class App extends React.Component {
     }
     return (
       <div>
+        <RelatedList />
+        <CompareList />
         <RatingReviews
+          characteristics={characteristics}
+          ratings={ratings}
+          recommended={recommended}
           reviewsNextPage={reviewsNextPage}
           helpOnClick={this.helpOnClick}
           data={reviews}
           moreReviewsOnClick={this.moreReviewsOnClick}
+          onSortChange={this.onSortChange}
         />
       </div>
     );
