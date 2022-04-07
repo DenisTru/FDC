@@ -4,14 +4,14 @@ const config = require('./config');
 const options = {
   url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/',
   headers: {
-    Authorization: config.default.TOKEN,
+    Authorization: config.TOKEN,
   },
   method: 'get',
 };
 
 const optionsStyles = {
   headers: {
-    Authorization: config.default.TOKEN,
+    Authorization: config.TOKEN,
   },
   method: 'get',
 };

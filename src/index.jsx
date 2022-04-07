@@ -6,15 +6,10 @@ import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
 import Overview from './Components/Overview/Overview';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
-<<<<<<< HEAD
+import helpPut from './Components/RatingAndReviews/helpPut';
 import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
 import RelatedList from './Components/Relate-Compare-Lists/Related-List/RelatedList';
-=======
-import helpPut from './Components/RatingAndReviews/helpPut';
-import CompareList from './Components/Relate-Compare-Lists/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 import { getProduct, getProductStyles } from './Components/Overview/data';
->>>>>>> f219aaea99cf1221c73e7b5e35d0788695cdba1e
 
 const root = createRoot(document.getElementById('root'));
 
@@ -550,13 +545,9 @@ class App extends React.Component {
 
   render() {
     const {
-<<<<<<< HEAD
-      reviews, isLoading, reviewsNextPage, reviewsMeta, productId,
-=======
       reviews, isLoading, reviewsNextPage, reviewsMeta,
       reviewsAverageRating,
       currentSelectedStyle, productId, productStyles, product,
->>>>>>> f219aaea99cf1221c73e7b5e35d0788695cdba1e
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -566,11 +557,6 @@ class App extends React.Component {
     }
     return (
       <div>
-<<<<<<< HEAD
-        <RelatedList
-          productId={productId}
-        />
-=======
         <Overview
           productId={productId}
           product={product}
@@ -579,8 +565,9 @@ class App extends React.Component {
           productStyles={productStyles}
           reviewsAverageRating={reviewsAverageRating}
         />
-        <RelatedList />
->>>>>>> f219aaea99cf1221c73e7b5e35d0788695cdba1e
+        <RelatedList
+          productId={productId}
+        />
         <CompareList />
         <RatingReviews
           characteristics={characteristics}
@@ -594,7 +581,7 @@ class App extends React.Component {
           onFieldChange={this.onFieldChange}
           reviewsAverageRating={reviewsAverageRating}
         />
-      </div>
+      </div >
     );
   }
 }
