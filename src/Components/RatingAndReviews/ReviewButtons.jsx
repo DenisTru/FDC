@@ -1,40 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-// import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import Dialog from '@mui/material/Dialog';
+import { DialogContent } from '@mui/material';
+import Button from '@mui/material/Button';
 import ReviewButtonsCharacteristics from './RviewButtonsCharacteristics';
+import ReviewButtonsPhoto from './ReviewButtonsPhoto';
+import HoverRating from './StarsHoverRating';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  height: '80%',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-export default function ReviewButtons({ nextPageLength, moreReviewsOnClick }) {
+export default function ReviewButtons({
+  nextPageLength, moreReviewsOnClick,
+  onFieldChange,
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
-    <div>
-      {nextPageLength > 0 ? <button onClick={moreReviewsOnClick} type="button">More Reviews</button> : <div />}
+    <div style={{ display: 'flex' }}>
+      {nextPageLength > 0 ? (
+        <Button
+          sx={{ color: '#616161', borderColor: 'gray' }}
+          variant="outlined"
+          onClick={moreReviewsOnClick}
+          type="button"
+        >
+          More Reviews
+        </Button>
+      ) : <div />}
       <div>
-        <button type="button" onClick={handleOpen}>Add A Review +</button>
-        <Modal
+        <Button
+          sx={{ color: '#616161', borderColor: 'gray' }}
+          variant="outlined"
+          onClick={handleOpen}
+        >
+          Add A Review +
+        </Button>
+        <Dialog
+          maxWidth="md"
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <DialogContent>
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Write Your Review
             </Typography>
@@ -43,48 +51,50 @@ export default function ReviewButtons({ nextPageLength, moreReviewsOnClick }) {
             </Typography>
             <div>
               stars
+              <HoverRating onFieldChange={onFieldChange} />
             </div>
             <div>
               Do you recommend this product?
               <form action="#">
-                <fieldset id="group1">
+                <fieldset id="group1" onChange={(e) => { onFieldChange(e.target.value, 'recommend'); }}>
                   <label htmlFor="yes">
-                    <input type="radio" name="radAnswer" />
+                    <input type="radio" name="recommend" value="yes" />
                     yes
                   </label>
 
                   <label htmlFor="no">
-                    <input type="radio" name="radAnswer" />
+                    <input type="radio" name="recommend" value="no" />
                     no
                   </label>
                 </fieldset>
               </form>
               <div>
-                <ReviewButtonsCharacteristics />
-              </div>
-              <div>
-                Review Summary
-                <input type="text" />
-              </div>
-              <div>
-                Review Body
-                <input type="text" />
-              </div>
-              <div>
-                Upload your photo
+                <ReviewButtonsCharacteristics onFieldChange={onFieldChange} />
               </div>
               <div>
                 name
-                <input type="text" />
+                <input type="text" onChange={(e) => { onFieldChange(e.target.value, 'name'); }} />
               </div>
               <div>
                 email
-                <input type="email" />
+                <input type="email" onChange={(e) => { onFieldChange(e.target.value, 'email'); }} />
+              </div>
+              <div>
+                Review Summary
+                <input placeholder="Best purchase ever!" type="text" onChange={(e) => { onFieldChange(e.target.value, 'summary'); }} />
+              </div>
+              <div>
+                Review Body
+                <input minLength="50" type="text" onChange={(e) => { onFieldChange(e.target.value, 'body'); }} />
+              </div>
+              <div>
+                Upload your photo
+                <ReviewButtonsPhoto />
               </div>
               <button type="button">Submit</button>
             </div>
-          </Box>
-        </Modal>
+          </DialogContent>
+        </Dialog>
 
       </div>
 
@@ -95,4 +105,5 @@ export default function ReviewButtons({ nextPageLength, moreReviewsOnClick }) {
 ReviewButtons.propTypes = {
   nextPageLength: PropTypes.number.isRequired,
   moreReviewsOnClick: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func.isRequired,
 };
