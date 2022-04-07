@@ -6,51 +6,77 @@ import './styles/infoPanel.scss';
 import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
 
-function InfoPanel({
-  product, handleClick, currentStyle, reviews = 2.5,
-  productStyles,
-}) {
-  if ($.isEmptyObject(product)) {
-    return 'No Item to display';
+class InfoPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemStock: '',
+      quantityToPurchase: 0,
+    };
   }
-  const { category, name, description } = product;
-  if (!description
+
+  handleChangeSize = (e) => {
+    this.setState({ itemStock: Number(e.target.value) });
+  };
+
+  handleChangeQuantity = (e) => {
+    this.setState({ quantityToPurchase: e.target.value });
+  };
+
+  render() {
+    const {
+      product, handleClick, currentStyle, reviews = 2.5,
+      productStyles,
+    } = this.props;
+    const { itemStock, quantityToPurchase } = this.state;
+    if ($.isEmptyObject(product)) {
+      return 'No Item to display';
+    }
+    const { category, name, description } = product;
+    if (!description
     || description === '') {
+      return (
+        <div>
+          <div className="category-title">{category}</div>
+          <div className="name-title">{name}</div>
+          <ItemStyles
+            handleClick={handleClick}
+            currentSelectedStyle={currentStyle}
+            productStyles={productStyles}
+          />
+          <SizeSelector />
+        </div>
+      );
+    }
     return (
       <div>
+        <div>
+          {reviews ? <StarRating reviews={reviews} /> : ''}
+          {reviews ? <a className="read-reviews">Read all reviews</a> : ''}
+        </div>
         <div className="category-title">{category}</div>
         <div className="name-title">{name}</div>
+        <div className="sale-price">
+          <div className="dollar">$</div>
+          {currentStyle.sale_price ? currentStyle.sale_price : ''}
+          {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
+        </div>
         <ItemStyles
           handleClick={handleClick}
           currentSelectedStyle={currentStyle}
           productStyles={productStyles}
         />
-        <SizeSelector />
+        <SizeSelector
+          currentSelectedStyle={currentStyle}
+          itemStock={itemStock}
+          quantityToPurchase={quantityToPurchase}
+          handleChangeSize={this.handleChangeSize}
+          handleChangeQuantity={this.handleChangeQuantity}
+        />
+        {/* <div className="product-description">{description}</div> */}
       </div>
     );
   }
-  return (
-    <div>
-      <div>
-        {reviews ? <StarRating reviews={reviews} /> : ''}
-        {reviews ? <a className="read-reviews">Read all reviews</a> : ''}
-      </div>
-      <div className="category-title">{category}</div>
-      <div className="name-title">{name}</div>
-      <div className="sale-price">
-        <div className="dollar">$</div>
-        {currentStyle.sale_price ? currentStyle.sale_price : ''}
-        {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
-      </div>
-      <ItemStyles
-        handleClick={handleClick}
-        currentSelectedStyle={currentStyle}
-        productStyles={productStyles}
-      />
-      <SizeSelector currentSelectedStyle={currentStyle} />
-      {/* <div className="product-description">{description}</div> */}
-    </div>
-  );
 }
 
 InfoPanel.defaultProps = {
@@ -82,4 +108,5 @@ InfoPanel.propTypes = {
     ).isRequired,
   }).isRequired,
 };
+
 export default InfoPanel;
