@@ -34,7 +34,7 @@ export default function ReviewButtonsCharacteristics({ onFieldChange }) {
               <RadioGroup
                 sx={{
                   '& .MuiSvgIcon-root': {
-                    fontSize: 15,
+                    fontSize: 16,
                   },
                 }}
                 row

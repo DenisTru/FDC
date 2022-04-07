@@ -33,6 +33,14 @@ export default function HoverRating({ onFieldChange }) {
       }}
     >
       <Rating
+        sx={{
+          '& .MuiRating-iconFilled': {
+            color: 'gray',
+          },
+          '& .MuiRating-iconHover': {
+            color: 'gray',
+          },
+        }}
         size="small"
         name="hover-feedback"
         value={value}

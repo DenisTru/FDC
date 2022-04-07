@@ -13,39 +13,36 @@ export default function RatingReviews({
   onFieldChange,
 }) {
   return (
-    <div>
-      <div>
+    <div style={{
+      marginTop: '50px', display: 'flex', width: '80%', marginLeft: '10%',
+    }}
+    >
+      <div style={{ width: '40%' }}>
         <RatingBreakdown
           ratings={ratings}
           recommended={recommended}
         />
-      </div>
-      <div>
         <ProductBreakdown characteristics={characteristics} />
       </div>
-      <div>
+      <div style={{ width: '60%' }}>
         <SortOptions onSortChange={onSortChange} />
-      </div>
-
-      <div>
-        {
-          data.map((review) => (
-            <RatingReviewsList
-              helpOnClick={helpOnClick}
-              key={review.review_id}
-              review={review}
-            />
-          ))
-        }
-      </div>
-      <div>
+        <div>
+          {
+            data.map((review) => (
+              <RatingReviewsList
+                helpOnClick={helpOnClick}
+                key={review.review_id}
+                review={review}
+              />
+            ))
+          }
+        </div>
         <ReviewButtons
           moreReviewsOnClick={moreReviewsOnClick}
           nextPageLength={reviewsNextPage.length}
           onFieldChange={onFieldChange}
         />
       </div>
-
     </div>
 
   );

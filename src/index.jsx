@@ -5,6 +5,7 @@ import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
+import helpPut from './Components/RatingAndReviews/helpPut';
 import CompareList from './Components/Relate-Compare-Lists/compareList';
 import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 
@@ -21,6 +22,7 @@ class App extends React.Component {
       reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
+      reviewsAverageRating: 0,
       reviewsNew: {},
       productId: 66643,
     };
@@ -37,6 +39,7 @@ class App extends React.Component {
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
+      // console.log(data);
       this.setState({ reviews: data, isLoading: false });
     });
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
@@ -63,6 +66,7 @@ class App extends React.Component {
         reviews[i].helpfulness += 1;
       }
     }
+    helpPut(id);
     this.setState({ reviews });
   };
 
@@ -114,7 +118,7 @@ class App extends React.Component {
   onFieldChange = (value, fieldName) => {
     const { reviewsNew } = this.state;
     reviewsNew[fieldName] = value;
-    console.log(value, fieldName);
+    // console.log(value, fieldName);
     this.setState({ reviewsNew });
   };
 
