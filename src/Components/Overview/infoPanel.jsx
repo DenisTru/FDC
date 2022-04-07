@@ -66,9 +66,9 @@ class InfoPanel extends React.Component {
       productStyles,
     } = this.props;
     const { itemStock, quantityToPurchase } = this.state;
-    // if ($.isEmptyObject(product)) {
-    //   return 'No Item to display';
-    // }
+    if ($.isEmptyObject(product)) {
+      return 'No Item to display';
+    }
     const {
       category, name, slogan, description,
     } = product;

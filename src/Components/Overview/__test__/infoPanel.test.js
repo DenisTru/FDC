@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import InfoPanel from '../infoPanel';
+import ItemStyles from '../itemStyles';
 
 const mockProduct = {
   id: 1,
@@ -79,7 +80,7 @@ const mockItemStyles = {
         },
         2390362: {
           quantity: 4,
-          size: 'XL',
+          size: 'XXL',
         },
       },
     },
@@ -145,7 +146,8 @@ const mockItemStyles = {
   ],
 
 };
-
+const mockId = 66642;
+const mockStars = 2.5;
 const mockStyleOnClick = (selectedProduct) => {
   this.setState({
     currentSelectedStyle: selectedProduct,
@@ -154,7 +156,14 @@ const mockStyleOnClick = (selectedProduct) => {
 
 it('shows a default message if there is an empty object passed in', () => {
   // Your tests come here...
-  render(<InfoPanel product={{}} />);
+  render(<InfoPanel
+    productId={mockId}
+    product={{}}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
+  />);
   // find element
   const text = screen.getByText('No Item to display');
   expect(text).toBeInTheDocument();
@@ -170,9 +179,12 @@ it('shows a default message if there is no product passed in', () => {
 
 it('renders the product category & title with correct id & name', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
   const category = screen.getByText(mockProduct.category);
   const name = screen.getByText(mockProduct.name);
@@ -184,9 +196,12 @@ it('renders the product category & title with correct id & name', () => {
 
 it('does not render a description div if a description is not avaiable', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProductNoDESC}
     currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
   const overView = screen.queryByText(mockProduct.description);
   expect(overView).not.toBeInTheDocument();
@@ -194,9 +209,12 @@ it('does not render a description div if a description is not avaiable', () => {
 
 it('renders description if it is available', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
   const overView = screen.getByText(mockProduct.description);
 
@@ -208,46 +226,64 @@ it('renders description if it is available', () => {
 
 it('renders a default style', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
   expect(screen.getByText(/Forest Green & Black/)).toBeInTheDocument();
 });
 
-// it('should render all available styles', () => {
-//   render(<ItemStyles
-//     productStyles={mockItemStyles}
-//     currentSelectedStyle={mockItemStyles.results[0]}
-//     handleClick={mockStyleOnClick}
-//   />);
-
-//   expect(screen.getByRole("list")).toHaveTextContent(/Lorem ipsum dolor sit amet/);
-// });
-it('should render the item price', () => {
+it('should render all available style sizes', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
+  />);
+  expect(screen.getByText(/XS/)).toBeInTheDocument();
+  expect(screen.getByText(/^S$/i)).toBeInTheDocument();
+  expect(screen.getByText(/M/)).toBeInTheDocument();
+  expect(screen.getByText(/^L$/i)).toBeInTheDocument();
+  expect(screen.getByText(/^XL$/i)).toBeInTheDocument();
+  expect(screen.getByText(/XXL/)).toBeInTheDocument();
+});
+it('should render the item price', () => {
+  render(<InfoPanel
+    productId={mockId}
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
   expect(screen.getByText(/140/)).toBeInTheDocument();
 });
 
 it('should render the item price if it is on sale', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[1]}
     handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
   expect(screen.getByText(/100/)).toBeInTheDocument();
 });
 
 it('should show stars and reviews if they are given', () => {
   render(<InfoPanel
+    productId={mockId}
     product={mockProduct}
-    currentStyle={mockItemStyles.results[1]}
+    currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
-    reviews={2.8}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
   />);
 
   expect(screen.getByLabelText(/Rating of this product is 2.3 out of 5./i)).toBeInTheDocument();
