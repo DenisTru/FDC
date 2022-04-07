@@ -2,9 +2,10 @@ import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
-import './styles/infoPanel.scss';
+import './styles/overview.scss';
 import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
+import ImageCarousel from './imageCarousel';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Overview extends React.Component {
       itemStock: '',
       quantityToPurchase: 0,
       itemSku: 0,
+      slideIndex: 1,
     };
   }
 
@@ -60,6 +62,10 @@ class Overview extends React.Component {
       });
   };
 
+  handleShowSlides = (n) => (e) => {
+
+  };
+
   render() {
     const {
       product, handleClick, currentStyle, reviewsStarAverage,
@@ -73,38 +79,38 @@ class Overview extends React.Component {
       category, name, slogan, description,
     } = product;
     return (
-      <div>
-        <div>
-          {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
-          {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
+      <div className="overview-container">
+        <div className="info-panel">
+          <div>
+            {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
+            {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
+          </div>
+          <div className="category-title">{category}</div>
+          <div className="name-title">{name}</div>
+          <div className="sale-price">
+            <div className="dollar">$</div>
+            {currentStyle.sale_price ? currentStyle.sale_price : ''}
+            {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
+          </div>
+          <ItemStyles
+            handleClick={handleClick}
+            currentSelectedStyle={currentStyle}
+            productStyles={productStyles}
+          />
+          <SizeSelector
+            currentSelectedStyle={currentStyle}
+            itemStock={itemStock}
+            quantityToPurchase={quantityToPurchase}
+            handleChangeSize={this.handleChangeSize}
+            handleChangeQuantity={this.handleChangeQuantity}
+          />
+          <button type="submit" onClick={this.handleCart}>
+            Add To Cart
+          </button>
+          <div className="product-slogan">{slogan || 's'}</div>
+          <div className="product-description">{description || 's'}</div>
         </div>
-        <div className="category-title">{category}</div>
-        <div className="name-title">{name}</div>
-        <div className="sale-price">
-          <div className="dollar">$</div>
-          {currentStyle.sale_price ? currentStyle.sale_price : ''}
-          {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
-        </div>
-        <ItemStyles
-          handleClick={handleClick}
-          currentSelectedStyle={currentStyle}
-          productStyles={productStyles}
-        />
-        <SizeSelector
-          currentSelectedStyle={currentStyle}
-          itemStock={itemStock}
-          quantityToPurchase={quantityToPurchase}
-          handleChangeSize={this.handleChangeSize}
-          handleChangeQuantity={this.handleChangeQuantity}
-        />
-        <button type="submit" onClick={this.handleCart}>
-          Add To Cart
-        </button>
-        <div className="item-description-container">
-          <div className="product-slogan">{slogan || ''}</div>
-          <div className="product-description">{description || ''}</div>
-        </div>
-
+        <ImageCarousel className="image-carousel" />
       </div>
     );
   }

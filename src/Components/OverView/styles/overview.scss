@@ -50,3 +50,29 @@ font-family:$font-FamilySans;
   color: rgb(65,65,65);
   font-family: $font-FamilySans
 }
+
+.overview-container {  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "image-carousel-container info-panel";
+}
+
+.info-panel { grid-area: info-panel; }
+
+.image-carousel-container {  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1.2fr 0.8fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". image-carousel ."
+    ". product-info-container product-info-container";
+  grid-area: image-carousel-container;
+}
+
+.product-info-container { grid-area: product-info-container; }
+
+.image-carousel { grid-area: image-carousel; }
