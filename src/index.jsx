@@ -413,9 +413,9 @@ class App extends React.Component {
 
   componentDidMount() {
     const {
-    //   reviewsPage,
-    //   reviewsCount,
-    //   reviewsSort,
+      reviewsPage,
+      reviewsCount,
+      reviewsSort,
       productId,
     } = this.state;
 
@@ -437,26 +437,24 @@ class App extends React.Component {
           });
       })
       .catch();
+    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      this.setState({ reviews: data, isLoading: false });
+    });
+    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      return data;
+    }).then((reviewsData) => {
+      getMetaReviews(productId).then((meta) => {
+        const { ratings, recommended, characteristics } = meta.data;
 
-    // getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
-    //   let { data } = res;
-    //   data = data.results;
-    //   this.setState({ reviews: data, isLoading: false });
-    // });
-    // getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
-    //   let { data } = res;
-    //   data = data.results;
-    //   return data;
-    // }).then((reviewsData) => {
-    //   getMetaReviews(productId).then((meta) => {
-
-    //     const { ratings, recommended, characteristics } = meta.data;
-
-    //     let { reviewsMeta } = this.state;
-    //     reviewsMeta = { characteristics, recommended, ratings };
-    //     this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
-    //   });
-    // });
+        let { reviewsMeta } = this.state;
+        reviewsMeta = { characteristics, recommended, ratings };
+        this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
+      });
+    });
   }
 
   styleOnClick = (selectedProduct) => {
@@ -528,6 +526,11 @@ class App extends React.Component {
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
       return (
+        <div>App is Loading</div>
+      );
+    }
+    return (
+      <div>
         <Overview
           productId={productId}
           product={product}
@@ -536,13 +539,6 @@ class App extends React.Component {
           productStyles={productStyles}
           reviewsStarAverage={reviewsStarAverage}
         />
-      );
-      // return (
-      //   <div>App is Loading</div>
-      // );
-    }
-    return (
-      <div>
         <RelatedList />
         <CompareList />
         <RatingReviews
