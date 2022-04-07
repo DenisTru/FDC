@@ -12,11 +12,14 @@ class InfoPanel extends React.Component {
     this.state = {
       itemStock: '',
       quantityToPurchase: 0,
+      itemSku: 0,
     };
   }
 
   handleChangeSize = (e) => {
-    this.setState({ itemStock: Number(e.target.value) });
+    const sku = $(`option[value="${e.target.value}"]`).attr('sku');
+
+    this.setState({ itemStock: Number(e.target.value), itemSku: sku });
   };
 
   handleChangeQuantity = (e) => {
@@ -73,6 +76,9 @@ class InfoPanel extends React.Component {
           handleChangeSize={this.handleChangeSize}
           handleChangeQuantity={this.handleChangeQuantity}
         />
+        <button>
+          Add To Cart
+        </button>
         {/* <div className="product-description">{description}</div> */}
       </div>
     );

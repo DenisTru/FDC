@@ -22,13 +22,14 @@ function SizeSelector({
       <div className="custom-select">
         <select onChange={(e) => handleChangeSize(e)}>
           <option selected disabled>Select Size</option>
-          {Object.entries(currentSelectedStyle.skus).map((itemStock) => {
-            if (itemStock[1].quantity > 0) {
+          {Object.entries(currentSelectedStyle.skus).map((item) => {
+            if (item[1].quantity > 0) {
               return (
                 <option
-                  value={JSON.stringify(itemStock[1].quantity)}
+                  data-sku={item[0]}
+                  value={JSON.stringify(item[1].quantity)}
                 >
-                  {itemStock[1].size}
+                  {item[1].size}
                 </option>
               );
             }
