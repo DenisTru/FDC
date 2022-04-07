@@ -7,6 +7,8 @@ function SizeSelector({
 }) {
   const skuOptions = Object.entries(currentSelectedStyle.skus);
   const sumStock = skuOptions.reduce((prev, current) => prev + current[1].quantity, 0);
+  const currentStock = Array.from(Array(itemStock).keys());
+
   if (sumStock <= 0) {
     return (
       <div className="selectSize-container">
@@ -40,13 +42,11 @@ function SizeSelector({
       </div>
       <div className="custom-select">
         <select defaultValue={itemStock ? 'ONE' : 'DEFAULT'} onChange={(e) => handleChangeQuantity(e)} disabled={!itemStock}>
-          <option value="DEFAULT" disabled>-</option>
-          <option selected={itemStock} value="ONE">1</option>
-          {Array.from(Array(Number(itemStock)), (e, i) => {
-            if (i < 14) {
-              return <option key={i + 2}>{i + 2}</option>;
-            }
-          })}
+          <option key="default-7" value={itemStock ? 'ONE' : 'DEFAULT'} disabled={itemStock ? 'ONE' : 'DEFAULT'}>-</option>
+          {
+            currentStock.filter((quantity) => quantity < 15)
+              .map((quantity) => <option key={quantity + 1}>{quantity + 1}</option>)
+          }
         </select>
       </div>
     </div>
