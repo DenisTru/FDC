@@ -8,7 +8,7 @@ const compareCards = () => (
   <div id="compare-slider">
     {slides.map((slide) => (
       <div className="slider-cards" key={JSON.stringify(slide)}>
-        <div id="image">
+        <div id="image-container">
           Image
         </div>
         <CompareCardButton />

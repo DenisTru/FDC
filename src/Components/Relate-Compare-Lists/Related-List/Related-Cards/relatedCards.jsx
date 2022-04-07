@@ -4,47 +4,22 @@ import RelatedCardButton from './relatedCardButton';
 import RelatedCardPrice from './relatedCardPrice';
 import RelatedCardImage from './relatedCardImage';
 
-const slides = [1, 2, 3, 4, 5, 6, 7, 8];
-
-export default function relatedCards({ relatedProducts }) {
-  console.log('in the related Cards ', relatedProducts);
-  if (relatedProducts.length) {
-    // console.log('made it ');
-    return (
-      <div id="related-slider">
-        {relatedProducts.map((slide) => (
-          <div className="slider-cards" key={JSON.stringify(slide)}>
-            <RelatedCardImage />
-            <RelatedCardButton />
-            <div id="productCategory">
-              Product Category
-            </div>
-            <div id="productName">
-              Product Name
-            </div>
-            <RelatedCardPrice />
-            <div id="productStarRating">
-              Product Star Rating
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-  // console.log('length ', relatedProducts.length);
+export default function relatedCards({ relatedProducts, relatedProductStyles }) {
+  // console.log('relatedProducts ', relatedProducts);
+  // console.log('relatedProductStyles ', relatedProductStyles);
   return (
     <div id="related-slider">
-      {slides.map((slide) => (
-        <div className="slider-cards" key={JSON.stringify(slide)}>
-          <RelatedCardImage />
+      {relatedProducts.map((product, index) => (
+        <div className="slider-cards" key={JSON.stringify(product)}>
+          <RelatedCardImage styles={relatedProductStyles[index]} />
           <RelatedCardButton />
           <div id="productCategory">
-            Product Category
+            {product.category}
           </div>
           <div id="productName">
-            Product Name
+            {product.name}
           </div>
-          <RelatedCardPrice />
+          <RelatedCardPrice styles={relatedProductStyles[index]} />
           <div id="productStarRating">
             Product Star Rating
           </div>

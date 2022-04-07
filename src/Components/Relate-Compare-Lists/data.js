@@ -25,4 +25,16 @@ const getRelatedProductInfo = function getRelatedProductInfo(productId) {
   return axios(options);
 };
 
-module.exports = { getRelatedProductIds, getRelatedProductInfo };
+const getRelatedProductStyles = function getRelatedProductStyles(productId) {
+  const options = {
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}/styles`,
+    headers: {
+      Authorization: config.TOKEN,
+    },
+    method: 'get',
+  };
+
+  return axios(options);
+};
+
+module.exports = { getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles };
