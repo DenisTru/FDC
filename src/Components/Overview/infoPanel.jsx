@@ -26,6 +26,35 @@ class InfoPanel extends React.Component {
     this.setState({ quantityToPurchase: e.target.value });
   };
 
+  handleCart = (e) => {
+    e.preventDefault();
+    const promises = [];
+    const { quantityToPurchase, itemSku } = this.state;
+
+    function addCart(itemSku) {
+      return fetch('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sku_id: itemSku }),
+      });
+    }
+
+    for (let i = 0; i < quantityToPurchase; i += 1) {
+      promises.push(addCart(itemSku));
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        console.log('successfully posted all requests');
+      })
+      .catch(() => {
+        console.log('error with fetch requests');
+      });
+  };
+
   render() {
     const {
       product, handleClick, currentStyle, reviews = 2.5,
@@ -76,7 +105,7 @@ class InfoPanel extends React.Component {
           handleChangeSize={this.handleChangeSize}
           handleChangeQuantity={this.handleChangeQuantity}
         />
-        <button>
+        <button type="submit" onClick={this.handleCart}>
           Add To Cart
         </button>
         {/* <div className="product-description">{description}</div> */}
