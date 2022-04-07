@@ -1,56 +1,58 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import PropTypes from 'prop-types';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+import TextRating from './StaticStars';
 
-export default function RatingBreakdown({ ratings, recommended }) {
-  const recommendPercent = Number(recommended.true)
+export default function RatingBreakdown({ ratings, recommended, reviewsAverageRating }) {
+  let recommendPercent = Number(recommended.true)
     / (Number(recommended.true) + Number(recommended.false));
-  const sum = Object.entries(ratings).slice().reduce((res, x) => {
-    // eslint-disable-next-line no-param-reassign
-    res += Number(x[0]) * Number(x[1]);
-    return res;
-  }, 0);
+  recommendPercent = `${(recommendPercent * 100).toFixed(0)}%`;
   const count = Object.entries(ratings).slice().reduce((res, x) => {
     // eslint-disable-next-line no-param-reassign
     res += Number(x[1]);
     return res;
   }, 0);
-  const ratingValue = sum / count;
+  const starRange = ['5', '4', '3', '2', '1'];
 
   return (
-    <div>
-      <div>
-        ratingValue:
-        {ratingValue}
+    <div style={{ width: '80%' }}>
+      <div style={{ marginBottom: '20px' }}>Ratings And Reviews</div>
+      <div style={{ marginBottom: '10px', display: 'flex' }}>
+        <div style={{ fontSize: '2rem', paddingRight: '10px' }}>
+          {reviewsAverageRating}
+        </div>
+        <TextRating ratingValue={reviewsAverageRating} />
       </div>
-      <div>
-        {recommendPercent}
+      <div style={{ marginBottom: '10px' }}>
+        {`${recommendPercent} `}
         of reviews recommend this product
       </div>
       <div>
         <div>
-          5 stars
-          {Number(ratings['5']) / count}
+          {
+            starRange.map((range) => (
+              <div key={range} style={{ width: '60%' }}>
+                <Box>
+                  {`${range} `}
+                  stars
+                  <LinearProgress
+                    sx={{ height: '15px' }}
+                    thickness={4}
+                    variant="determinate"
+                    color="inherit"
+                    value={(!Number.isNaN(Number(ratings[range]))
+                      / count ? Number(ratings[range]) / count : 0) * 100}
+                  />
+                </Box>
+              </div>
+            ))
+          }
         </div>
-        <div>
-          4 stars
-          {Number(ratings['4']) / count}
-        </div>
-        <div>
-          3 stars
-          {Number(ratings['3']) / count}
-        </div>
-        <div>
-          2 stars
-          {Number(ratings['2']) / count}
-        </div>
-        <div>
-          1 stars
-          {!Number.isNaN(Number(ratings['1'])) / count ? Number(ratings['1']) / count : 0}
-        </div>
-        <br />
-        <br />
       </div>
-
+      <br />
+      <br />
     </div>
   );
 }
@@ -67,6 +69,7 @@ RatingBreakdown.propTypes = {
     false: PropTypes.string,
     true: PropTypes.string,
   }),
+  reviewsAverageRating: PropTypes.number.isRequired,
 };
 
 RatingBreakdown.defaultProps = {
