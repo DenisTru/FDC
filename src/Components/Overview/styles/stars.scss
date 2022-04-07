@@ -7,7 +7,7 @@
 
 .Stars {
   padding-left: 2.5px;
-  --percent: calc(var(--rating) / 5 * 100%);
+  --percent: calc(var(--rating) / 15.5 * 300%);
   display: inline-block;
   font-size: var(--star-size);
   font-family: Times; // make sure ★ appears correctly

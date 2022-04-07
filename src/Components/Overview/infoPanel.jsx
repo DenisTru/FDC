@@ -7,15 +7,15 @@ import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
 
 function InfoPanel({
-  product, handleClick, currentStyle, reviews = 2.8,
+  product, handleClick, currentStyle, reviews = 2.5,
   productStyles,
 }) {
   if ($.isEmptyObject(product)) {
     return 'No Item to display';
   }
   const { category, name, description } = product;
-  if (!product.description
-    || product.description === '') {
+  if (!description
+    || description === '') {
     return (
       <div>
         <div className="category-title">{category}</div>
