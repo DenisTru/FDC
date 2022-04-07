@@ -3,43 +3,114 @@
   display: flex;
   align-items: center;
   width: 90%;
-  height: 210px;
-}
-
-.slider {
-  width: 100%;
-  height: 100%;
-  white-space: nowrap;
-  overflow-x: scroll;
-}
-
-.slider-cards {
-  width: 275px;
-  height: 90%;
-  background: red;
-  border-radius: 10px;
-  display: inline-block;
-  margin-left: 5px;
-  margin-right: 5px;
+  height: 315px;
 }
 
 .arrow-button-left {
-  background-color: rgba(255, 255, 255);
-  border-radius: 100%;
   position: absolute;
   left: 0;
+  background: white;
+  border-radius: 100%;
   opacity: .2;
 }
 
 .arrow-button-right {
-  background-color: rgba(255, 255, 255);
-  border-radius: 100%;
   position: absolute;
   right: 0;
+  background: white;
+  border-radius: 100%;
   opacity: .2;
 }
 
 .arrow-button-right:hover,
 .arrow-button-left:hover {
   opacity: 1;
+}
+
+#related-slider,
+#compare-slider {
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+#related-slider::-webkit-scrollbar {
+  display: none;
+}
+
+#compare-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-cards {
+  position: relative;
+  width: 230px;
+  height: 300px;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-style: solid;
+}
+
+#image-container {
+  position: relative;
+  width: 230px;
+  height: 75%;
+}
+
+#image {
+  width: 100%;
+  height: 100%
+}
+
+#related-card-button {
+  margin: 5px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  background: white;
+  border-radius: 100%;
+  opacity: .5;
+}
+
+#compare-card-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
+}
+
+#productCategory {
+  margin-left: 5px;
+}
+
+#productName {
+  margin-left: 5px;
+}
+
+#productPrice {
+  font-size: 13px;
+  margin-left: 5px;
+}
+
+#salePrice {
+  color: red;
+  display: inline-block;
+  font-size: 13px;
+  margin-left: 5px;
+}
+
+#oldPrice {
+  text-decoration: line-through;
+  display: inline-block;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+#productStarRating {
+  margin-left: 5px;
 }

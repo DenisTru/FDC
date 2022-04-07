@@ -7,8 +7,8 @@ import getReviews from './Components/RatingAndReviews/data.js';
 import Overview from './Components/Overview/Overview';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
 import helpPut from './Components/RatingAndReviews/helpPut';
-import CompareList from './Components/Relate-Compare-Lists/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/relatedList';
+import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
+import RelatedList from './Components/Relate-Compare-Lists/Related-List/RelatedList';
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
 const root = createRoot(document.getElementById('root'));
@@ -524,7 +524,6 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       reviews = data;
-      // console.log('@@@', reviews);
       return reviews;
     }).then((newReviews) => {
       getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
@@ -566,7 +565,9 @@ class App extends React.Component {
           productStyles={productStyles}
           reviewsAverageRating={reviewsAverageRating}
         />
-        <RelatedList />
+        <RelatedList
+          productId={productId}
+        />
         <CompareList />
         <RatingReviews
           characteristics={characteristics}
@@ -580,7 +581,7 @@ class App extends React.Component {
           onFieldChange={this.onFieldChange}
           reviewsAverageRating={reviewsAverageRating}
         />
-      </div>
+      </div >
     );
   }
 }

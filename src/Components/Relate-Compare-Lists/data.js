@@ -1,21 +1,40 @@
 const axios = require('axios');
-//const config = require('../../../config');
+const config = require('../../../config');
 
-// const options = {
-//   url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products',
-//   headers: {
-//     Authorization: config.TOKEN,
-//   },
-//   method: 'get',
-// };
+const getRelatedProductIds = function getRelatedProductIds(productId) {
+  const options = {
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}/related`,
+    headers: {
+      Authorization: config.TOKEN,
+    },
+    method: 'get',
+  };
 
-// // function getData(res) {
-// //   const data = res;
-// //   return data;
-// // }
+  return axios(options);
+};
 
-// const getData = function getData() {
-//   return axios(options);
-// };
+const getRelatedProductInfo = function getRelatedProductInfo(productId) {
+  const options = {
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
+    headers: {
+      Authorization: config.TOKEN,
+    },
+    method: 'get',
+  };
 
-// module.exports = getData;
+  return axios(options);
+};
+
+const getRelatedProductStyles = function getRelatedProductStyles(productId) {
+  const options = {
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}/styles`,
+    headers: {
+      Authorization: config.TOKEN,
+    },
+    method: 'get',
+  };
+
+  return axios(options);
+};
+
+module.exports = { getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles };
