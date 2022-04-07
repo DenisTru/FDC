@@ -1,9 +1,6 @@
 import React from 'react';
 import '../../relateCompareLists.scss';
 
-// if product on sale, return this div info
-// else return different div info
-
 export default function relatedCardPrice({ styles }) {
   let originalPrice = 0;
   if (styles) {
@@ -19,9 +16,6 @@ export default function relatedCardPrice({ styles }) {
     }
   }
   return (
-    <div>
-      <div id="salePrice">{`$${originalPrice}`}</div>
-      <div id="oldPrice">{`$${originalPrice}`}</div>
-    </div>
+    <div id="productPrice">{`$${originalPrice}`}</div>
   );
 }

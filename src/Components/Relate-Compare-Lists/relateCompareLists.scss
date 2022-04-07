@@ -67,6 +67,7 @@
 }
 
 #related-card-button {
+  margin: 5px;
   position: absolute;
   right: 0;
   top: 0;
@@ -83,14 +84,24 @@
   padding: 10px;
 }
 
-#productCategory {}
+#productCategory {
+  margin-left: 5px;
+}
 
-#productName {}
+#productName {
+  margin-left: 5px;
+}
+
+#productPrice {
+  font-size: 13px;
+  margin-left: 5px;
+}
 
 #salePrice {
   color: red;
   display: inline-block;
   font-size: 13px;
+  margin-left: 5px;
 }
 
 #oldPrice {
@@ -100,4 +111,6 @@
   margin-left: 10px;
 }
 
-#productStarRating {}
+#productStarRating {
+  margin-left: 5px;
+}
