@@ -1,7 +1,7 @@
 import React from 'react';
 import '../relateCompareLists.scss';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import RelatedCards from './relatedCards';
+import RelatedCards from './Related-Cards/relatedCards';
 
 const slideLeft = () => {
   const slider = document.getElementById('related-slider');

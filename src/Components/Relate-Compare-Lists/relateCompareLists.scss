@@ -56,11 +56,18 @@
   background: purple;
 }
 
-#favorite-star {
+#related-card-button {
   position: absolute;
-  background: blue;
   right: 0;
   top: 0;
+  padding: 10px;
+}
+
+#compare-card-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
 }
 
 #productCategory {
