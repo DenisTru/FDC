@@ -7,6 +7,9 @@ import CheckIcon from '@mui/icons-material/Check';
 import reviewPropTypes from './reviewPropTypes';
 import TextRating from './StaticStars';
 
+const axios = require('axios');
+const config = require('./config');
+
 export default function RatingReviewsList({ review, helpOnClick }) {
   const createdAt = review.date;
   const reviewerName = review.reviewer_name;
@@ -25,6 +28,22 @@ export default function RatingReviewsList({ review, helpOnClick }) {
     summary,
     photos,
   } = review;
+
+  const onNoClick = (reportId) => {
+    const options = function options() {
+      return {
+        url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews/${reportId}/report`,
+        headers: {
+          Authorization: config.TOKEN,
+        },
+        method: 'put',
+      };
+    };
+    options(reportId).params = {
+      review_id: reportId,
+    };
+    axios(options(reviewId)).then(() => console.log('success'));
+  };
 
   return (
     <div style={{ marginRight: '0' }}>
@@ -94,11 +113,14 @@ export default function RatingReviewsList({ review, helpOnClick }) {
           />
         </Box>
       </Modal>
-      <option onClick={() => helpOnClick(reviewId)}>
-        Helful?Yes(
-        {helpfulness}
-        )
-      </option>
+      <div style={{ display: 'flex' }}>
+        <option onClick={() => helpOnClick(reviewId)}>
+          Helful?Yes(
+          {helpfulness}
+          )
+        </option>
+        <option onClick={() => onNoClick(reviewId)}> | Report</option>
+      </div>
       <hr />
     </div>
   );

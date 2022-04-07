@@ -10,7 +10,7 @@ import ProductBreakdown from './ProductBreakdown';
 export default function RatingReviews({
   data, helpOnClick, reviewsNextPage, moreReviewsOnClick,
   onSortChange, characteristics, ratings, recommended,
-  onFieldChange, reviewsAverageRating,
+  onFieldChange, reviewsAverageRating, reviewsNew,
 }) {
   return (
     <div style={{
@@ -42,6 +42,7 @@ export default function RatingReviews({
           moreReviewsOnClick={moreReviewsOnClick}
           nextPageLength={reviewsNextPage.length}
           onFieldChange={onFieldChange}
+          reviewsNew={reviewsNew}
         />
       </div>
     </div>
@@ -90,6 +91,10 @@ RatingReviews.propTypes = {
   }),
   onFieldChange: PropTypes.func.isRequired,
   reviewsAverageRating: PropTypes.number.isRequired,
+  reviewsNew: PropTypes.shape({
+    summary: PropTypes.string,
+    body: PropTypes.string,
+  }),
 };
 RatingReviews.defaultProps = {
   ratings: {
@@ -97,4 +102,5 @@ RatingReviews.defaultProps = {
   },
   recommended: {},
   characteristics: {},
+  reviewsNew: {},
 };

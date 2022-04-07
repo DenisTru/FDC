@@ -44,7 +44,12 @@ export default function ReviewButtonsCharacteristics({ onFieldChange }) {
                     <FormControlLabel
                       key={value}
                       value={ind + 1}
-                      control={<Radio onChange={(e) => onFieldChange(e.target.value, id)} />}
+                      control={(
+                        <Radio
+                          required
+                          onChange={(e) => onFieldChange(e.target.value, id)}
+                        />
+                      )}
                       label={(
                         <Typography sx={{ fontSize: 14 }}>
                           {value}

@@ -39,7 +39,7 @@ class App extends React.Component {
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      // console.log(data);
+      // console.log(res);
       this.setState({ reviews: data, isLoading: false });
     });
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
@@ -61,7 +61,7 @@ class App extends React.Component {
           res += Number(x[1]);
           return res;
         }, 0);
-        const ratingValue = sum / count;
+        const ratingValue = Number((sum / count).toFixed(1));
         this.setState({
           reviewsMeta,
           reviewsNextPage: reviewsData,
@@ -116,7 +116,6 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       reviews = data;
-      // console.log('@@@', reviews);
       return reviews;
     }).then((newReviews) => {
       getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
@@ -139,7 +138,7 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      reviewsAverageRating,
+      reviewsAverageRating, reviewsNew,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -162,6 +161,7 @@ class App extends React.Component {
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
           reviewsAverageRating={reviewsAverageRating}
+          reviewsNew={reviewsNew}
         />
       </div>
     );

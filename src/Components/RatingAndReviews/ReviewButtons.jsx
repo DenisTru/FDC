@@ -10,7 +10,7 @@ import HoverRating from './StarsHoverRating';
 
 export default function ReviewButtons({
   nextPageLength, moreReviewsOnClick,
-  onFieldChange,
+  onFieldChange, reviewsNew,
 }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -58,40 +58,77 @@ export default function ReviewButtons({
               <form action="#">
                 <fieldset id="group1" onChange={(e) => { onFieldChange(e.target.value, 'recommend'); }}>
                   <label htmlFor="yes">
-                    <input type="radio" name="recommend" value="yes" />
+                    <input type="radio" name="recommend" value="yes" required />
                     yes
                   </label>
-
                   <label htmlFor="no">
                     <input type="radio" name="recommend" value="no" />
                     no
                   </label>
                 </fieldset>
+                <div>
+                  <ReviewButtonsCharacteristics onFieldChange={onFieldChange} />
+                </div>
+                <div>
+                  name
+                  <input
+                    maxLength="60"
+                    placeholder="Example: jackson11!"
+                    type="text"
+                    onChange={(e) => { onFieldChange(e.target.value, 'name'); }}
+                    required
+                  />
+                  <div>
+                    For privacy reasons, do not use your full name or email address
+                  </div>
+                </div>
+                <div>
+                  email
+                  <input
+                    required
+                    maxLength="60"
+                    placeholder="Example: jackson11@email.com"
+                    type="email"
+                    onChange={(e) => { onFieldChange(e.target.value, 'email'); }}
+                  />
+                  <div>
+                    For authentication reasons, you will not be emailed
+                  </div>
+                </div>
+                <div>
+                  Review Summary
+                  <input
+                    maxLength="60"
+                    placeholder="Best purchase ever!"
+                    type="text"
+                    onChange={(e) => { onFieldChange(e.target.value, 'summary'); }}
+                  />
+                </div>
+                <div>
+                  Review Body
+                  <input
+                    required
+                    maxLength="1000"
+                    minLength="50"
+                    placeholder="Why did you like the product or not?"
+                    type="text"
+                    onChange={(e) => { onFieldChange(e.target.value, 'body'); }}
+                  />
+                  {reviewsNew.body && reviewsNew.body.length > 50
+                    ? <div>Minimum reached</div>
+                    : (
+                      <div>
+                        Minimum required characters left:
+                        {reviewsNew.body ? (50 - reviewsNew.body.length) : 50}
+                      </div>
+                    )}
+                </div>
+                <div>
+                  Upload your photo
+                  <ReviewButtonsPhoto />
+                </div>
+                <input type="submit" />
               </form>
-              <div>
-                <ReviewButtonsCharacteristics onFieldChange={onFieldChange} />
-              </div>
-              <div>
-                name
-                <input type="text" onChange={(e) => { onFieldChange(e.target.value, 'name'); }} />
-              </div>
-              <div>
-                email
-                <input type="email" onChange={(e) => { onFieldChange(e.target.value, 'email'); }} />
-              </div>
-              <div>
-                Review Summary
-                <input placeholder="Best purchase ever!" type="text" onChange={(e) => { onFieldChange(e.target.value, 'summary'); }} />
-              </div>
-              <div>
-                Review Body
-                <input minLength="50" type="text" onChange={(e) => { onFieldChange(e.target.value, 'body'); }} />
-              </div>
-              <div>
-                Upload your photo
-                <ReviewButtonsPhoto />
-              </div>
-              <button type="button">Submit</button>
             </div>
           </DialogContent>
         </Dialog>

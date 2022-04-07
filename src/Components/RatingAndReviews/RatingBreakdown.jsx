@@ -25,6 +25,7 @@ export default function RatingBreakdown({ ratings, recommended, reviewsAverageRa
         </div>
         <TextRating ratingValue={reviewsAverageRating} />
       </div>
+      <div style={{ marginBottom: '20px' }}>Rating Breakdown</div>
       <div style={{ marginBottom: '10px' }}>
         {`${recommendPercent} `}
         of reviews recommend this product
