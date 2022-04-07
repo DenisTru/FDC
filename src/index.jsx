@@ -6,7 +6,7 @@ import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
 import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/Related-List/relatedList';
+import RelatedList from './Components/Relate-Compare-Lists/Related-List/RelatedList';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -108,7 +108,7 @@ class App extends React.Component {
 
   render() {
     const {
-      reviews, isLoading, reviewsNextPage, reviewsMeta,
+      reviews, isLoading, reviewsNextPage, reviewsMeta, productId,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -118,7 +118,9 @@ class App extends React.Component {
     }
     return (
       <div>
-        <RelatedList />
+        <RelatedList
+          productId={productId}
+        />
         <CompareList />
         <RatingReviews
           characteristics={characteristics}

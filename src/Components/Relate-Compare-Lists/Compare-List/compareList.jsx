@@ -15,7 +15,7 @@ const slideRight = () => {
 
 const compareList = () => (
   <div>
-    <p id="section-name">YOUR OUTFIT</p>
+    <p>YOUR OUTFIT</p>
     <div className="slider-container">
       <CompareCards />
       <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
