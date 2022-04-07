@@ -72,21 +72,6 @@ class Overview extends React.Component {
     const {
       category, name, slogan, description,
     } = product;
-    if (!description
-    || description === '') {
-      return (
-        <div>
-          <div className="category-title">{category}</div>
-          <div className="name-title">{name}</div>
-          <ItemStyles
-            handleClick={handleClick}
-            currentSelectedStyle={currentStyle}
-            productStyles={productStyles}
-          />
-          {/* <SizeSelector /> */}
-        </div>
-      );
-    }
     return (
       <div>
         <div>
