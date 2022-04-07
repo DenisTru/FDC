@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
-import InfoPanel from './Components/Overview/infoPanel.jsx';
+import Overview from './Components/Overview/Overview.jsx';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
 import CompareList from './Components/Relate-Compare-Lists/compareList';
 import RelatedList from './Components/Relate-Compare-Lists/relatedList';
@@ -528,7 +528,7 @@ class App extends React.Component {
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
       return (
-        <InfoPanel
+        <Overview
           productId={productId}
           product={product}
           currentStyle={currentSelectedStyle}

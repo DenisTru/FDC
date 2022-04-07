@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './styles/itemStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faGreaterThan } from '@fortawesome/free-solid-svg-icons';
 
 function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
   return (
-
     <div className="items-styles-body">
       <div className="style-title">
         <h3>Style</h3>
@@ -49,5 +49,45 @@ function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
     </div>
   );
 }
+
+ItemStyles.defaultProps = {
+
+};
+
+ItemStyles.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+  currentSelectedStyle: PropTypes.shape({
+    style_id: PropTypes.number,
+    name: PropTypes.string,
+    original_price: PropTypes.string,
+    sale_price: PropTypes.string,
+    'default?': PropTypes.bool,
+    photos: PropTypes.arrayOf(PropTypes.shape({ thumbnail_url: PropTypes.string })),
+    skus: PropTypes.objectOf(
+      PropTypes.shape({
+        quantity: PropTypes.number.isRequired,
+        size: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+  productStyles: PropTypes.arrayOf(PropTypes.shape({
+    style_id: PropTypes.number,
+    name: PropTypes.string,
+    original_price: PropTypes.string,
+    sale_price: PropTypes.string,
+    'default?': PropTypes.bool,
+    photos: PropTypes.arrayOf(PropTypes.shape({
+      thumbnail_url: PropTypes.string,
+      url: PropTypes.string,
+    })),
+    skus: PropTypes.objectOf(
+      PropTypes.shape({
+        quantity: PropTypes.number,
+        size: PropTypes.string,
+      }),
+    ),
+
+  })).isRequired,
+};
 
 export default ItemStyles;

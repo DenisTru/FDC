@@ -235,6 +235,7 @@ it('renders a default style', () => {
   />);
   expect(screen.getByText(/Forest Green & Black/)).toBeInTheDocument();
 });
+//how do we test to see all styles are there? there is no text?
 
 it('should render all available style sizes', () => {
   render(<InfoPanel
@@ -252,6 +253,7 @@ it('should render all available style sizes', () => {
   expect(screen.getByText(/^XL$/i)).toBeInTheDocument();
   expect(screen.getByText(/XXL/)).toBeInTheDocument();
 });
+
 it('should render the item price', () => {
   render(<InfoPanel
     productId={mockId}
@@ -288,3 +290,14 @@ it('should show stars and reviews if they are given', () => {
 
   expect(screen.getByLabelText(/Rating of this product is 2.3 out of 5./i)).toBeInTheDocument();
 });
+
+//size selector
+//test that dropdown contains all available sizes
+//test that dropdown shows only stocked items
+//test no stock shows OUT OF STOCK
+//test for 'select size' as default value? not necessary?
+
+//quantity selector
+//test to see if options higher then 15 are rendered. (pass in currentstyle with <15 and check for higher number)
+//test for default value '-' not necessary?
+
