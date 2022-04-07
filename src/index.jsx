@@ -404,7 +404,7 @@ class App extends React.Component {
       reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
-      reviewsAverageRating: 3.6,
+      reviewsAverageRating: 0,
       reviewsNew: {},
       productId: 66643,
       currentSelectedStyle: mockItemStyles[0],
