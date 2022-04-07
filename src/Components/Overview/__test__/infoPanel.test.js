@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import InfoPanel from '../infoPanel';
+import Overview from '../Overview';
 import ItemStyles from '../itemStyles';
 
 const mockProduct = {
@@ -156,7 +156,7 @@ const mockStyleOnClick = (selectedProduct) => {
 
 it('shows a default message if there is an empty object passed in', () => {
   // Your tests come here...
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={{}}
     currentStyle={mockItemStyles.results[0]}
@@ -171,14 +171,14 @@ it('shows a default message if there is an empty object passed in', () => {
 
 it('shows a default message if there is no product passed in', () => {
   // Your tests come here...
-  render(<InfoPanel />);
+  render(<Overview />);
   // find element
   const text = screen.getByText('No Item to display');
   expect(text).toBeInTheDocument();
 });
 
 it('renders the product category & title with correct id & name', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
@@ -195,7 +195,7 @@ it('renders the product category & title with correct id & name', () => {
 });
 
 it('does not render a description div if a description is not avaiable', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProductNoDESC}
     currentStyle={mockItemStyles.results[0]}
@@ -208,7 +208,7 @@ it('does not render a description div if a description is not avaiable', () => {
 });
 
 it('renders description if it is available', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
@@ -216,16 +216,16 @@ it('renders description if it is available', () => {
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
   />);
-  const overView = screen.getByText(mockProduct.description);
+  const description = screen.getByText(mockProduct.description);
 
   if (mockProduct.overview) {
-    expect(overView).toBeInTheDocument();
-    expect(overView).toHaveTextContent(mockProduct.description);
+    expect(description).toBeInTheDocument();
+    expect(description).toHaveTextContent(mockProduct.description);
   }
 });
 
 it('renders a default style', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
@@ -238,7 +238,7 @@ it('renders a default style', () => {
 //how do we test to see all styles are there? there is no text?
 
 it('should render all available style sizes', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
@@ -255,7 +255,7 @@ it('should render all available style sizes', () => {
 });
 
 it('should render the item price', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
@@ -267,7 +267,7 @@ it('should render the item price', () => {
 });
 
 it('should render the item price if it is on sale', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[1]}
@@ -279,7 +279,7 @@ it('should render the item price if it is on sale', () => {
 });
 
 it('should show stars and reviews if they are given', () => {
-  render(<InfoPanel
+  render(<Overview
     productId={mockId}
     product={mockProduct}
     currentStyle={mockItemStyles.results[0]}
