@@ -4,41 +4,114 @@ import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
 import './styles/infoPanel.scss';
 import StarRating from './starRating';
+import SizeSelector from './sizeSelector';
 
-function InfoPanel({
-  product, handleClick, currentStyle, reviews = 2.8,
-}) {
-  if ($.isEmptyObject(product)) {
-    return 'No Item to display';
+class InfoPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      itemStock: '',
+      quantityToPurchase: 0,
+      itemSku: 0,
+    };
   }
-  const { category, name, description } = product;
-  if (!product.description
-    || product.description === '') {
+
+  handleChangeSize = (e) => {
+    const sku = $(`option[value="${e.target.value}"]`).attr('sku');
+
+    this.setState({ itemStock: Number(e.target.value), itemSku: sku });
+  };
+
+  handleChangeQuantity = (e) => {
+    this.setState({ quantityToPurchase: e.target.value });
+  };
+
+  handleCart = (e) => {
+    e.preventDefault();
+    const promises = [];
+    const { quantityToPurchase, itemSku } = this.state;
+
+    function addCart(itemSku) {
+      return fetch('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sku_id: itemSku }),
+      });
+    }
+
+    for (let i = 0; i < quantityToPurchase; i += 1) {
+      promises.push(addCart(itemSku));
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        console.log('successfully posted all requests');
+      })
+      .catch(() => {
+        console.log('error with fetch requests');
+      });
+  };
+
+  render() {
+    const {
+      product, handleClick, currentStyle, reviews = 2.5,
+      productStyles,
+    } = this.props;
+    const { itemStock, quantityToPurchase } = this.state;
+    if ($.isEmptyObject(product)) {
+      return 'No Item to display';
+    }
+    const { category, name, description } = product;
+    if (!description
+    || description === '') {
+      return (
+        <div>
+          <div className="category-title">{category}</div>
+          <div className="name-title">{name}</div>
+          <ItemStyles
+            handleClick={handleClick}
+            currentSelectedStyle={currentStyle}
+            productStyles={productStyles}
+          />
+          <SizeSelector />
+        </div>
+      );
+    }
     return (
       <div>
+        <div>
+          {reviews ? <StarRating reviews={reviews} /> : ''}
+          {reviews ? <a className="read-reviews">Read all reviews</a> : ''}
+        </div>
         <div className="category-title">{category}</div>
         <div className="name-title">{name}</div>
-        <ItemStyles handleClick={handleClick} currentSelectedStyle={currentStyle} />
+        <div className="sale-price">
+          <div className="dollar">$</div>
+          {currentStyle.sale_price ? currentStyle.sale_price : ''}
+          {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
+        </div>
+        <ItemStyles
+          handleClick={handleClick}
+          currentSelectedStyle={currentStyle}
+          productStyles={productStyles}
+        />
+        <SizeSelector
+          currentSelectedStyle={currentStyle}
+          itemStock={itemStock}
+          quantityToPurchase={quantityToPurchase}
+          handleChangeSize={this.handleChangeSize}
+          handleChangeQuantity={this.handleChangeQuantity}
+        />
+        <button type="submit" onClick={this.handleCart}>
+          Add To Cart
+        </button>
+        {/* <div className="product-description">{description}</div> */}
       </div>
     );
   }
-  return (
-    <div>
-      <div>
-        {reviews ? <StarRating reviews={reviews} /> : ''}
-        {reviews ? <a className="read-reviews">Read all reviews</a> : ''}
-      </div>
-      <div className="category-title">{category}</div>
-      <div className="name-title">{name}</div>
-      <div className="sale-price">
-        <div className="dollar">$</div>
-        {currentStyle.sale_price ? currentStyle.sale_price : ''}
-        {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
-      </div>
-      <ItemStyles handleClick={handleClick} currentSelectedStyle={currentStyle} />
-      <div className="product-description">{description}</div>
-    </div>
-  );
 }
 
 InfoPanel.defaultProps = {
@@ -70,4 +143,5 @@ InfoPanel.propTypes = {
     ).isRequired,
   }).isRequired,
 };
+
 export default InfoPanel;
