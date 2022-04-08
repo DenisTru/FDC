@@ -7,12 +7,12 @@ import getReviews from './Components/RatingAndReviews/data.js';
 import Overview from './Components/Overview/Overview';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
 import helpPut from './Components/RatingAndReviews/helpPut';
-import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/Related-List/RelatedList';
+import OutfitList from './Components/RelateCompareOutfitLists/Outfit-List/outfitList';
+import RelatedList from './Components/RelateCompareOutfitLists/Related-List/RelatedList';
 import { getProductStyles } from './Components/Overview/data';
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
-} from './Components/Relate-Compare-Lists/data';
+} from './Components/RelateCompareOutfitLists/data';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -654,7 +654,7 @@ class App extends React.Component {
       reviewsAverageRating,
       currentSelectedStyle, productId, productStyles, product,
       relatedProducts, relatedProductStyles, relatedProductRatings,
-      outfitProducts, outfitProductIDs,
+      outfitProducts,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -681,9 +681,8 @@ class App extends React.Component {
           relatedProductStyles={relatedProductStyles}
           relatedProductRatings={relatedProductRatings}
         />
-        <CompareList
+        <OutfitList
           outfitProducts={outfitProducts}
-          outfitProductIDs={outfitProductIDs}
           addToOutfit={this.addToOutfit}
           removeFromOutfit={this.removeFromOutfit}
         />
