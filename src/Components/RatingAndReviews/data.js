@@ -1,18 +1,10 @@
 const axios = require('axios');
-<<<<<<< HEAD
-const config = require('../../config');
-=======
 const config = require('./config');
->>>>>>> main
 
 const options = {
   url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews',
   headers: {
-<<<<<<< HEAD
-    Authorization: config.default.TOKEN,
-=======
     Authorization: config.TOKEN,
->>>>>>> main
   },
   method: 'get',
 };
