@@ -478,7 +478,6 @@ class App extends React.Component {
               currentShownImage: styles[0].photos[0].url,
             });
           });
-<<<<<<< HEAD
       });
 
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
@@ -499,10 +498,6 @@ class App extends React.Component {
         this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
       });
     });
-=======
-      })
-      .catch();
->>>>>>> main
   }
 
   styleOnClick = (selectedStyle) => {
@@ -580,13 +575,8 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-<<<<<<< HEAD
       currentSelectedStyle, productId,
       productStyles, product, reviewsStarAverage, currentShownImage, styleImages,
-=======
-      reviewsAverageRating,
-      currentSelectedStyle, productId, productStyles, product,
->>>>>>> main
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -602,13 +592,9 @@ class App extends React.Component {
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
           productStyles={productStyles}
-<<<<<<< HEAD
           reviewsStarAverage={reviewsStarAverage}
           currentShownImage={currentShownImage}
           styleImages={styleImages}
-=======
-          reviewsAverageRating={reviewsAverageRating}
->>>>>>> main
         />
         <RelatedList />
         <CompareList />
@@ -622,7 +608,7 @@ class App extends React.Component {
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
-          reviewsAverageRating={reviewsAverageRating}
+          reviewsAverageRating={reviewsStarAverage}
         />
       </div>
     );
