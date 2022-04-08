@@ -1,10 +1,10 @@
 import React from 'react';
 import '../../relateCompareLists.scss';
 
-export default function relatedCardImage({ styles }) {
+export default function relatedCardImage({ imageURL }) {
   let url = '';
-  if (styles) {
-    url = styles.results[0].photos[0].thumbnail_url;
+  if (imageURL) {
+    url = imageURL[0].thumbnail_url;
   }
   return (
     <div id="image-container">

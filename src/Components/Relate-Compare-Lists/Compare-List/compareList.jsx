@@ -13,7 +13,7 @@ const slideRight = () => {
   slider.scrollLeft += 235;
 };
 
-const compareList = () => (
+const compareList = ({ addToOutfit, removeFromOutfit }) => (
   <div>
     <p>YOUR OUTFIT</p>
     <div className="slider-container">

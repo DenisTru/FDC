@@ -9,7 +9,10 @@ import getMetaReviews from './Components/RatingAndReviews/metaData';
 import helpPut from './Components/RatingAndReviews/helpPut';
 import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
 import RelatedList from './Components/Relate-Compare-Lists/Related-List/RelatedList';
-import { getProduct, getProductStyles } from './Components/Overview/data';
+import { getProductStyles } from './Components/Overview/data';
+import {
+  getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
+} from './Components/Relate-Compare-Lists/data';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -410,6 +413,11 @@ class App extends React.Component {
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
+      relatedProducts: [],
+      relatedProductStyles: [],
+      relatedProductRatings: [],
+      outfitProducts: [],
+      outfitProductIDs: {},
     };
   }
 
@@ -455,16 +463,16 @@ class App extends React.Component {
         });
       });
     });
-    getProduct(productId)
+    getProductInfo(productId)
       .then((res) => {
-        const data = res.data[0];
+        const { data } = res;
         this.setState({
           product: data,
         });
-        return data;
+        return res.data.id;
       })
-      .then((data) => {
-        getProductStyles(data.id)
+      .then((id) => {
+        getProductStyles(id)
           .then((styleData) => {
             const styles = styleData.data.results;
             this.setState({
@@ -472,7 +480,64 @@ class App extends React.Component {
             });
           });
       })
-      .catch();
+      .then(() => {
+        // Get related product ID's of current product
+        getRelatedProductIds(productId)
+          .then((res) => {
+            const { data } = res;
+            return data;
+          })
+          .then((relatedProductIDs) => {
+            // Get related product information of current product
+            const products = relatedProductIDs.map(
+              (relatedProductID) => getRelatedProductInfo(relatedProductID),
+            );
+            Promise.all(products)
+              .then((result) => {
+                const productInfo = result.map((obj) => obj.data);
+                this.setState({
+                  relatedProducts: productInfo,
+                });
+              });
+            // Get related product styles of current product
+            const productStyles = relatedProductIDs.map(
+              (relatedProductID) => getRelatedProductStyles(relatedProductID),
+            );
+            Promise.all(productStyles)
+              .then((result) => {
+                const relatedProductStyles = result.map((obj) => obj.data.results);
+                this.setState({
+                  relatedProductStyles,
+                });
+              });
+            // Get related product ratings of current product
+            const productRatings = relatedProductIDs.map(
+              (relatedProductID) => getMetaReviews(relatedProductID),
+            );
+            Promise.all(productRatings)
+              .then((result) => {
+                const relatedProductRatings = result.map((obj) => obj.data.ratings);
+                return relatedProductRatings;
+              })
+              .then((ratings) => {
+                const relatedProductRatings = ratings.map((obj) => {
+                  const keys = Object.keys(obj);
+                  const values = Object.values(obj);
+                  let sum = 0;
+                  for (let i = 0; i < keys.length; i += 1) {
+                    sum += keys[i] * values[i];
+                  }
+                  return sum / keys.length || 0;
+                });
+                this.setState({
+                  relatedProductRatings,
+                });
+              });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   styleOnClick = (selectedProduct) => {
@@ -543,11 +608,53 @@ class App extends React.Component {
     this.setState({ reviewsNew });
   };
 
+  // Related Compare List - Check if product is in outfit ---------------------------------------
+  productIsInOutfit = (productID) => {
+    const { outfitProductIDs } = this.state;
+    return (outfitProductIDs[productID]);
+  };
+
+  // Related Compare List - Handle 'add to outfit' click ---------------------------------------
+  addToOutfit = (productID) => {
+    if (!this.productIsInOutfit(productID)) {
+      const { product, outfitProducts, outfitProductIDs } = this.state;
+      const addsOutfit = outfitProducts;
+      addsOutfit.push(product);
+      const addsProductID = outfitProductIDs;
+      addsProductID[productID] = productID;
+      this.setState({
+        outfitProducts: addsOutfit,
+        outfitProductIDs: addsProductID,
+      });
+    }
+  };
+
+  // Related Compare List - Handle 'remove from outfit' click -------------------------------------
+  removeFromOutfit = (productID) => {
+    const { outfitProducts, outfitProductIDs } = this.state;
+    const removesProductID = outfitProductIDs;
+    delete removesProductID[productID];
+    const removesProduct = outfitProducts;
+    for (let i = 0; i < removesProduct.length; i += 1) {
+      const product = removesProduct[i];
+      if (product.id === productID) {
+        removesProduct.splice(i, 1);
+        break;
+      }
+    }
+    this.setState({
+      outfitProducts: removesProduct,
+      outfitProductIDs: removesProductID,
+    });
+  };
+
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
       reviewsAverageRating,
       currentSelectedStyle, productId, productStyles, product,
+      relatedProducts, relatedProductStyles, relatedProductRatings,
+      outfitProducts, outfitProductIDs,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -566,9 +673,20 @@ class App extends React.Component {
           reviewsAverageRating={reviewsAverageRating}
         />
         <RelatedList
-          productId={productId}
+          product={product}
+          currentSelectedStyle={currentSelectedStyle}
+          productStyles={productStyles}
+          reviewsAverageRating={reviewsAverageRating}
+          relatedProducts={relatedProducts}
+          relatedProductStyles={relatedProductStyles}
+          relatedProductRatings={relatedProductRatings}
         />
-        <CompareList />
+        <CompareList
+          outfitProducts={outfitProducts}
+          outfitProductIDs={outfitProductIDs}
+          addToOutfit={this.addToOutfit}
+          removeFromOutfit={this.removeFromOutfit}
+        />
         <RatingReviews
           characteristics={characteristics}
           ratings={ratings}
@@ -581,7 +699,7 @@ class App extends React.Component {
           onFieldChange={this.onFieldChange}
           reviewsAverageRating={reviewsAverageRating}
         />
-      </div >
+      </div>
     );
   }
 }
