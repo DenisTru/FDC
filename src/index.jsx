@@ -12,6 +12,8 @@ import { getProduct, getProductStyles } from './Components/Overview/data';
 
 const root = createRoot(document.getElementById('root'));
 
+// the mock items will carry intial state of product, and itemstyles
+// however these will be re-rendered out by componentdidmount() to the selected product/style
 const mockProduct = {
   id: 66642,
   campus: 'hr-rfc',
@@ -419,7 +421,6 @@ class App extends React.Component {
       reviewsCount,
       reviewsSort,
       productId,
-      currentShownImage,
     } = this.state;
 
     getProduct(productId)
@@ -436,13 +437,12 @@ class App extends React.Component {
             const styles = styleData.data.results;
             this.setState({
               productStyles: styles,
+              currentSelectedStyle: styles[0],
+              styleImages: styles[0].photos,
               currentShownImage: styles[0].photos[0].url,
             });
           });
-      })
-      .catch();
-
-
+      });
 
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
@@ -470,7 +470,7 @@ class App extends React.Component {
     }, () => this.setState({
       styleImages: selectedStyle.photos,
       currentShownImage: selectedStyle.photos[0].url,
-    },()=> console.log(this.state.styleImages)));
+    }));
   };
 
   // Reviews And Ratings click on help button
@@ -531,7 +531,8 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      currentSelectedStyle, productId, productStyles, product, reviewsStarAverage,currentShownImage,
+      currentSelectedStyle, productId,
+      productStyles, product, reviewsStarAverage, currentShownImage, styleImages,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -549,6 +550,7 @@ class App extends React.Component {
           productStyles={productStyles}
           reviewsStarAverage={reviewsStarAverage}
           currentShownImage={currentShownImage}
+          styleImages={styleImages}
         />
         <RelatedList />
         <CompareList />

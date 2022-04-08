@@ -143,6 +143,65 @@ const mockItemStyles = {
         },
       },
     },
+    {
+      style_id: 4115329,
+      name: 'Dark Grey & Black',
+      original_price: '170.00',
+      sale_price: '100.00',
+      'default?': false,
+      photos: [
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1514866726862-0f081731e63f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1514866726862-0f081731e63f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1519689373023-dd07c7988603?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1519689373023-dd07c7988603?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1506932248762-69d978912b80?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1506932248762-69d978912b80?ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1535639818669-c059d2f038e6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1535639818669-c059d2f038e6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1498098662025-04e60a212db4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1498098662025-04e60a212db4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
+        },
+        {
+          thumbnail_url: 'https://images.unsplash.com/photo-1421941027568-40ab08ee5592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80',
+          url: 'https://images.unsplash.com/photo-1421941027568-40ab08ee5592?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1651&q=80',
+        },
+      ],
+      skus: {
+        2390387: {
+          quantity: 0,
+          size: 'XS',
+        },
+        2390388: {
+          quantity: 0,
+          size: 'S',
+        },
+        2390389: {
+          quantity: 0,
+          size: 'M',
+        },
+        2390390: {
+          quantity: 0,
+          size: 'L',
+        },
+        2390391: {
+          quantity: 0,
+          size: 'XL',
+        },
+        2390392: {
+          quantity: 0,
+          size: 'XXL',
+        },
+      },
+    },
   ],
 
 };
@@ -163,15 +222,9 @@ it('shows a default message if there is an empty object passed in', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
-  // find element
-  const text = screen.getByText('No Item to display');
-  expect(text).toBeInTheDocument();
-});
-
-it('shows a default message if there is no product passed in', () => {
-  // Your tests come here...
-  render(<Overview />);
   // find element
   const text = screen.getByText('No Item to display');
   expect(text).toBeInTheDocument();
@@ -185,6 +238,8 @@ it('renders the product category & title with correct id & name', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   const category = screen.getByText(mockProduct.category);
   const name = screen.getByText(mockProduct.name);
@@ -202,6 +257,8 @@ it('does not render a description div if a description is not avaiable', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   const overView = screen.queryByText(mockProduct.description);
   expect(overView).not.toBeInTheDocument();
@@ -215,6 +272,8 @@ it('renders description if it is available', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   const description = screen.getByText(mockProduct.description);
 
@@ -232,10 +291,12 @@ it('renders a default style', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   expect(screen.getByText(/Forest Green & Black/)).toBeInTheDocument();
 });
-//how do we test to see all styles are there? there is no text?
+// how do we test to see all styles are there? there is no text?
 
 it('should render all available style sizes', () => {
   render(<Overview
@@ -245,13 +306,44 @@ it('should render all available style sizes', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   expect(screen.getByText(/XS/)).toBeInTheDocument();
   expect(screen.getByText(/^S$/i)).toBeInTheDocument();
-  expect(screen.getByText(/M/)).toBeInTheDocument();
+  expect(screen.getByText(/^M$/i)).toBeInTheDocument();
   expect(screen.getByText(/^L$/i)).toBeInTheDocument();
   expect(screen.getByText(/^XL$/i)).toBeInTheDocument();
   expect(screen.getByText(/XXL/)).toBeInTheDocument();
+});
+
+it('should not render stock above 15 intially', () => {
+  render(<Overview
+    productId={mockId}
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
+  />);
+  expect(screen.queryByText(/16/)).not.toBeInTheDocument();
+});
+
+it('should show Out of Stock if no stock', () => {
+  render(<Overview
+    productId={mockId}
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[2]}
+    handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
+  />);
+
+  expect(screen.getByText(/^Out of Stock$/i)).toBeInTheDocument();
 });
 
 it('should render the item price', () => {
@@ -262,6 +354,8 @@ it('should render the item price', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   expect(screen.getByText(/140/)).toBeInTheDocument();
 });
@@ -270,10 +364,12 @@ it('should render the item price if it is on sale', () => {
   render(<Overview
     productId={mockId}
     product={mockProduct}
-    currentStyle={mockItemStyles.results[1]}
+    currentStyle={mockItemStyles.results[0]}
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
   expect(screen.getByText(/100/)).toBeInTheDocument();
 });
@@ -286,18 +382,9 @@ it('should show stars and reviews if they are given', () => {
     handleClick={mockStyleOnClick}
     productStyles={mockItemStyles.results}
     reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
   />);
 
   expect(screen.getByLabelText(/Rating of this product is 2.3 out of 5./i)).toBeInTheDocument();
 });
-
-//size selector
-//test that dropdown contains all available sizes
-//test that dropdown shows only stocked items
-//test no stock shows OUT OF STOCK
-//test for 'select size' as default value? not necessary?
-
-//quantity selector
-//test to see if options higher then 15 are rendered. (pass in currentstyle with <15 and check for higher number)
-//test for default value '-' not necessary?
-

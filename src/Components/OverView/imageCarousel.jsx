@@ -1,10 +1,11 @@
 import React from 'react';
 import './styles/imageCarousel.scss';
+import ImageGallery from 'react-image-gallery';
 
 function ImageCarousel(props) {
-  const { mainImage } = props;
+  const { styleImages } = props;
   return (
-    <img src={mainImage} alt="main image" />
+    <ImageGallery thumbnailPosition="left" items={styleImages} />
   );
 }
 

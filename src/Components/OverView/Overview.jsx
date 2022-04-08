@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import { BsCheck } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
 import './styles/overview.scss';
@@ -21,14 +22,12 @@ class Overview extends React.Component {
     const sku = $(`option[value="${e.target.value}"]`).attr('sku');
     this.setState(
       { itemStock: e.target.value, itemSku: sku },
-      () => console.log(this.state.itemStock),
     );
   };
 
   handleChangeQuantity = (e) => {
     this.setState(
       { quantityToPurchase: e.target.value },
-      () => console.log(this.state.quantityToPurchase),
     );
   };
 
@@ -61,16 +60,18 @@ class Overview extends React.Component {
       });
   };
 
-  handleShowSlides = (n) => (e) => {
-
-  };
-
   render() {
     const {
       product, handleClick, currentStyle, reviewsStarAverage,
-      productStyles,currentShownImage,
+      productStyles, styleImages,
     } = this.props;
     const { itemStock, quantityToPurchase } = this.state;
+
+    const formatedStyles = styleImages.map((style) => ({
+      original: style.url,
+      thumbnail: style.thumbnail_url,
+    }));
+
     if ($.isEmptyObject(product)) {
       return 'No Item to display';
     }
@@ -107,17 +108,26 @@ class Overview extends React.Component {
             Add To Cart
           </button>
         </div>
-        <div
-          className="image-carousel"
-        >
-          <ImageCarousel mainImage={currentShownImage} />
-        </div>
+        <ImageCarousel styleImages={formatedStyles} />
         <div className="product-info-container">
           <div className="body">
             <div className="product-slogan">{slogan || 's'}</div>
             <div className="product-description">{description || 's'}</div>
           </div>
-
+        </div>
+        <div className="gmo-free">
+          <p>
+            <BsCheck size={20} />
+            GMO and Pesticide-free
+          </p>
+          <p>
+            <BsCheck size={20} />
+            Made with 100% Genetic Modification
+          </p>
+          <p>
+            <BsCheck size={20} />
+            Good Stuff
+          </p>
         </div>
       </div>
     );
@@ -170,9 +180,12 @@ Overview.propTypes = {
         size: PropTypes.string,
       }),
     ),
-
   })).isRequired,
   reviewsStarAverage: PropTypes.number,
+  styleImages: PropTypes.arrayOf(PropTypes.shape({
+    thumbnail_url: PropTypes.string,
+    url: PropTypes.string,
+  })).isRequired,
 };
 
 export default Overview;

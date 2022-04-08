@@ -49,41 +49,46 @@ font-family:$font-FamilySans;
 .product-description{
   color: rgb(65,65,65);
   font-family: $font-FamilySans;
-  text-align: center;
+  text-align: left;
 }
 
 .product-slogan{
   color: rgb(65,65,65);
   font-family: $font-FamilySans;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
+  padding-top: 20px;
 }
-
 .overview-container {  display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
-  grid-template-rows: 1.6fr 0.4fr;
+  grid-template-columns: 0.4fr 1.6fr 1fr;
+  grid-template-rows: 1.4fr 0.6fr;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    "image-carousel info-panel"
-    "product-info-container .";
+    ". image-gallery info-panel"
+    ". product-info-container gmo-free";
 }
 
-.image-carousel {
-  grid-area: image-carousel;
-  background-color: rgb(230,230,230);
-  text-align: center;
-  height: 50vh;
+.info-panel {
+  padding-top: 15px;
+  padding-left: 20px;
+  grid-area: info-panel;
+ }
+
+.image-gallery { grid-area: image-gallery; }
+
+.product-info-container {
+  grid-area: product-info-container;
+}
+
+
+.gmo-free {
+  grid-area: gmo-free;
+  font-family: $font-FamilySans;
+  font-size: smaller;
 
 }
-.image-carousel img{
-  width: 100%; /* or any custom size */
-  height: 100%;
-  object-fit: contain;
+.gmo-free p {
+  color: rgba(106, 106, 106, 0.7);
+  font-weight: 600;
 }
-
-
-
-.info-panel { grid-area: info-panel; }
-
-.product-info-container { grid-area: product-info-container; }
