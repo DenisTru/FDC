@@ -13,6 +13,8 @@ import { getProduct, getProductStyles } from './Components/Overview/data';
 
 const root = createRoot(document.getElementById('root'));
 
+// the mock items will carry intial state of product, and itemstyles
+// however these will be re-rendered out by componentdidmount() to the selected product/style
 const mockProduct = {
   id: 66642,
   campus: 'hr-rfc',
@@ -410,6 +412,8 @@ class App extends React.Component {
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
+      styleImages: [],
+      currentShownImage: '',
     };
   }
 
@@ -469,16 +473,40 @@ class App extends React.Component {
             const styles = styleData.data.results;
             this.setState({
               productStyles: styles,
+              currentSelectedStyle: styles[0],
+              styleImages: styles[0].photos,
+              currentShownImage: styles[0].photos[0].url,
             });
           });
-      })
-      .catch();
+      });
+
+    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      this.setState({ reviews: data, isLoading: false });
+    });
+    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      return data;
+    }).then((reviewsData) => {
+      getMetaReviews(productId).then((meta) => {
+        const { ratings, recommended, characteristics } = meta.data;
+
+        let { reviewsMeta } = this.state;
+        reviewsMeta = { characteristics, recommended, ratings };
+        this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
+      });
+    });
   }
 
-  styleOnClick = (selectedProduct) => {
+  styleOnClick = (selectedStyle) => {
     this.setState({
-      currentSelectedStyle: selectedProduct,
-    });
+      currentSelectedStyle: selectedStyle,
+    }, () => this.setState({
+      styleImages: selectedStyle.photos,
+      currentShownImage: selectedStyle.photos[0].url,
+    }));
   };
 
   // Reviews And Ratings click on help button
@@ -546,8 +574,8 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      reviewsAverageRating,
-      currentSelectedStyle, productId, productStyles, product,
+      currentSelectedStyle, productId,
+      productStyles, product, reviewsStarAverage, currentShownImage, styleImages,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -563,7 +591,9 @@ class App extends React.Component {
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
           productStyles={productStyles}
-          reviewsAverageRating={reviewsAverageRating}
+          reviewsStarAverage={reviewsStarAverage}
+          currentShownImage={currentShownImage}
+          styleImages={styleImages}
         />
         <RelatedList
           productId={productId}
@@ -579,7 +609,7 @@ class App extends React.Component {
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
-          reviewsAverageRating={reviewsAverageRating}
+          reviewsAverageRating={reviewsStarAverage}
         />
       </div >
     );
