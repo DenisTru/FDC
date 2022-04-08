@@ -4,8 +4,9 @@ import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
-import Overview from './Components/Overview/Overview.jsx';
+import Overview from './Components/Overview/Overview';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
+import helpPut from './Components/RatingAndReviews/helpPut';
 import CompareList from './Components/Relate-Compare-Lists/compareList';
 import RelatedList from './Components/Relate-Compare-Lists/relatedList';
 import { getProduct, getProductStyles } from './Components/Overview/data';
@@ -405,8 +406,9 @@ class App extends React.Component {
       reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
-      reviewsStarAverage: 2.5,
-      productId: 66642,
+      reviewsAverageRating: 0,
+      reviewsNew: {},
+      productId: 66643,
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
@@ -423,6 +425,40 @@ class App extends React.Component {
       productId,
     } = this.state;
 
+    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      // console.log(data);
+      this.setState({ reviews: data, isLoading: false });
+    });
+    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      return data;
+    }).then((reviewsData) => {
+      getMetaReviews(productId).then((meta) => {
+        const { ratings, recommended, characteristics } = meta.data;
+        let { reviewsMeta } = this.state;
+        reviewsMeta = { characteristics, recommended, ratings };
+        const sum = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[0]) * Number(x[1]);
+          return res;
+        }, 0);
+        const count = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[1]);
+          return res;
+        }, 0);
+        const ratingValue = sum / count;
+        this.setState({
+          reviewsMeta,
+          reviewsNextPage: reviewsData,
+          isLoading: false,
+          reviewsAverageRating: ratingValue,
+        });
+      });
+    });
     getProduct(productId)
       .then((res) => {
         const data = res.data[0];
@@ -442,6 +478,7 @@ class App extends React.Component {
               currentShownImage: styles[0].photos[0].url,
             });
           });
+<<<<<<< HEAD
       });
 
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
@@ -462,6 +499,10 @@ class App extends React.Component {
         this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
       });
     });
+=======
+      })
+      .catch();
+>>>>>>> main
   }
 
   styleOnClick = (selectedStyle) => {
@@ -481,6 +522,7 @@ class App extends React.Component {
         reviews[i].helpfulness += 1;
       }
     }
+    helpPut(id);
     this.setState({ reviews });
   };
 
@@ -528,11 +570,23 @@ class App extends React.Component {
     });
   };
 
+  onFieldChange = (value, fieldName) => {
+    const { reviewsNew } = this.state;
+    reviewsNew[fieldName] = value;
+    // console.log(value, fieldName);
+    this.setState({ reviewsNew });
+  };
+
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
+<<<<<<< HEAD
       currentSelectedStyle, productId,
       productStyles, product, reviewsStarAverage, currentShownImage, styleImages,
+=======
+      reviewsAverageRating,
+      currentSelectedStyle, productId, productStyles, product,
+>>>>>>> main
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -548,9 +602,13 @@ class App extends React.Component {
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
           productStyles={productStyles}
+<<<<<<< HEAD
           reviewsStarAverage={reviewsStarAverage}
           currentShownImage={currentShownImage}
           styleImages={styleImages}
+=======
+          reviewsAverageRating={reviewsAverageRating}
+>>>>>>> main
         />
         <RelatedList />
         <CompareList />
@@ -563,6 +621,8 @@ class App extends React.Component {
           data={reviews}
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
+          onFieldChange={this.onFieldChange}
+          reviewsAverageRating={reviewsAverageRating}
         />
       </div>
     );
