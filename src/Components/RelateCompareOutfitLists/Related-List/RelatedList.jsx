@@ -14,8 +14,8 @@ const slideRight = () => {
 };
 
 export default function relatedList({
-  currentSelectedStyle, reviewsAverageRating,
-  relatedProducts, relatedProductStyles, relatedProductRatings,
+  currentSelectedStyle, reviewsAverageRating, relatedProducts,
+  relatedProductStyles, relatedProductRatings, startComparing,
 }) {
   if (reviewsAverageRating) {
     return (
@@ -28,6 +28,7 @@ export default function relatedList({
             relatedProducts={relatedProducts}
             relatedProductStyles={relatedProductStyles}
             relatedProductRatings={relatedProductRatings}
+            startComparing={startComparing}
           />
           <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
           <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />

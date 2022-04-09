@@ -6,8 +6,8 @@ import RelatedCardImage from './relatedCardImage';
 import TextRating from '../../../RatingAndReviews/StaticStars';
 
 export default function relatedCards({
-  stylePhotos, relatedProducts,
-  relatedProductStyles, relatedProductRatings,
+  stylePhotos, relatedProducts, relatedProductStyles,
+  relatedProductRatings, startComparing,
 }) {
   if (stylePhotos && relatedProductStyles.length && relatedProductRatings.length) {
     return (
@@ -17,7 +17,9 @@ export default function relatedCards({
             <div id="image-container">
               <RelatedCardImage imageURL={relatedProductStyles[index][0].photos} />
             </div>
-            <RelatedCardButton />
+            <RelatedCardButton
+              startComparing={startComparing}
+            />
             <div id="productCategory">
               {product.category}
             </div>
