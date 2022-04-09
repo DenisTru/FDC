@@ -8,7 +8,7 @@ export default function relatedCardImage({ imageURL }) {
   }
   return (
     <div id="image-container">
-      <img id="image" src={url} alt="Loading" />
+      <img id="image" src={url} alt="NullImgURL" />
     </div>
   );
 }

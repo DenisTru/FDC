@@ -638,7 +638,7 @@ class App extends React.Component {
     for (let i = 0; i < removesProduct.length; i += 1) {
       const product = removesProduct[i];
       if (product.id === productID) {
-        removesProduct.splice(i, 1, 0);
+        removesProduct.splice(i, 1);
         break;
       }
     }
