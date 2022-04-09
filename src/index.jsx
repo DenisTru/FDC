@@ -4,14 +4,21 @@ import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
 import getReviews from './Components/RatingAndReviews/data.js';
-import Overview from './Components/Overview/Overview.jsx';
+import Overview from './Components/Overview/Overview';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
-import CompareList from './Components/Relate-Compare-Lists/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/relatedList';
-import { getProduct, getProductStyles } from './Components/Overview/data';
+import helpPut from './Components/RatingAndReviews/helpPut';
+import OutfitList from './Components/RelateCompareOutfitLists/Outfit-List/outfitList';
+import RelatedList from './Components/RelateCompareOutfitLists/Related-List/RelatedList';
+import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/compareModal';
+import { getProductStyles } from './Components/Overview/data';
+import {
+  getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
+} from './Components/RelateCompareOutfitLists/data';
 
 const root = createRoot(document.getElementById('root'));
 
+// the mock items will carry intial state of product, and itemstyles
+// however these will be re-rendered out by componentdidmount() to the selected product/style
 const mockProduct = {
   id: 66642,
   campus: 'hr-rfc',
@@ -403,66 +410,77 @@ class App extends React.Component {
       reviewsCount: 3,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
-      reviewsStarAverage: 2.5,
-      productId: 66642,
+      reviewsAverageRating: 0,
+      reviewsNew: {},
+      productId: 66643,
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
+      relatedProductIDs: [],
+      relatedProducts: [],
+      relatedProductStyles: [],
+      relatedProductRatingInfo: [],
+      outfitProducts: [],
+      outfitProductIDs: {},
+      compare: false,
+      productToCompare: {},
+      styleImages: [],
+      currentShownImage: '',
     };
   }
 
   componentDidMount() {
     const {
-    //   reviewsPage,
-    //   reviewsCount,
-    //   reviewsSort,
+      reviewsPage,
+      reviewsCount,
+      reviewsSort,
       productId,
     } = this.state;
 
-    getProduct(productId)
-      .then((res) => {
-        const data = res.data[0];
+    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      // console.log(data);
+      this.setState({ reviews: data, isLoading: false });
+    });
+    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+      let { data } = res;
+      data = data.results;
+      return data;
+    }).then((reviewsData) => {
+      getMetaReviews(productId).then((meta) => {
+        const { ratings, recommended, characteristics } = meta.data;
+        let { reviewsMeta } = this.state;
+        reviewsMeta = { characteristics, recommended, ratings };
+        const sum = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[0]) * Number(x[1]);
+          return res;
+        }, 0);
+        const count = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[1]);
+          return res;
+        }, 0);
+        const ratingValue = sum / count;
         this.setState({
-          product: data,
+          reviewsMeta,
+          reviewsNextPage: reviewsData,
+          isLoading: false,
+          reviewsAverageRating: ratingValue,
         });
-        return data;
-      })
-      .then((data) => {
-        getProductStyles(data.id)
-          .then((styleData) => {
-            const styles = styleData.data.results;
-            this.setState({
-              productStyles: styles,
-            });
-          });
-      })
-      .catch();
-
-    // getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
-    //   let { data } = res;
-    //   data = data.results;
-    //   this.setState({ reviews: data, isLoading: false });
-    // });
-    // getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
-    //   let { data } = res;
-    //   data = data.results;
-    //   return data;
-    // }).then((reviewsData) => {
-    //   getMetaReviews(productId).then((meta) => {
-
-    //     const { ratings, recommended, characteristics } = meta.data;
-
-    //     let { reviewsMeta } = this.state;
-    //     reviewsMeta = { characteristics, recommended, ratings };
-    //     this.setState({ reviewsMeta, reviewsNextPage: reviewsData, isLoading: false });
-    //   });
-    // });
+      });
+    });
+    this.getSelectedProductInfo();
   }
 
-  styleOnClick = (selectedProduct) => {
+  styleOnClick = (selectedStyle) => {
     this.setState({
-      currentSelectedStyle: selectedProduct,
-    });
+      currentSelectedStyle: selectedStyle,
+    }, () => this.setState({
+      styleImages: selectedStyle.photos,
+      currentShownImage: selectedStyle.photos[0].url,
+    }));
   };
 
   // Reviews And Ratings click on help button
@@ -473,6 +491,7 @@ class App extends React.Component {
         reviews[i].helpfulness += 1;
       }
     }
+    helpPut(id);
     this.setState({ reviews });
   };
 
@@ -507,7 +526,6 @@ class App extends React.Component {
       let { data } = res;
       data = data.results;
       reviews = data;
-      // console.log('@@@', reviews);
       return reviews;
     }).then((newReviews) => {
       getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
@@ -520,14 +538,172 @@ class App extends React.Component {
     });
   };
 
+  onFieldChange = (value, fieldName) => {
+    const { reviewsNew } = this.state;
+    reviewsNew[fieldName] = value;
+    // console.log(value, fieldName);
+    this.setState({ reviewsNew });
+  };
+
+  // Relate Compare Outfit Lists - Check if product is in outfit
+  productIsInOutfit = (productID) => {
+    const { outfitProductIDs } = this.state;
+    return (outfitProductIDs[productID]);
+  };
+
+  // Relate Compare Outfit Lists - Handle 'add to outfit' click
+  addToOutfit = () => {
+    const { productId } = this.state;
+    if (!this.productIsInOutfit(productId)) {
+      const { product, outfitProducts, outfitProductIDs } = this.state;
+      const addsOutfit = outfitProducts;
+      addsOutfit.push(product);
+      const addsProductID = outfitProductIDs;
+      addsProductID[productId] = productId;
+      this.setState({
+        outfitProducts: addsOutfit,
+        outfitProductIDs: addsProductID,
+      });
+    }
+  };
+
+  // Relate Compare Outfit Lists - Handle 'remove from outfit' click
+  removeFromOutfit = (productID) => {
+    const { outfitProducts, outfitProductIDs } = this.state;
+    const removesProductID = outfitProductIDs;
+    delete removesProductID[productID];
+    const removesProduct = outfitProducts;
+    for (let i = 0; i < removesProduct.length; i += 1) {
+      const product = removesProduct[i];
+      if (product.id === productID) {
+        removesProduct.splice(i, 1);
+        break;
+      }
+    }
+    this.setState({
+      outfitProducts: removesProduct,
+      outfitProductIDs: removesProductID,
+    });
+  };
+
+  // Relate Compare Outfit Lists - Handle 'compare button' click
+  startComparing = (product) => {
+    this.setState({
+      compare: true,
+      productToCompare: product,
+    });
+  };
+
+  // Relate Compare Outfit Lists - Handle 'exit compare button' click
+  stopComparing = () => {
+    this.setState({
+      compare: false,
+    });
+  };
+
+  // Relate Compare Outfit Lists - get Related Product Information
+  getRelatedProductInformation = () => {
+    const {
+      relatedProductIDs,
+    } = this.state;
+
+    const productPromises = [];
+    const stylePromises = [];
+    const reviewsPromises = [];
+
+    for (let i = 0; i < relatedProductIDs.length; i += 1) {
+      const productID = relatedProductIDs[i];
+      productPromises.push(getRelatedProductInfo(productID));
+      stylePromises.push(getRelatedProductStyles(productID));
+      reviewsPromises.push(getMetaReviews(productID));
+    }
+
+    Promise.all(productPromises)
+      .then((result) => {
+        const productInfo = result.map((obj) => obj.data);
+        this.setState({
+          relatedProducts: productInfo,
+        });
+      });
+
+    Promise.all(stylePromises)
+      .then((result) => {
+        const relatedProductStyles = result.map((obj) => obj.data.results);
+        this.setState({
+          relatedProductStyles,
+        });
+      });
+
+    Promise.all(reviewsPromises)
+      .then((result) => {
+        const relatedProductRatingInfo = result.map((obj) => obj.data.ratings);
+        return relatedProductRatingInfo;
+      })
+      .then((ratings) => {
+        const relatedProductRatingInfo = ratings.map((obj) => {
+          const keys = Object.keys(obj);
+          const values = Object.values(obj);
+          let numReviews = 0;
+          let sum = 0;
+          for (let i = 0; i < keys.length; i += 1) {
+            sum += keys[i] * parseInt(values[i], 10);
+            numReviews += parseInt(values[i], 10);
+          }
+          return { rating: ((sum / keys.length) || 0), numReviews };
+        });
+        this.setState({
+          relatedProductRatingInfo,
+        });
+      });
+  };
+
+  // Relate Compare Outfit Lists - Handle 'related item product card click' click and re render page
+  getSelectedProductInfo = () => {
+    const {
+      productId,
+    } = this.state;
+    const promises = [];
+    promises.push(getProductInfo(productId));
+    promises.push(getProductStyles(productId));
+    promises.push(getRelatedProductIds(productId));
+
+    Promise.all(promises)
+      .then((result) => {
+        this.setState({
+          product: result[0].data,
+          productStyles: result[1].data.results,
+          relatedProductIDs: result[2].data,
+        }, this.getRelatedProductInformation);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // Relate Compare Outfit Lists - Handle 'related item product card click' click
+  changeProductID = (productID) => {
+    this.setState({
+      productId: productID,
+    }, this.getSelectedProductInfo);
+  };
+
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      currentSelectedStyle, productId, productStyles, product, reviewsStarAverage,
+      reviewsAverageRating,
+      currentSelectedStyle, productId, productStyles, product,
+      relatedProducts, relatedProductStyles, relatedProductRatingInfo,
+      outfitProducts, compare, productToCompare, styleImages, currentShownImage,
+
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
       return (
+        <div>App is Loading</div>
+      );
+    }
+    return (
+      <div>
         <Overview
           productId={productId}
           product={product}
@@ -535,16 +711,33 @@ class App extends React.Component {
           handleClick={this.styleOnClick}
           productStyles={productStyles}
           reviewsStarAverage={reviewsStarAverage}
+          currentShownImage={currentShownImage}
+          styleImages={styleImages}
         />
-      );
-      // return (
-      //   <div>App is Loading</div>
-      // );
-    }
-    return (
-      <div>
-        <RelatedList />
-        <CompareList />
+        <CompareModal
+          compare={compare}
+          stopComparing={this.stopComparing}
+          productToCompare={productToCompare}
+          currentProduct={product}
+        />
+        <RelatedList
+          product={product}
+          currentSelectedStyle={currentSelectedStyle}
+          productStyles={productStyles}
+          reviewsAverageRating={reviewsAverageRating}
+          relatedProducts={relatedProducts}
+          relatedProductStyles={relatedProductStyles}
+          relatedProductRatingInfo={relatedProductRatingInfo}
+          startComparing={this.startComparing}
+          changeProductID={this.changeProductID}
+        />
+        <OutfitList
+          outfitProducts={outfitProducts}
+          addToOutfit={this.addToOutfit}
+          removeFromOutfit={this.removeFromOutfit}
+          relatedProductRatingInfo={relatedProductRatingInfo}
+          productStyles={productStyles}
+        />
         <RatingReviews
           characteristics={characteristics}
           ratings={ratings}
@@ -554,6 +747,8 @@ class App extends React.Component {
           data={reviews}
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
+          onFieldChange={this.onFieldChange}
+          reviewsAverageRating={reviewsStarAverage}
         />
       </div>
     );
