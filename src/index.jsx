@@ -422,6 +422,8 @@ class App extends React.Component {
       outfitProductIDs: {},
       compare: false,
       productToCompare: {},
+      styleImages: [],
+      currentShownImage: '',
     };
   }
 
@@ -686,7 +688,7 @@ class App extends React.Component {
       reviewsAverageRating,
       currentSelectedStyle, productId, productStyles, product,
       relatedProducts, relatedProductStyles, relatedProductRatingInfo,
-      outfitProducts, compare, productToCompare,
+      outfitProducts, compare, productToCompare, styleImages, currentShownImage,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
