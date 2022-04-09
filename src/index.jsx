@@ -19,12 +19,12 @@ class App extends React.Component {
       reviews: [],
       reviewsMeta: [],
       reviewsPage: 1,
-      reviewsCount: 3,
+      reviewsCount: 2,
       reviewsSort: 'helpful',
       reviewsNextPage: [],
       reviewsAverageRating: 0,
       reviewsNew: {},
-      productId: 66643,
+      productId: 66645,
     };
   }
 
@@ -39,7 +39,6 @@ class App extends React.Component {
     getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      // console.log(res);
       this.setState({ reviews: data, isLoading: false });
     });
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
@@ -67,6 +66,7 @@ class App extends React.Component {
           reviewsNextPage: reviewsData,
           isLoading: false,
           reviewsAverageRating: ratingValue,
+          reviewsTotal: count,
         });
       });
     });
@@ -138,7 +138,7 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
-      reviewsAverageRating, reviewsNew,
+      reviewsAverageRating, reviewsNew, reviewsTotal,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -162,6 +162,7 @@ class App extends React.Component {
           onFieldChange={this.onFieldChange}
           reviewsAverageRating={reviewsAverageRating}
           reviewsNew={reviewsNew}
+          reviewsTotal={reviewsTotal}
         />
       </div>
     );

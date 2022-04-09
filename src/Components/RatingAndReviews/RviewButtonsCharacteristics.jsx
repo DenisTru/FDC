@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 const size = ['A size too small', '1/2 a size too small', 'Perfect', '1/2 a size too big', 'A size too wide'];
 const width = ['Too narrow', 'Slightly narrow', 'Perfect', 'Slightly wide', 'Too wide'];
@@ -24,45 +25,51 @@ const formObj = {
 
 export default function ReviewButtonsCharacteristics({ onFieldChange }) {
   return (
-    <div>
-      <div>Characteristics Title</div>
-      <div style={{ padding: '10px' }}>
-        {
-          Object.keys(formObj).map((id) => (
-            <FormControl key={id}>
-              <FormLabel>{formObj[id].name}</FormLabel>
-              <RadioGroup
-                sx={{
-                  '& .MuiSvgIcon-root': {
-                    fontSize: 16,
-                  },
-                }}
-                row
-              >
-                {
-                  formObj[id].values.map((value, ind) => (
-                    <FormControlLabel
-                      key={value}
-                      value={ind + 1}
-                      control={(
-                        <Radio
-                          required
-                          onChange={(e) => onFieldChange(e.target.value, id)}
-                        />
-                      )}
-                      label={(
-                        <Typography sx={{ fontSize: 14 }}>
-                          {value}
-                        </Typography>
-                      )}
-                    />
-                  ))
-                }
-              </RadioGroup>
-            </FormControl>
-          ))
-        }
-      </div>
-    </div>
+    <Box sx={{
+      p: 2,
+      border: '1px solid grey',
+      paddingLeft: '5%',
+      borderRadius: '30px',
+      marginTop: '20px',
+      marginBottom: '20px',
+    }}
+    >
+      <div style={{ marginBottom: '10px', textAlign: 'center' }}>Characteristics Title</div>
+      {
+        Object.keys(formObj).map((id) => (
+          <FormControl key={id}>
+            <FormLabel>{formObj[id].name}</FormLabel>
+            <RadioGroup
+              sx={{
+                '& .MuiSvgIcon-root': {
+                  fontSize: 16,
+                },
+              }}
+              row
+            >
+              {
+                formObj[id].values.map((value, ind) => (
+                  <FormControlLabel
+                    key={value}
+                    value={ind + 1}
+                    control={(
+                      <Radio
+                        required
+                        onChange={(e) => onFieldChange(e.target.value, id)}
+                      />
+                    )}
+                    label={(
+                      <Typography sx={{ fontSize: 14 }}>
+                        {value}
+                      </Typography>
+                    )}
+                  />
+                ))
+              }
+            </RadioGroup>
+          </FormControl>
+        ))
+      }
+    </Box>
   );
 }

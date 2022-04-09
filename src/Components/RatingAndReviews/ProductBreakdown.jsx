@@ -1,57 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import './index.scss';
 
 export default function ProductBreakdown({ characteristics }) {
   const keys = Object.keys(characteristics).slice();
+  const types = ['Size', 'Width', 'Quality', 'Length', 'Fit', 'Comfort'];
+  const size = ['too small', 'Perfect', 'too wide'];
+  const width = ['Too narrow', 'Perfect', 'Too wide'];
+  const comfort = ['Poor', 'Ok', 'Perfect'];
+  const quality = ['Poor', 'expected', 'Perfect'];
+  const length = ['Short', 'Perfect', 'Long'];
+  const fit = ['Tight', 'Perfect', 'Long'];
+  const obj = {
+    size, width, comfort, quality, length, fit,
+  };
+
   return (
-    <div>
+    <div className="productBreakDown" style={{ width: '80%', height: '300px', paddingTop: '30px', borderRadius: '16px' }}>
       {
-        keys.includes('Size') ? (
-          <div>
-            Size
-            {' '}
-            {characteristics.Size.value}
-          </div>
-        ) : <div />
+        types.map((type) => (
+          keys.includes(type) ? (
+            <div key={type} style={{ marginBottom: '20px' }}>
+              <div style={{ textAlign: 'center', color: '#161912' }}>
+                {`${type} `}
+              </div>
+              <div>
+                <div style={{ marginLeft: '15%' }}>
+                  <span className="styleBar">
+                    <span className="subStyleBar1" style={{ width: `${(characteristics[type].value / 5) * 80}%` }} />
+                    <span className="middleBar" style={{ zIndex: '1' }} />
+                    <span className="subStyleBar2" style={{ width: `${80 - (characteristics[type].value / 5) * 80}%` }} />
+                    <span className="subStyleBar3" />
+                  </span>
+                  <div style={{ width: '85%', display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="charFirst">
+                      {
+                        obj[type.toLowerCase()][0]
+                      }
+                    </div>
+                    <div className="charSecond">
+                      {
+                        obj[type.toLowerCase()][1]
+                      }
+                    </div>
+                    <div className="charThird" style={{ marginRight: '0' }}>
+                      {
+                        obj[type.toLowerCase()][2]
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : <div />
+        ))
       }
-      {
-        keys.includes('Width') ? (
-          <div>
-            Width
-            {' '}
-            {characteristics.Width.value}
-          </div>
-        ) : <div />
-      }
-      {
-        keys.includes('Quality') ? (
-          <div>
-            Quality
-            {' '}
-            {characteristics.Quality.value}
-          </div>
-        ) : <div />
-      }
-      {
-        keys.includes('Length') ? (
-          <div>
-            Length
-            {' '}
-            {characteristics.Length.value}
-          </div>
-        ) : <div />
-      }
-      {
-        keys.includes('Fit') ? (
-          <div>
-            Fit
-            {' '}
-            {characteristics.Fit.value}
-          </div>
-        ) : <div />
-      }
-      <br />
-      <br />
     </div>
   );
 }

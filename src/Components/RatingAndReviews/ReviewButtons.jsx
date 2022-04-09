@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import { DialogContent } from '@mui/material';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import ReviewButtonsCharacteristics from './RviewButtonsCharacteristics';
 import ReviewButtonsPhoto from './ReviewButtonsPhoto';
 import HoverRating from './StarsHoverRating';
@@ -46,11 +47,11 @@ export default function ReviewButtons({
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Write Your Review
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              About the [Product Name Here]
+            <Typography id="modal-modal-description" sx={{ mt: 2, textAlign: 'center' }}>
+              Tell Us About The Product
             </Typography>
-            <div>
-              stars
+            <div style={{ marginBottom: '20px' }}>
+              Overall Rating
               <HoverRating onFieldChange={onFieldChange} />
             </div>
             <div>
@@ -69,65 +70,78 @@ export default function ReviewButtons({
                 <div>
                   <ReviewButtonsCharacteristics onFieldChange={onFieldChange} />
                 </div>
-                <div>
-                  name
-                  <input
-                    maxLength="60"
-                    placeholder="Example: jackson11!"
-                    type="text"
-                    onChange={(e) => { onFieldChange(e.target.value, 'name'); }}
-                    required
-                  />
-                  <div>
-                    For privacy reasons, do not use your full name or email address
+                <div style={{ display: 'flex', marginLeft: '5%', marginBottom: '30px' }}>
+                  <div style={{ width: '30%' }}>
+                    <TextField
+                      label="name"
+                      size="small"
+                      color="action"
+                      focused
+                      inputProps={{ maxLength: 60 }}
+                      placeholder="Example: jackson11!"
+                      onChange={(e) => { const { value } = e.target; onFieldChange(value, 'name'); }}
+                      required
+                    />
+                    <Typography sx={{ fontSize: 14, width: '80%' }}>
+                      For privacy reasons, do not use your full name or email address
+                    </Typography>
                   </div>
-                </div>
-                <div>
-                  email
-                  <input
-                    required
-                    maxLength="60"
-                    placeholder="Example: jackson11@email.com"
-                    type="email"
-                    onChange={(e) => { onFieldChange(e.target.value, 'email'); }}
-                  />
-                  <div>
-                    For authentication reasons, you will not be emailed
+                  <div style={{ width: '30%' }}>
+                    <TextField
+                      label="email"
+                      size="small"
+                      type="email"
+                      color="action"
+                      focused
+                      inputProps={{ maxLength: 60 }}
+                      placeholder="jackson11@email.com"
+                      onChange={(e) => { const { value } = e.target; onFieldChange(value, 'email'); }}
+                      required
+                    />
+                    <Typography sx={{ fontSize: 14, width: '80%' }}>
+                      For authentication reasons, you will not be emailed
+                    </Typography>
                   </div>
-                </div>
-                <div>
-                  Review Summary
-                  <input
-                    maxLength="60"
+                  <TextField
+                    label="Review Summary"
+                    color="action"
+                    focused
+                    inputProps={{ maxLength: 60 }}
                     placeholder="Best purchase ever!"
-                    type="text"
-                    onChange={(e) => { onFieldChange(e.target.value, 'summary'); }}
+                    onChange={(e) => { const { value } = e.target; onFieldChange(value, 'summary'); }}
+                    required
                   />
                 </div>
-                <div>
-                  Review Body
-                  <input
-                    required
-                    maxLength="1000"
-                    minLength="50"
+                <div style={{ marginLeft: '5%' }}>
+                  <TextField
+                    label="Review Body"
+                    sx={{ width: '50%' }}
+                    color="action"
+                    focused
+                    inputProps={{ maxLength: 1000, minLength: 50 }}
                     placeholder="Why did you like the product or not?"
-                    type="text"
-                    onChange={(e) => { onFieldChange(e.target.value, 'body'); }}
+                    onChange={(e) => { const { value } = e.target; onFieldChange(value, 'body'); }}
+                    required
                   />
                   {reviewsNew.body && reviewsNew.body.length > 50
-                    ? <div>Minimum reached</div>
+                    ? <Typography sx={{ fontSize: 14 }}>Minimum reached</Typography>
                     : (
-                      <div>
+                      <Typography sx={{ fontSize: 14 }}>
                         Minimum required characters left:
                         {reviewsNew.body ? (50 - reviewsNew.body.length) : 50}
-                      </div>
+                      </Typography>
                     )}
                 </div>
-                <div>
-                  Upload your photo
+                <div style={{ marginTop: '20px', marginLeft: '5%', marginBottom: '20px' }}>
+                  <Typography>
+                    Upload your photo
+                  </Typography>
                   <ReviewButtonsPhoto />
                 </div>
-                <input type="submit" />
+
+                <div style={{ textAlign: 'center' }}>
+                  <Button type="submit" variant="outlined"> Submit </Button>
+                </div>
               </form>
             </div>
           </DialogContent>

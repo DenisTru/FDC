@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import CheckIcon from '@mui/icons-material/Check';
 import reviewPropTypes from './reviewPropTypes';
 import TextRating from './StaticStars';
+import './index.scss';
 
 const axios = require('axios');
 const config = require('./config');
