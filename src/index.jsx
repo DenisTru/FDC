@@ -409,7 +409,7 @@ class App extends React.Component {
       reviewsNextPage: [],
       reviewsAverageRating: 0,
       reviewsNew: {},
-      productId: 66642,
+      productId: 66643,
       currentSelectedStyle: '',
       product: '',
       productStyles: '',
