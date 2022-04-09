@@ -17,11 +17,14 @@ export default function compareModal({
           tabIndex={0}
           aria-label="Close Comparison Table"
         />
-        <CompareTable
-          stopComparing={stopComparing}
-          currentProduct={currentProduct}
-          productToCompare={productToCompare}
-        />
+        <div className="modal-content">
+          <h2>Comparing</h2>
+          <button className="close-modal" type="button" onClick={stopComparing}>X</button>
+          <CompareTable
+            currentProduct={currentProduct}
+            productToCompare={productToCompare}
+          />
+        </div>
       </div>
     );
   }

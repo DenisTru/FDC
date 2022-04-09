@@ -1,13 +1,29 @@
 import React from 'react';
 import './compareModal.scss';
 
-export default function compareTable({ stopComparing, currentProduct, productToCompare }) {
-  console.log('we good ', productToCompare, currentProduct);
+export default function compareTable({ currentProduct, productToCompare }) {
+  console.log('currentProduct ', currentProduct);
+  console.log('productToCompare ', productToCompare);
   return (
-    <div className="modal-content">
-      <h2>Comparison</h2>
-      <p> Table Info </p>
-      <button className="close-modal" type="button" onClick={stopComparing}>X</button>
+    <div>
+      {/* <table cellSpacing="0" style={{ width: '300px', height: '500px', padding: '5px 10px' }}>
+        <thead>
+          <tr>
+            <th>
+              {currentProduct.name}
+            </th>
+            <th>
+              blank
+            </th>
+            <th>
+              {productToCompare.name}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table> */}
     </div>
   );
 }

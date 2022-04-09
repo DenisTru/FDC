@@ -6,41 +6,51 @@ import RelatedCardImage from './relatedCardImage';
 import TextRating from '../../../RatingAndReviews/StaticStars';
 
 export default function relatedCards({
-  stylePhotos, relatedProducts, relatedProductStyles,
-  relatedProductRatings, startComparing,
+  relatedProducts, relatedProductStyles,
+  relatedProductRatingInfo, startComparing, changeProductID,
 }) {
-  if (stylePhotos && relatedProductStyles.length && relatedProductRatings.length) {
-    return (
-      <div id="related-slider">
-        {relatedProducts.map((product, index) => (
-          <div className="slider-cards" key={JSON.stringify(product)}>
-            <div id="image-container">
-              <RelatedCardImage imageURL={relatedProductStyles[index][0].photos} />
-            </div>
-            <RelatedCardButton
-              startComparing={startComparing}
-              product={product}
-            />
-            <div id="productCategory">
-              {product.category}
-            </div>
-            <div id="productName">
-              {product.name}
-            </div>
-            <div id="productPrice">
-              <RelatedCardPrice
-                productPrice={product.default_price}
-                styleSalePrice={relatedProductStyles[index][0].sale_price}
-                styleOriginalPrice={relatedProductStyles[index][0].original_price}
+  if (relatedProductStyles && relatedProducts && relatedProductRatingInfo) {
+    if (relatedProductStyles.length && relatedProducts.length && relatedProductRatingInfo.length) {
+      console.log('relatedProductRatingInfo ', relatedProductRatingInfo);
+
+      return (
+        <div id="related-slider">
+          {relatedProducts.map((product, index) => (
+            <div
+              className="slider-cards"
+              key={JSON.stringify(product.id)}
+              onClick={() => { changeProductID(product.id); }}
+              role="button"
+              tabIndex={0}
+              onKeyPress={() => { changeProductID(product.id); }}
+            >
+              <div id="image-container">
+                <RelatedCardImage relatedProductStyles={relatedProductStyles[index]} />
+              </div>
+              <RelatedCardButton
+                startComparing={startComparing}
+                product={product}
               />
+              <div id="productCategory">
+                {product.category}
+              </div>
+              <div id="productName">
+                {product.name}
+              </div>
+              <div id="productPrice">
+                <RelatedCardPrice
+                  productPrice={product.default_price}
+                  productStyles={relatedProductStyles[index]}
+                />
+              </div>
+              <div id="productStarRating">
+                {/* {TextRating(relatedProductRatingInfo[index])} */}
+              </div>
             </div>
-            <div id="productStarRating">
-              {TextRating(relatedProductRatings[index])}
-            </div>
-          </div>
-        ))}
-      </div>
-    );
+          ))}
+        </div>
+      );
+    }
   }
 
   return (
