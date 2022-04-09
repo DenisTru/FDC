@@ -17,6 +17,8 @@ import {
 
 const root = createRoot(document.getElementById('root'));
 
+// the mock items will carry intial state of product, and itemstyles
+// however these will be re-rendered out by componentdidmount() to the selected product/style
 const mockProduct = {
   id: 66642,
   campus: 'hr-rfc',
@@ -472,10 +474,13 @@ class App extends React.Component {
     this.getSelectedProductInfo();
   }
 
-  styleOnClick = (selectedProduct) => {
+  styleOnClick = (selectedStyle) => {
     this.setState({
-      currentSelectedStyle: selectedProduct,
-    });
+      currentSelectedStyle: selectedStyle,
+    }, () => this.setState({
+      styleImages: selectedStyle.photos,
+      currentShownImage: selectedStyle.photos[0].url,
+    }));
   };
 
   // Reviews And Ratings click on help button
@@ -689,6 +694,7 @@ class App extends React.Component {
       currentSelectedStyle, productId, productStyles, product,
       relatedProducts, relatedProductStyles, relatedProductRatingInfo,
       outfitProducts, compare, productToCompare, styleImages, currentShownImage,
+
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -704,7 +710,9 @@ class App extends React.Component {
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
           productStyles={productStyles}
-          reviewsAverageRating={reviewsAverageRating}
+          reviewsStarAverage={reviewsStarAverage}
+          currentShownImage={currentShownImage}
+          styleImages={styleImages}
         />
         <CompareModal
           compare={compare}
@@ -740,7 +748,7 @@ class App extends React.Component {
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
-          reviewsAverageRating={reviewsAverageRating}
+          reviewsAverageRating={reviewsStarAverage}
         />
       </div>
     );
