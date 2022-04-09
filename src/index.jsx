@@ -615,13 +615,14 @@ class App extends React.Component {
   };
 
   // Relate Compare Outfit Lists - Handle 'add to outfit' click
-  addToOutfit = (productID) => {
-    if (!this.productIsInOutfit(productID)) {
+  addToOutfit = () => {
+    const { productId } = this.state;
+    if (!this.productIsInOutfit(productId)) {
       const { product, outfitProducts, outfitProductIDs } = this.state;
       const addsOutfit = outfitProducts;
       addsOutfit.push(product);
       const addsProductID = outfitProductIDs;
-      addsProductID[productID] = productID;
+      addsProductID[productId] = productId;
       this.setState({
         outfitProducts: addsOutfit,
         outfitProductIDs: addsProductID,
