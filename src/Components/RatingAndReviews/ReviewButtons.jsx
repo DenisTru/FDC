@@ -10,7 +10,7 @@ import ReviewButtonsPhoto from './ReviewButtonsPhoto';
 import HoverRating from './StarsHoverRating';
 
 export default function ReviewButtons({
-  nextPageLength, moreReviewsOnClick,
+  moreReviewsOnClick, btnVisible,
   onFieldChange, reviewsNew,
 }) {
   const [open, setOpen] = React.useState(false);
@@ -18,7 +18,7 @@ export default function ReviewButtons({
   const handleClose = () => setOpen(false);
   return (
     <div style={{ display: 'flex' }}>
-      {nextPageLength > 0 ? (
+      {btnVisible ? (
         <Button
           sx={{ color: '#616161', borderColor: 'gray' }}
           variant="outlined"
@@ -146,15 +146,20 @@ export default function ReviewButtons({
             </div>
           </DialogContent>
         </Dialog>
-
       </div>
-
     </div>
   );
 }
 
 ReviewButtons.propTypes = {
-  nextPageLength: PropTypes.number.isRequired,
   moreReviewsOnClick: PropTypes.func.isRequired,
   onFieldChange: PropTypes.func.isRequired,
+  btnVisible: PropTypes.bool.isRequired,
+  reviewsNew: PropTypes.shape({
+
+  }),
+};
+
+ReviewButtons.defaultProps = {
+  reviewsNew: {},
 };

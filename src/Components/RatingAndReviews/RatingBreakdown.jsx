@@ -1,11 +1,12 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import PropTypes from 'prop-types';
-import LinearProgress from '@mui/material/LinearProgress';
-import Box from '@mui/material/Box';
 import TextRating from './StaticStars';
+import RatingBar from './RatingBar';
 
-export default function RatingBreakdown({ ratings, recommended, reviewsAverageRating }) {
+export default function RatingBreakdown({
+  ratings, recommended, reviewsAverageRating, ratingBarOnClick,
+}) {
   let recommendPercent = Number(recommended.true)
     / (Number(recommended.true) + Number(recommended.false));
   recommendPercent = `${(recommendPercent * 100).toFixed(0)}%`;
@@ -38,20 +39,13 @@ export default function RatingBreakdown({ ratings, recommended, reviewsAverageRa
           <div>
             {
               starRange.map((range) => (
-                <div key={range} style={{ width: '60%' }}>
-                  <Box>
-                    {`${range} `}
-                    stars
-                    <LinearProgress
-                      sx={{ height: '15px' }}
-                      thickness={4}
-                      variant="determinate"
-                      color="inherit"
-                      value={(!Number.isNaN(Number(ratings[range]))
-                        / count ? Number(ratings[range]) / count : 0) * 100}
-                    />
-                  </Box>
-                </div>
+                <RatingBar
+                  range={range}
+                  key={range}
+                  count={count}
+                  ratingBarOnClick={ratingBarOnClick}
+                  ratings={ratings}
+                />
               ))
             }
           </div>
@@ -73,6 +67,7 @@ RatingBreakdown.propTypes = {
     true: PropTypes.string,
   }),
   reviewsAverageRating: PropTypes.number.isRequired,
+  ratingBarOnClick: PropTypes.func.isRequired,
 };
 
 RatingBreakdown.defaultProps = {

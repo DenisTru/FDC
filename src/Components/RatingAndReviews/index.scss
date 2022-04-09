@@ -1,6 +1,14 @@
-.reviewList {
-  overflow: scroll;
-  height: 80vh;
+// .reviewList {
+//   overflow: scroll;
+//   height: 80vh;
+// }
+
+.ratingBar:hover {
+  background-color: aquamarine;
+}
+
+.ratingBarSelected {
+  background-color: aquamarine;
 }
 
 .styleBar {

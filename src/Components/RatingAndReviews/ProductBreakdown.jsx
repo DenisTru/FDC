@@ -57,7 +57,7 @@ export default function ProductBreakdown({ characteristics }) {
                 </div>
               </div>
             </div>
-          ) : <div />
+          ) : null
         ))
       }
     </div>

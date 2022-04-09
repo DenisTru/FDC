@@ -49,7 +49,6 @@ export default function RatingReviewsList({ review, helpOnClick }) {
   return (
     <div style={{ marginRight: '0' }}>
       <div><TextRating ratingValue={rating} /></div>
-      {/* <div>{reviewId}</div> */}
       <div style={{ display: 'flex', marginTop: '10px' }}>
         <div>{reviewerName}</div>
         <div style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
@@ -85,7 +84,6 @@ export default function RatingReviewsList({ review, helpOnClick }) {
             )
         }
       </div>
-
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         {
           photos.map((photo) => (
