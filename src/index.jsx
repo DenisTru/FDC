@@ -608,13 +608,13 @@ class App extends React.Component {
     this.setState({ reviewsNew });
   };
 
-  // Related Compare List - Check if product is in outfit ---------------------------------------
+  // Relate Compare Outfit Lists - Check if product is in outfit
   productIsInOutfit = (productID) => {
     const { outfitProductIDs } = this.state;
     return (outfitProductIDs[productID]);
   };
 
-  // Related Compare List - Handle 'add to outfit' click ---------------------------------------
+  // Relate Compare Outfit Lists - Handle 'add to outfit' click
   addToOutfit = (productID) => {
     if (!this.productIsInOutfit(productID)) {
       const { product, outfitProducts, outfitProductIDs } = this.state;
@@ -629,7 +629,7 @@ class App extends React.Component {
     }
   };
 
-  // Related Compare List - Handle 'remove from outfit' click -------------------------------------
+  // Relate Compare Outfit Lists - Handle 'remove from outfit' click
   removeFromOutfit = (productID) => {
     const { outfitProducts, outfitProductIDs } = this.state;
     const removesProductID = outfitProductIDs;

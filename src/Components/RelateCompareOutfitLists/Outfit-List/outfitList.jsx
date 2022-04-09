@@ -13,19 +13,19 @@ const slideRight = () => {
   slider.scrollLeft += 235;
 };
 
-const outfitList = ({ outfitProducts, addToOutfit, removeFromOutfit }) => (
-  <div>
-    <p>YOUR OUTFIT</p>
-    <div className="slider-container">
-      <OutfitCards
-        outfitProducts={outfitProducts}
-        addToOutfit={addToOutfit}
-        removeFromOutfit={removeFromOutfit}
-      />
-      <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
-      <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />
+export default function outfitList({ outfitProducts, addToOutfit, removeFromOutfit }) {
+  return (
+    <div>
+      <p>YOUR OUTFIT</p>
+      <div className="slider-container">
+        <OutfitCards
+          outfitProducts={outfitProducts}
+          addToOutfit={addToOutfit}
+          removeFromOutfit={removeFromOutfit}
+        />
+        <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
+        <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />
+      </div>
     </div>
-  </div>
-);
-
-export default outfitList;
+  );
+}
