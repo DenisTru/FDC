@@ -19,6 +19,7 @@ export default function relatedCards({
             </div>
             <RelatedCardButton
               startComparing={startComparing}
+              product={product}
             />
             <div id="productCategory">
               {product.category}

@@ -9,7 +9,7 @@ import getMetaReviews from './Components/RatingAndReviews/metaData';
 import helpPut from './Components/RatingAndReviews/helpPut';
 import OutfitList from './Components/RelateCompareOutfitLists/Outfit-List/outfitList';
 import RelatedList from './Components/RelateCompareOutfitLists/Related-List/RelatedList';
-import CompareTable from './Components/RelateCompareOutfitLists/Compare-Table/compareTable';
+import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/compareModal';
 import { getProductStyles } from './Components/Overview/data';
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
@@ -420,6 +420,7 @@ class App extends React.Component {
       outfitProducts: [],
       outfitProductIDs: {},
       compare: false,
+      productToCompare: {},
     };
   }
 
@@ -652,9 +653,10 @@ class App extends React.Component {
   };
 
   // Relate Compare Outfit Lists - Handle 'compare button' click
-  startComparing = () => {
+  startComparing = (product) => {
     this.setState({
       compare: true,
+      productToCompare: product,
     });
   };
 
@@ -671,7 +673,7 @@ class App extends React.Component {
       reviewsAverageRating,
       currentSelectedStyle, productId, productStyles, product,
       relatedProducts, relatedProductStyles, relatedProductRatings,
-      outfitProducts, compare,
+      outfitProducts, compare, productToCompare,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -689,9 +691,11 @@ class App extends React.Component {
           productStyles={productStyles}
           reviewsAverageRating={reviewsAverageRating}
         />
-        <CompareTable
+        <CompareModal
           compare={compare}
           stopComparing={this.stopComparing}
+          productToCompare={productToCompare}
+          currentProduct={product}
         />
         <RelatedList
           product={product}
