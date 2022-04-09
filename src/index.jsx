@@ -8,7 +8,7 @@ import Overview from './Components/Overview/Overview';
 import getMetaReviews from './Components/RatingAndReviews/metaData';
 import helpPut from './Components/RatingAndReviews/helpPut';
 import CompareList from './Components/Relate-Compare-Lists/Compare-List/compareList';
-import RelatedList from './Components/Relate-Compare-Lists/Related-List/RelatedList';
+import RelatedList from './Components/Relate-Compare-Lists/Related-List/relatedList';
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
 const root = createRoot(document.getElementById('root'));
@@ -575,7 +575,7 @@ class App extends React.Component {
     const {
       reviews, isLoading, reviewsNextPage, reviewsMeta,
       currentSelectedStyle, productId,
-      productStyles, product, reviewsStarAverage, currentShownImage, styleImages,
+      productStyles, product, reviewsAverageRating, currentShownImage, styleImages,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -591,7 +591,7 @@ class App extends React.Component {
           currentStyle={currentSelectedStyle}
           handleClick={this.styleOnClick}
           productStyles={productStyles}
-          reviewsStarAverage={reviewsStarAverage}
+          reviewsStarAverage={reviewsAverageRating}
           currentShownImage={currentShownImage}
           styleImages={styleImages}
         />
@@ -609,9 +609,9 @@ class App extends React.Component {
           moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
-          reviewsAverageRating={reviewsStarAverage}
+          reviewsAverageRating={reviewsAverageRating}
         />
-      </div >
+      </div>
     );
   }
 }
