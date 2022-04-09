@@ -44,7 +44,10 @@ export default function relatedCards({
                 />
               </div>
               <div id="productStarRating">
-                {/* {TextRating(relatedProductRatingInfo[index])} */}
+                {/* {TextRating(relatedProductRatingInfo[index].rating)} */}
+              </div>
+              <div id="number-of-ratings">
+                {/* {`${`(${relatedProductRatingInfo[index].numReviews})`}`} */}
               </div>
             </div>
           ))}

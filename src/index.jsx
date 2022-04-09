@@ -662,7 +662,6 @@ class App extends React.Component {
 
     Promise.all(promises)
       .then((result) => {
-
         this.setState({
           product: result[0].data,
           productStyles: result[1].data.results,

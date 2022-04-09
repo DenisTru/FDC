@@ -130,6 +130,15 @@
 }
 
 #productStarRating {
+  position: relative;
   margin-left: 5px;
   margin-top: -1px;
+  display: inline-block;
+}
+
+#number-of-ratings {
+  position: relative;
+  display: inline-block;
+  top: -7px;
+  left: -73px;
 }
