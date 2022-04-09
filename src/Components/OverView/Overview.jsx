@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { BsCheck } from 'react-icons/bs';
 import PropTypes from 'prop-types';
+import { addToCartDELETE, addToCartPOST } from './data';
 import ItemStyles from './itemStyles';
 import './styles/overview.scss';
 import StarRating from './starRating';
@@ -19,7 +20,8 @@ class Overview extends React.Component {
   }
 
   handleChangeSize = (e) => {
-    const sku = $(`option[value="${e.target.value}"]`).attr('sku');
+    const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
+    console.log(sku);
     this.setState(
       { itemStock: e.target.value, itemSku: sku },
     );
@@ -33,30 +35,15 @@ class Overview extends React.Component {
 
   handleCart = (e) => {
     e.preventDefault();
-    const promises = [];
+    const addQuantityToCart = [];
     const { quantityToPurchase, itemSku } = this.state;
-
-    function addCart(item) {
-      return fetch('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ sku_id: item }),
-      });
-    }
-
     for (let i = 0; i < quantityToPurchase; i += 1) {
-      promises.push(addCart(itemSku));
+      addQuantityToCart.push(addToCartPOST(itemSku));
     }
 
-    Promise.all(promises)
-      .then(() => {
-
-      })
-      .catch(() => {
-
+    Promise.all(addQuantityToCart)
+      .then((data) => {
+        console.log(data);
       });
   };
 

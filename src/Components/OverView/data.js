@@ -9,6 +9,13 @@ const options = {
   method: 'get',
 };
 
+const getProduct = function getProduct(productId) {
+  options.params = {
+    product_id: productId,
+  };
+  return axios(options);
+};
+
 const optionsStyles = {
   headers: {
     Authorization: config.TOKEN,
@@ -23,12 +30,21 @@ const getProductStyles = function getProductStyles(productId) {
   return axios(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}/styles`, optionsStyles);
 };
 
-const getProduct = function getProduct(productId) {
-  options.params = {
-    product_id: productId,
-  };
-  return axios(options);
+const addToCartPOST = function addToCart(productId) {
+  return axios('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart', {
+    headers: {
+      Authorization: config.TOKEN,
+    },
+    method: 'POST',
+    data: { sku_id: productId },
+  });
 };
 
+const addToCartDELETE = function addToCart() {
+  return axios('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart');
+};
+
+module.exports.addToCartDELETE = addToCartDELETE;
+module.exports.addToCartPOST = addToCartPOST;
 module.exports.getProduct = getProduct;
 module.exports.getProductStyles = getProductStyles;
