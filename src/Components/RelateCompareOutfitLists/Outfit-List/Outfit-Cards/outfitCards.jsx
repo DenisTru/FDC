@@ -2,31 +2,32 @@ import React from 'react';
 import '../../relateOutfitLists.scss';
 import RemoveOutfitButton from './removeOutfitButton';
 import AddOutfitCard from './addOutfitCard';
+import TextRating from '../../../RatingAndReviews/StaticStars';
+import OutfitCardImage from './outfitCardImage';
 
-const slides = [1, 2, 3, 4, 5, 6, 7, 8];
-
-export default function outfitCards({ outfitProducts, addToOutfit, removeFromOutfit }) {
-  console.log('outfitProducts ', outfitProducts);
+export default function outfitCards({
+  outfitProducts, addToOutfit, removeFromOutfit, relatedProductRatings, productStyles,
+}) {
   return (
     <div id="outfit-slider">
-      <AddOutfitCard addToOutfit={addToOutfit} />
-      {slides.map((slide) => (
-        <div className="slider-cards" key={JSON.stringify(slide)}>
+      <AddOutfitCard addToOutfit={addToOutfit} outfitProducts={outfitProducts} />
+      {outfitProducts.map((product, index) => (
+        <div className="slider-cards" key={JSON.stringify(product)}>
           <div id="image-container">
-            Image
+            <OutfitCardImage imageURL={productStyles[0].photos} />
           </div>
-          <RemoveOutfitButton removeFromOutfit={removeFromOutfit} />
+          <RemoveOutfitButton removeFromOutfit={removeFromOutfit} productid={product.id} />
           <div id="productCategory">
-            Product Category
+            {product.category}
           </div>
           <div id="productName">
-            Product Name
+            {product.name}
           </div>
           <div id="productPrice">
-            Product Price
+            {product.default_price}
           </div>
           <div id="productStarRating">
-            Product Star Rating
+            {TextRating(relatedProductRatings[index])}
           </div>
         </div>
       ))}

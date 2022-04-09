@@ -13,7 +13,9 @@ const slideRight = () => {
   slider.scrollLeft += 235;
 };
 
-export default function outfitList({ outfitProducts, addToOutfit, removeFromOutfit }) {
+export default function outfitList({
+  outfitProducts, addToOutfit, removeFromOutfit, relatedProductRatings, productStyles,
+}) {
   return (
     <div>
       <p>YOUR OUTFIT</p>
@@ -22,6 +24,8 @@ export default function outfitList({ outfitProducts, addToOutfit, removeFromOutf
           outfitProducts={outfitProducts}
           addToOutfit={addToOutfit}
           removeFromOutfit={removeFromOutfit}
+          relatedProductRatings={relatedProductRatings}
+          productStyles={productStyles}
         />
         <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
         <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />
