@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import './index.scss';
 
 export default function ProductBreakdown({ characteristics }) {
@@ -17,7 +16,12 @@ export default function ProductBreakdown({ characteristics }) {
   };
 
   return (
-    <div className="productBreakDown" style={{ width: '80%', height: '300px', paddingTop: '30px', borderRadius: '16px' }}>
+    <div
+      className="productBreakDown"
+      style={{
+        width: '80%', height: '300px', paddingTop: '30px', borderRadius: '16px',
+      }}
+    >
       {
         types.map((type) => (
           keys.includes(type) ? (

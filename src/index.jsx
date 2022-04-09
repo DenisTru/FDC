@@ -36,40 +36,65 @@ class App extends React.Component {
       productId,
     } = this.state;
 
-    getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
-      let { data } = res;
-      data = data.results;
-      this.setState({ reviews: data, isLoading: false });
-    });
-    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
-      let { data } = res;
-      data = data.results;
-      return data;
-    }).then((reviewsData) => {
-      getMetaReviews(productId).then((meta) => {
-        const { ratings, recommended, characteristics } = meta.data;
-        let { reviewsMeta } = this.state;
-        reviewsMeta = { characteristics, recommended, ratings };
-        const sum = Object.entries(ratings).slice().reduce((res, x) => {
-          // eslint-disable-next-line no-param-reassign
-          res += Number(x[0]) * Number(x[1]);
-          return res;
-        }, 0);
-        const count = Object.entries(ratings).slice().reduce((res, x) => {
-          // eslint-disable-next-line no-param-reassign
-          res += Number(x[1]);
-          return res;
-        }, 0);
-        const ratingValue = Number((sum / count).toFixed(1));
-        this.setState({
-          reviewsMeta,
-          reviewsNextPage: reviewsData,
-          isLoading: false,
-          reviewsAverageRating: ratingValue,
-          reviewsTotal: count,
-        });
+    // getReviews(reviewsPage, reviewsCount, reviewsSort, productId).then((res) => {
+    //   let { data } = res;
+    //   data = data.results;
+    //   this.setState({ reviews: data, isLoading: false });
+    // });
+    // getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
+    //   let { data } = res;
+    //   data = data.results;
+    //   return data;
+    // }).then((reviewsData) => {
+    //   getMetaReviews(productId).then((meta) => {
+    //     const { ratings, recommended, characteristics } = meta.data;
+    //     let { reviewsMeta } = this.state;
+    //     reviewsMeta = { characteristics, recommended, ratings };
+    //     const sum = Object.entries(ratings).slice().reduce((res, x) => {
+    //       // eslint-disable-next-line no-param-reassign
+    //       res += Number(x[0]) * Number(x[1]);
+    //       return res;
+    //     }, 0);
+    //     const count = Object.entries(ratings).slice().reduce((res, x) => {
+    //       // eslint-disable-next-line no-param-reassign
+    //       res += Number(x[1]);
+    //       return res;
+    //     }, 0);
+    //     const ratingValue = Number((sum / count).toFixed(1));
+    //     this.setState({
+    //       reviewsMeta,
+    //       reviewsNextPage: reviewsData,
+    //       isLoading: false,
+    //       reviewsAverageRating: ratingValue,
+    //       reviewsTotal: count,
+    //     });
+    //   });
+    // });
+    getMetaReviews(productId).then((meta) => {
+      const { ratings, recommended, characteristics } = meta.data;
+      let { reviewsMeta } = this.state;
+      reviewsMeta = { characteristics, recommended, ratings };
+      const sum = Object.entries(ratings).slice().reduce((res, x) => {
+        // eslint-disable-next-line no-param-reassign
+        res += Number(x[0]) * Number(x[1]);
+        return res;
+      }, 0);
+      const count = Object.entries(ratings).slice().reduce((res, x) => {
+        // eslint-disable-next-line no-param-reassign
+        res += Number(x[1]);
+        return res;
+      }, 0);
+      const ratingValue = Number((sum / count).toFixed(1));
+      this.setState({
+        reviewsTotal: count,
+        reviewsAverageRating: ratingValue,
+        reviewsMeta,
       });
-    });
+      return count;
+    })
+      .then((count) => {
+        getReviews()
+      })
   }
 
   // Reviews And Ratings click on help button
@@ -98,7 +123,6 @@ class App extends React.Component {
     getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
       let { data } = res;
       data = data.results;
-      // console.log('data', data, 'next', reviewsNextPage);
       this.setState({ reviews, reviewsNextPage: data, reviewsPage });
     });
   };
@@ -131,7 +155,6 @@ class App extends React.Component {
   onFieldChange = (value, fieldName) => {
     const { reviewsNew } = this.state;
     reviewsNew[fieldName] = value;
-    // console.log(value, fieldName);
     this.setState({ reviewsNew });
   };
 
