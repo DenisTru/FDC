@@ -54,6 +54,9 @@ body.active-modal {
   padding: 5px 7px;
 }
 
-#table-body {
+td {
+  height: 80px;
+  width: 160px;
+  text-align: center;
   vertical-align: top;
 }
