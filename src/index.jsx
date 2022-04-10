@@ -754,6 +754,7 @@ class App extends React.Component {
           (reviews.length === 0 && reviewsTotal === 0) ? null
             : (
               <RatingReviews
+                productId={productId}
                 characteristics={characteristics}
                 ratings={ratings}
                 recommended={recommended}

@@ -6,6 +6,7 @@ import RatingBar from './RatingBar';
 
 export default function RatingBreakdown({
   ratings, recommended, reviewsAverageRating, ratingBarOnClick,
+  productId,
 }) {
   let recommendPercent = Number(recommended.true)
     / ((Number(recommended.true) || 0) + (Number(recommended.false) || 0));
@@ -40,6 +41,7 @@ export default function RatingBreakdown({
             {
               starRange.map((range) => (
                 <RatingBar
+                  productId={productId}
                   range={range}
                   key={range}
                   count={count}
@@ -68,6 +70,7 @@ RatingBreakdown.propTypes = {
   }),
   reviewsAverageRating: PropTypes.number.isRequired,
   ratingBarOnClick: PropTypes.func.isRequired,
+  productId: PropTypes.number,
 };
 
 RatingBreakdown.defaultProps = {
@@ -75,4 +78,5 @@ RatingBreakdown.defaultProps = {
     1: '0', 2: '0', 3: '0', 4: '0', 5: '0',
   },
   recommended: {},
+  productId: 66643,
 };
