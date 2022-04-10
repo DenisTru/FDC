@@ -34,7 +34,6 @@ export default function outfitCards({
             />
           </div>
           <div id="productStarRating">
-            {console.log(productInfo)}
             <OutfitCardReview productRating={productInfo.productRatingInfo} />
           </div>
         </div>
