@@ -12,7 +12,7 @@ export default function outfitCards({
     <div id="outfit-slider">
       <AddOutfitCard addToOutfit={addToOutfit} outfitProducts={outfitProducts} />
       {outfitProducts.map((product, index) => (
-        <div className="slider-cards" key={JSON.stringify(product)}>
+        <div className="slider-cards" key={JSON.stringify(product.id)}>
           <div id="image-container">
             <OutfitCardImage imageURL={productStyles[0].photos} />
           </div>

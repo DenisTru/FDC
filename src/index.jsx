@@ -705,6 +705,8 @@ class App extends React.Component {
           handleClick={this.styleOnClick}
           productStyles={productStyles}
           reviewsAverageRating={reviewsAverageRating}
+          styleImages={styleImages}
+          currentShownImage={currentShownImage}
         />
         <CompareModal
           compare={compare}
@@ -713,10 +715,7 @@ class App extends React.Component {
           currentProduct={product}
         />
         <RelatedList
-          product={product}
-          currentSelectedStyle={currentSelectedStyle}
-          productStyles={productStyles}
-          reviewsAverageRating={reviewsAverageRating}
+          productId={productId}
           relatedProducts={relatedProducts}
           relatedProductStyles={relatedProductStyles}
           relatedProductRatingInfo={relatedProductRatingInfo}

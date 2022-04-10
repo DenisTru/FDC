@@ -3,19 +3,31 @@ import '../../relateOutfitLists.scss';
 import RelatedCardButton from './relatedCardButton';
 import RelatedCardPrice from './relatedCardPrice';
 import RelatedCardImage from './relatedCardImage';
-import TextRating from '../../../RatingAndReviews/StaticStars';
+import RelatedCardReview from './relatedCardReview';
+
+const removesDuplicates = function removesDuplicates(relatedProducts, currentProductId) {
+  const filteredProducts = [];
+  const uniqueIDs = {};
+  for (let i = 0; i < relatedProducts.length; i += 1) {
+    const currentRelatedProduct = relatedProducts[i];
+    if (currentRelatedProduct.id !== currentProductId && !uniqueIDs[currentRelatedProduct.id]) {
+      filteredProducts.push(currentRelatedProduct);
+      uniqueIDs[currentRelatedProduct.id] = currentRelatedProduct.id;
+    }
+  }
+  return filteredProducts;
+};
 
 export default function relatedCards({
-  relatedProducts, relatedProductStyles,
+  relatedProducts, relatedProductStyles, productId,
   relatedProductRatingInfo, startComparing, changeProductID,
 }) {
   if (relatedProductStyles && relatedProducts && relatedProductRatingInfo) {
     if (relatedProductStyles.length && relatedProducts.length && relatedProductRatingInfo.length) {
-      console.log('relatedProductRatingInfo ', relatedProductRatingInfo);
-
+      const filteredRelatedProducts = removesDuplicates(relatedProducts, productId); // START HERE
       return (
         <div id="related-slider">
-          {relatedProducts.map((product, index) => (
+          {filteredRelatedProducts.map((product, index) => (
             <div
               className="slider-cards"
               key={JSON.stringify(product.id)}
@@ -43,12 +55,10 @@ export default function relatedCards({
                   productStyles={relatedProductStyles[index]}
                 />
               </div>
-              <div id="productStarRating">
-                {/* {TextRating(relatedProductRatingInfo[index].rating)} */}
-              </div>
-              <div id="number-of-ratings">
-                {/* {`${`(${relatedProductRatingInfo[index].numReviews})`}`} */}
-              </div>
+              <RelatedCardReview
+                relatedProductRatingInfo={relatedProductRatingInfo}
+                index={index}
+              />
             </div>
           ))}
         </div>
