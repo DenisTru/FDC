@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { any } from 'prop-types';
 
-export default function SortOptions({ onSortChange, reviewsTotal }) {
+export default function SortOptions({ onSortChange, data }) {
   return (
     <div>
-      {`${reviewsTotal} `}
+      {`${data.length} `}
       reviews,sorted by
       <select
         defaultValue="helpful"
@@ -24,5 +24,9 @@ export default function SortOptions({ onSortChange, reviewsTotal }) {
 
 SortOptions.propTypes = {
   onSortChange: PropTypes.func.isRequired,
-  reviewsTotal: PropTypes.number.isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape(any)),
+};
+
+SortOptions.defaultProps = {
+  data: [],
 };

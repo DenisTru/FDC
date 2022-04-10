@@ -29,6 +29,8 @@ export default function RatingReviewsList({ review, helpOnClick }) {
     summary,
     photos,
   } = review;
+  const bodyLength = body ? body.length : 0;
+  const responseLength = response ? response.length : 0;
 
   const onNoClick = (reportId) => {
     const options = function options() {
@@ -56,7 +58,7 @@ export default function RatingReviewsList({ review, helpOnClick }) {
       <div style={{ marginTop: '20px', marginBottom: '20px' }}><strong>{summary}</strong></div>
       <div>
         {
-          body.length > 250 && displayMore === 'false' ? (
+          bodyLength > 250 && displayMore === 'false' ? (
             <div>
               {body.slice(0, 250)}
               <button type="button" onClick={() => { setDisplay('true'); }}>Show More</button>
@@ -74,7 +76,7 @@ export default function RatingReviewsList({ review, helpOnClick }) {
       </div>
       <div>
         {
-          response.length === 0 ? <div />
+          (responseLength === 0 && response) ? <div />
             : (
               <div>
                 <div>Response from seller</div>

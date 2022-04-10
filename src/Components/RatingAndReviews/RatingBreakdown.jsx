@@ -8,7 +8,7 @@ export default function RatingBreakdown({
   ratings, recommended, reviewsAverageRating, ratingBarOnClick,
 }) {
   let recommendPercent = Number(recommended.true)
-    / (Number(recommended.true) + Number(recommended.false));
+    / ((Number(recommended.true) || 0) + (Number(recommended.false) || 0));
   recommendPercent = `${(recommendPercent * 100).toFixed(0)}%`;
   const count = Object.entries(ratings).slice().reduce((res, x) => {
     // eslint-disable-next-line no-param-reassign

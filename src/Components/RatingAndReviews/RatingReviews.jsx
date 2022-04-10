@@ -59,6 +59,7 @@ export default function RatingReviews({
         <SortOptions
           onSortChange={onSortChange}
           reviewsTotal={reviewsTotal}
+          data={data}
         />
         <div className="reviewList">
           {
@@ -84,7 +85,7 @@ export default function RatingReviews({
 }
 
 RatingReviews.propTypes = {
-  data: PropTypes.arrayOf(reviewPropTypes).isRequired,
+  data: PropTypes.arrayOf(reviewPropTypes),
   helpOnClick: PropTypes.func.isRequired,
   onSortChange: PropTypes.func.isRequired,
   ratings: PropTypes.shape({
@@ -135,4 +136,5 @@ RatingReviews.defaultProps = {
   recommended: {},
   characteristics: {},
   reviewsNew: {},
+  data: [],
 };
