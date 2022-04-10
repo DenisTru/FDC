@@ -402,6 +402,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      productId: 66643,
       reviews: [],
       reviewsMeta: [],
       reviewsPage: 1,
@@ -410,7 +411,8 @@ class App extends React.Component {
       reviewsNextPage: [],
       reviewsAverageRating: 0,
       reviewsNew: {},
-      productId: 66643,
+      styleImages: [],
+      currentShownImage: '',
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
@@ -418,12 +420,11 @@ class App extends React.Component {
       relatedProducts: [],
       relatedProductStyles: [],
       relatedProductRatingInfo: [],
-      outfitProducts: [],
+      outfitProductsAndStyles: [],
       outfitProductIDs: {},
+      productRatingInfo: [],
       compare: false,
       productToCompare: {},
-      styleImages: [],
-      currentShownImage: '',
     };
   }
 
@@ -548,38 +549,38 @@ class App extends React.Component {
 
   // Relate Compare Outfit Lists - Handle 'add to outfit' click
   addToOutfit = () => {
-    const { productId } = this.state;
-    if (!this.productIsInOutfit(productId)) { // IF CURRENT PRODUCT IS NOT IN OUTFIT LIST
-      const { product, outfitProducts, outfitProductIDs } = this.state;
-      const addsOutfit = outfitProducts;
-      addsOutfit.push(product);
+    const { productId, productRatingInfo } = this.state;
+    if (!this.productIsInOutfit(productId)) {
+      const {
+        product, outfitProductsAndStyles,
+        outfitProductIDs, productStyles,
+      } = this.state;
+      const addsOutfit = outfitProductsAndStyles;
+      addsOutfit.push({ product, productStyles, productRatingInfo });
       const addsProductID = outfitProductIDs;
       addsProductID[productId] = productId;
       this.setState({
-        outfitProducts: addsOutfit,
+        outfitProductsAndStyles: addsOutfit,
         outfitProductIDs: addsProductID,
-      }, () => {
-        console.log('this.state.outfitProducts ', this.state.outfitProducts);
-        console.log('this.state.outfitProductIDs ', this.state.outfitProductIDs);
       });
     }
   };
 
   // Relate Compare Outfit Lists - Handle 'remove from outfit' click
   removeFromOutfit = (productID) => {
-    const { outfitProducts, outfitProductIDs } = this.state;
+    const { outfitProductsAndStyles, outfitProductIDs } = this.state;
     const removesProductID = outfitProductIDs;
     delete removesProductID[productID];
-    const removesProduct = outfitProducts;
+    const removesProduct = outfitProductsAndStyles;
     for (let i = 0; i < removesProduct.length; i += 1) {
       const product = removesProduct[i];
-      if (product.id === productID) {
+      if (product.product.id === productID) {
         removesProduct.splice(i, 1);
         break;
       }
     }
     this.setState({
-      outfitProducts: removesProduct,
+      outfitProductsAndStyles: removesProduct,
       outfitProductIDs: removesProductID,
     });
   };
@@ -676,6 +677,31 @@ class App extends React.Component {
       .catch((err) => {
         console.log(err);
       });
+
+    // Get product rating info
+    const reviewPromise = [];
+    reviewPromise.push(getMetaReviews(productId));
+    Promise.all(reviewPromise)
+      .then((result) => {
+        const productRatingInfo = result.map((obj) => obj.data.ratings);
+        return productRatingInfo;
+      })
+      .then((ratings) => {
+        const productRatingInfo = ratings.map((obj) => {
+          const keys = Object.keys(obj);
+          const values = Object.values(obj);
+          let numReviews = 0;
+          let sum = 0;
+          for (let i = 0; i < keys.length; i += 1) {
+            sum += keys[i] * parseInt(values[i], 10);
+            numReviews += parseInt(values[i], 10);
+          }
+          return { rating: ((sum / keys.length) || 0), numReviews };
+        });
+        this.setState({
+          productRatingInfo,
+        });
+      });
   };
 
   // Relate Compare Outfit Lists - Handle 'related item product card click' click
@@ -691,7 +717,7 @@ class App extends React.Component {
       reviewsAverageRating,
       currentSelectedStyle, productId, productStyles, product,
       relatedProducts, relatedProductStyles, relatedProductRatingInfo,
-      outfitProducts, compare, productToCompare, styleImages, currentShownImage,
+      outfitProductsAndStyles, compare, productToCompare, styleImages, currentShownImage,
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
@@ -726,11 +752,9 @@ class App extends React.Component {
           changeProductID={this.changeProductID}
         />
         <OutfitList
-          outfitProducts={outfitProducts}
+          outfitProductsAndStyles={outfitProductsAndStyles}
           addToOutfit={this.addToOutfit}
           removeFromOutfit={this.removeFromOutfit}
-          relatedProductRatingInfo={relatedProductRatingInfo}
-          productStyles={productStyles}
         />
         <RatingReviews
           characteristics={characteristics}
