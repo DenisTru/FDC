@@ -42,6 +42,9 @@ export default function relatedCards({
               <RelatedCardButton
                 startComparing={startComparing}
                 product={product}
+                relatedProductRatingInfo={relatedProductRatingInfo}
+                index={index}
+                relatedProductStyles={relatedProductStyles[index]}
               />
               <div
                 onClick={() => { changeProductID(product.id); }}

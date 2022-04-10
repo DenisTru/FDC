@@ -3,7 +3,9 @@ import './compareModal.scss';
 import CompareTable from './compareTable';
 
 export default function compareModal({
-  compare, stopComparing, productToCompare, currentProduct,
+  compare, stopComparing,
+  currentProduct, currentProductStyles, currentProductRatingInfo,
+  productToCompare, productToCompareStyles, productToCompareRating,
 }) {
   if (compare) {
     document.body.classList.add('active-modal');
@@ -22,7 +24,11 @@ export default function compareModal({
           <button className="close-modal" type="button" onClick={stopComparing}>X</button>
           <CompareTable
             currentProduct={currentProduct}
+            currentProductStyles={currentProductStyles}
+            currentProductRatingInfo={currentProductRatingInfo}
             productToCompare={productToCompare}
+            productToCompareStyles={productToCompareStyles}
+            productToCompareRating={productToCompareRating}
           />
         </div>
       </div>

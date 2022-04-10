@@ -425,6 +425,8 @@ class App extends React.Component {
       productRatingInfo: [],
       compare: false,
       productToCompare: {},
+      productToCompareStyles: [],
+      productToCompareRating: {},
     };
   }
 
@@ -586,10 +588,12 @@ class App extends React.Component {
   };
 
   // Relate Compare Outfit Lists - Handle 'compare button' click
-  startComparing = (product) => {
+  startComparing = (productToCompare, productToCompareStyles, productToCompareRating) => {
     this.setState({
       compare: true,
-      productToCompare: product,
+      productToCompare,
+      productToCompareStyles,
+      productToCompareRating,
     });
   };
 
@@ -713,8 +717,8 @@ class App extends React.Component {
 
   render() {
     const {
-      reviews, isLoading, reviewsNextPage, reviewsMeta,
-      reviewsAverageRating,
+      reviews, isLoading, reviewsNextPage, reviewsMeta, productToCompareRating,
+      reviewsAverageRating, productRatingInfo, productToCompareStyles,
       currentSelectedStyle, productId, productStyles, product,
       relatedProducts, relatedProductStyles, relatedProductRatingInfo,
       outfitProductsAndStyles, compare, productToCompare, styleImages, currentShownImage,
@@ -740,8 +744,12 @@ class App extends React.Component {
         <CompareModal
           compare={compare}
           stopComparing={this.stopComparing}
-          productToCompare={productToCompare}
           currentProduct={product}
+          currentProductStyles={productStyles}
+          currentProductRatingInfo={productRatingInfo}
+          productToCompare={productToCompare}
+          productToCompareStyles={productToCompareStyles}
+          productToCompareRating={productToCompareRating}
         />
         <RelatedList
           productId={productId}

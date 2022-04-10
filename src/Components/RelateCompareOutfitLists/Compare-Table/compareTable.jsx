@@ -1,29 +1,71 @@
 import React from 'react';
 import './compareModal.scss';
 
-export default function compareTable({ currentProduct, productToCompare }) {
-  console.log('currentProduct ', currentProduct);
-  console.log('productToCompare ', productToCompare);
+export default function compareTable({
+  currentProduct, currentProductStyles, currentProductRatingInfo,
+  productToCompare, productToCompareStyles, productToCompareRating,
+}) {
   return (
     <div>
-      {/* <table cellSpacing="0" style={{ width: '300px', height: '500px', padding: '5px 10px' }}>
+      <table cellSpacing="0" style={{ width: '100%', height: '500px', padding: '5px 10px' }}>
+
         <thead>
           <tr>
-            <th>
-              {currentProduct.name}
-            </th>
-            <th>
-              blank
-            </th>
-            <th>
-              {productToCompare.name}
-            </th>
+            <th>{currentProduct.name}</th>
+            <th> </th>
+            <th>{productToCompare.name}</th>
           </tr>
         </thead>
-        <tbody>
 
+        <tbody id="table-body">
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>Name</td>
+            <td>Name</td>
+          </tr>
         </tbody>
-      </table> */}
+
+      </table>
     </div>
   );
 }
