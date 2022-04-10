@@ -2,7 +2,6 @@ import React from 'react';
 import '../../relateOutfitLists.scss';
 import RemoveOutfitButton from './removeOutfitButton';
 import AddOutfitCard from './addOutfitCard';
-import TextRating from '../../../RatingAndReviews/StaticStars';
 import OutfitCardImage from './outfitCardImage';
 
 export default function outfitCards({
@@ -14,20 +13,20 @@ export default function outfitCards({
       {outfitProducts.map((product, index) => (
         <div className="slider-cards" key={JSON.stringify(product.id)}>
           <div id="image-container">
-            <OutfitCardImage imageURL={productStyles[0].photos} />
+            {/* <OutfitCardImage imageURL={productStyles[0].photos} /> */}
           </div>
           <RemoveOutfitButton removeFromOutfit={removeFromOutfit} productid={product.id} />
           <div id="productCategory">
-            {product.category}
+            {/* {product.category} */}
           </div>
           <div id="productName">
-            {product.name}
+            {/* {product.name} */}
           </div>
           <div id="productPrice">
-            {product.default_price}
+            {/* {product.default_price} */}
           </div>
           <div id="productStarRating">
-            {TextRating(relatedProductRatings[index])}
+            {/* {TextRating(relatedProductRatings[index])} */}
           </div>
         </div>
       ))}

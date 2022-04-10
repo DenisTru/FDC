@@ -549,7 +549,7 @@ class App extends React.Component {
   // Relate Compare Outfit Lists - Handle 'add to outfit' click
   addToOutfit = () => {
     const { productId } = this.state;
-    if (!this.productIsInOutfit(productId)) {
+    if (!this.productIsInOutfit(productId)) { // IF CURRENT PRODUCT IS NOT IN OUTFIT LIST
       const { product, outfitProducts, outfitProductIDs } = this.state;
       const addsOutfit = outfitProducts;
       addsOutfit.push(product);
@@ -558,6 +558,9 @@ class App extends React.Component {
       this.setState({
         outfitProducts: addsOutfit,
         outfitProductIDs: addsProductID,
+      }, () => {
+        console.log('this.state.outfitProducts ', this.state.outfitProducts);
+        console.log('this.state.outfitProductIDs ', this.state.outfitProductIDs);
       });
     }
   };
