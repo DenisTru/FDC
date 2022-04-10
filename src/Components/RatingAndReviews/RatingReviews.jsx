@@ -110,8 +110,8 @@ export default function RatingReviews({
 
 RatingReviews.propTypes = {
   data: PropTypes.arrayOf(reviewPropTypes),
-  helpOnClick: PropTypes.func.isRequired,
-  onSortChange: PropTypes.func.isRequired,
+  helpOnClick: PropTypes.func,
+  onSortChange: PropTypes.func,
   ratings: PropTypes.shape({
     2: PropTypes.string,
     3: PropTypes.string,
@@ -145,7 +145,7 @@ RatingReviews.propTypes = {
       value: PropTypes.string,
     }),
   }),
-  onFieldChange: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func,
   reviewsAverageRating: PropTypes.number.isRequired,
   reviewsNew: PropTypes.shape({
     summary: PropTypes.string,
@@ -161,4 +161,7 @@ RatingReviews.defaultProps = {
   characteristics: {},
   reviewsNew: {},
   data: [],
+  helpOnClick: () => { },
+  onSortChange: () => { },
+  onFieldChange: () => { },
 };
