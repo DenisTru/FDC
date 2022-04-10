@@ -24,41 +24,48 @@ export default function relatedCards({
 }) {
   if (relatedProductStyles && relatedProducts && relatedProductRatingInfo) {
     if (relatedProductStyles.length && relatedProducts.length && relatedProductRatingInfo.length) {
-      const filteredRelatedProducts = removesDuplicates(relatedProducts, productId); // START HERE
+      const filteredRelatedProducts = removesDuplicates(relatedProducts, productId);
       return (
         <div id="related-slider">
           {filteredRelatedProducts.map((product, index) => (
             <div
               className="slider-cards"
               key={JSON.stringify(product.id)}
-              onClick={() => { changeProductID(product.id); }}
-              role="button"
-              tabIndex={0}
-              onKeyPress={() => { changeProductID(product.id); }}
             >
               <div id="image-container">
-                <RelatedCardImage relatedProductStyles={relatedProductStyles[index]} />
+                <RelatedCardImage
+                  relatedProductStyles={relatedProductStyles[index]}
+                  changeProductID={changeProductID}
+                  product={product}
+                />
               </div>
               <RelatedCardButton
                 startComparing={startComparing}
                 product={product}
               />
-              <div id="productCategory">
-                {product.category}
-              </div>
-              <div id="productName">
-                {product.name}
-              </div>
-              <div id="productPrice">
-                <RelatedCardPrice
-                  productPrice={product.default_price}
-                  productStyles={relatedProductStyles[index]}
+              <div
+                onClick={() => { changeProductID(product.id); }}
+                role="button"
+                tabIndex={0}
+                onKeyPress={() => { changeProductID(product.id); }}
+              >
+                <div id="productCategory">
+                  {product.category}
+                </div>
+                <div id="productName">
+                  {product.name}
+                </div>
+                <div id="productPrice">
+                  <RelatedCardPrice
+                    productPrice={product.default_price}
+                    productStyles={relatedProductStyles[index]}
+                  />
+                </div>
+                <RelatedCardReview
+                  relatedProductRatingInfo={relatedProductRatingInfo}
+                  index={index}
                 />
               </div>
-              <RelatedCardReview
-                relatedProductRatingInfo={relatedProductRatingInfo}
-                index={index}
-              />
             </div>
           ))}
         </div>
@@ -67,25 +74,6 @@ export default function relatedCards({
   }
 
   return (
-    <div id="related-slider">
-      <div className="slider-cards">
-        <div id="image-container">
-          Image
-        </div>
-        <RelatedCardButton />
-        <div id="productCategory">
-          Product Category
-        </div>
-        <div id="productName">
-          Product Name
-        </div>
-        <div id="productPrice">
-          Product Price
-        </div>
-        <div id="productStarRating">
-          Product Star Rating
-        </div>
-      </div>
-    </div>
+    <div> </div>
   );
 }
