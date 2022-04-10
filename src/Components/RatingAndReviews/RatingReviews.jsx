@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RatingReviewsList from './RatingReviewsList';
 import ReviewButtons from './ReviewButtons';
@@ -8,10 +8,39 @@ import RatingBreakdown from './RatingBreakdown';
 import ProductBreakdown from './ProductBreakdown';
 
 export default function RatingReviews({
-  data, helpOnClick, reviewsNextPage, moreReviewsOnClick,
+  data, helpOnClick,
   onSortChange, characteristics, ratings, recommended,
-  onFieldChange, reviewsAverageRating,
+  onFieldChange, reviewsAverageRating, reviewsNew, reviewsTotal,
 }) {
+  const pageSize = 2;
+  const [displayCount, setDisplayCount] = useState(pageSize);
+  const [rating, setRating] = useState([]);
+
+  const newData = rating.length === 0
+    ? data.slice()
+    : data.slice().filter((x) => rating.includes(x.rating));
+  const displayReviews = newData.slice(0, displayCount);
+  const btnVisible = newData.length > displayCount;
+
+  const moreReviewsOnClick = () => {
+    setDisplayCount(displayCount + pageSize);
+  };
+
+  const ratingBarOnClick = (range) => {
+    if (rating.length === 0) {
+      setRating([range]);
+    } else {
+      const rr = rating.slice();
+      const ind = rating.indexOf(range);
+      if (ind === -1) {
+        rr.push(range);
+      } else {
+        rr.splice(ind, 1);
+      }
+      setRating(rr);
+    }
+  };
+
   return (
     <div style={{
       marginTop: '50px', display: 'flex', width: '80%', marginLeft: '10%',
@@ -22,14 +51,18 @@ export default function RatingReviews({
           ratings={ratings}
           recommended={recommended}
           reviewsAverageRating={reviewsAverageRating}
+          ratingBarOnClick={ratingBarOnClick}
         />
         <ProductBreakdown characteristics={characteristics} />
       </div>
       <div style={{ width: '60%' }}>
-        <SortOptions onSortChange={onSortChange} />
-        <div>
+        <SortOptions
+          onSortChange={onSortChange}
+          reviewsTotal={reviewsTotal}
+        />
+        <div className="reviewList">
           {
-            data.map((review) => (
+            displayReviews.map((review) => (
               <RatingReviewsList
                 helpOnClick={helpOnClick}
                 key={review.review_id}
@@ -40,8 +73,9 @@ export default function RatingReviews({
         </div>
         <ReviewButtons
           moreReviewsOnClick={moreReviewsOnClick}
-          nextPageLength={reviewsNextPage.length}
+          btnVisible={btnVisible}
           onFieldChange={onFieldChange}
+          reviewsNew={reviewsNew}
         />
       </div>
     </div>
@@ -52,8 +86,6 @@ export default function RatingReviews({
 RatingReviews.propTypes = {
   data: PropTypes.arrayOf(reviewPropTypes).isRequired,
   helpOnClick: PropTypes.func.isRequired,
-  reviewsNextPage: PropTypes.arrayOf(reviewPropTypes).isRequired,
-  moreReviewsOnClick: PropTypes.func.isRequired,
   onSortChange: PropTypes.func.isRequired,
   ratings: PropTypes.shape({
     2: PropTypes.string,
@@ -90,6 +122,11 @@ RatingReviews.propTypes = {
   }),
   onFieldChange: PropTypes.func.isRequired,
   reviewsAverageRating: PropTypes.number.isRequired,
+  reviewsNew: PropTypes.shape({
+    summary: PropTypes.string,
+    body: PropTypes.string,
+  }),
+  reviewsTotal: PropTypes.number.isRequired,
 };
 RatingReviews.defaultProps = {
   ratings: {
@@ -97,4 +134,5 @@ RatingReviews.defaultProps = {
   },
   recommended: {},
   characteristics: {},
+  reviewsNew: {},
 };
