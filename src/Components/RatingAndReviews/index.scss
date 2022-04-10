@@ -1,0 +1,67 @@
+// .reviewList {
+//   overflow: scroll;
+//   height: 80vh;
+// }
+
+.ratingBar:hover {
+  background-color: aquamarine;
+}
+
+.ratingBarSelected {
+  background-color: aquamarine;
+}
+
+.styleBar {
+  display: block;
+  position: relative;
+}
+
+.subStyleBar1 {
+  border-bottom: 1px solid #dcdddb;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.subStyleBar1::before {
+  border: 1px solid rgb(220, 221, 219);
+  background-color: rgb(220, 221, 219);
+  content: "";
+  height: 8px;
+  left: 0px;
+  position: absolute;
+  top: 2px;
+}
+
+
+.subStyleBar2::before {
+  z-index: 1;
+  border-left: 8px solid #161912;
+  border-radius: 8px;
+  content: "";
+  height: 8px;
+  position: absolute;
+  top: 4px;
+}
+
+.subStyleBar2 {
+  border-bottom: 1px solid #dcdddb;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.subStyleBar3 {
+  border: 1px solid rgb(220, 221, 219);
+  background-color: rgb(220, 221, 219);
+  content: "";
+  height: 8px;
+  position: absolute;
+  top: 2px;
+}
+
+.productBreakDown {
+  background-color: #f3f4f3;
+}
+
+.body {
+  font-family: 'graphik,Helvetica,Arial,sans-serif'
+}
