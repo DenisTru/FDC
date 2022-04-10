@@ -65,3 +65,42 @@
 .body {
   font-family: 'graphik,Helvetica,Arial,sans-serif'
 }
+
+.reviewListResponse {
+  background-color: #f3f4f3;
+  margin: 10px;
+  padding: 10px;
+}
+
+.reviewSummary {
+  color: #22577E;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.reviewBody {
+  margin-bottom: 10px;
+  color: #525E75;
+}
+
+.helpYes:hover,
+.helpNo:hover {
+  color: #161912
+}
+
+.sortOption {
+  font-size: large;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.userName {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #78938A;
+}
+
+.date {
+  color: #78938A;
+  font-weight: bold;
+}

@@ -56,11 +56,13 @@ export default function RatingReviews({
         <ProductBreakdown characteristics={characteristics} />
       </div>
       <div style={{ width: '60%' }}>
-        <SortOptions
-          onSortChange={onSortChange}
-          reviewsTotal={reviewsTotal}
-          data={data}
-        />
+        <div className="sortOption">
+          <SortOptions
+            onSortChange={onSortChange}
+            reviewsTotal={reviewsTotal}
+            data={data}
+          />
+        </div>
         <div className="reviewList">
           {
             displayReviews.map((review) => (

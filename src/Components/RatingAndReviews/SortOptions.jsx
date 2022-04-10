@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes, { any } from 'prop-types';
+import PropTypes from 'prop-types';
 import reviewPropTypes from './reviewPropTypes';
 
 export default function SortOptions({ onSortChange, data }) {
   return (
     <div>
       {`${data.length} `}
-      reviews,sorted by
+      reviews, sorted by
       <select
         defaultValue="helpful"
         onChange={(e) => {

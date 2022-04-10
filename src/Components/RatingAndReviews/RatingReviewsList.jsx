@@ -50,13 +50,13 @@ export default function RatingReviewsList({ review, helpOnClick }) {
 
   return (
     <div style={{ marginRight: '0' }}>
-      <div><TextRating ratingValue={rating} /></div>
       <div style={{ display: 'flex', marginTop: '10px' }}>
-        <div>{reviewerName}</div>
-        <div style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
+        <div className="userName">{reviewerName}</div>
+        <div className="date" style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
       </div>
-      <div style={{ marginTop: '20px', marginBottom: '20px' }}><strong>{summary}</strong></div>
-      <div>
+      <div><TextRating ratingValue={rating} /></div>
+      <div className="reviewSummary"><strong>{summary}</strong></div>
+      <div className="reviewBody">
         {
           bodyLength > 250 && displayMore === 'false' ? (
             <div>
@@ -78,9 +78,11 @@ export default function RatingReviewsList({ review, helpOnClick }) {
         {
           (responseLength === 0 || !response) ? null
             : (
-              <div>
-                <div>Response from seller</div>
-                {response}
+              <div className="reviewListResponse">
+                <div style={{ marginBottom: '10px' }}><strong>Response:</strong></div>
+                <div>
+                  {response}
+                </div>
               </div>
             )
         }
@@ -113,13 +115,16 @@ export default function RatingReviewsList({ review, helpOnClick }) {
           />
         </Box>
       </Modal>
-      <div style={{ display: 'flex' }}>
-        <option onClick={() => helpOnClick(reviewId)}>
+      <div style={{
+        display: 'flex', fontSize: '90%', marginTop: '5px', color: 'gray',
+      }}
+      >
+        <option className="helpYes" onClick={() => helpOnClick(reviewId)}>
           Helful?Yes(
           {helpfulness}
           )
         </option>
-        <option onClick={() => onNoClick(reviewId)}> | Report</option>
+        <option className="helpNo" onClick={() => onNoClick(reviewId)}> | Report</option>
       </div>
       <hr />
     </div>
