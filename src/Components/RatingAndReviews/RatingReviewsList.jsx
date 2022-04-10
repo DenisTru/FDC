@@ -76,12 +76,11 @@ export default function RatingReviewsList({ review, helpOnClick }) {
       </div>
       <div>
         {
-          (responseLength === 0 && response) ? <div />
+          (responseLength === 0 || !response) ? null
             : (
               <div>
                 <div>Response from seller</div>
                 {response}
-
               </div>
             )
         }

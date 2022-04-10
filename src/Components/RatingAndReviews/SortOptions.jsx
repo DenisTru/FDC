@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes, { any } from 'prop-types';
+import reviewPropTypes from './reviewPropTypes';
 
 export default function SortOptions({ onSortChange, data }) {
   return (
@@ -24,7 +25,7 @@ export default function SortOptions({ onSortChange, data }) {
 
 SortOptions.propTypes = {
   onSortChange: PropTypes.func.isRequired,
-  data: PropTypes.arrayOf(PropTypes.shape(any)),
+  data: PropTypes.arrayOf(reviewPropTypes),
 };
 
 SortOptions.defaultProps = {
