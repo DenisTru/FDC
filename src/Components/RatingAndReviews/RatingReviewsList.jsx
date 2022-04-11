@@ -6,6 +6,10 @@ import Box from '@mui/material/Box';
 import CheckIcon from '@mui/icons-material/Check';
 import reviewPropTypes from './reviewPropTypes';
 import TextRating from './StaticStars';
+import './index.scss';
+
+const axios = require('axios');
+const config = require('./config');
 
 export default function RatingReviewsList({ review, helpOnClick }) {
   const createdAt = review.date;
@@ -25,19 +29,36 @@ export default function RatingReviewsList({ review, helpOnClick }) {
     summary,
     photos,
   } = review;
+  const bodyLength = body ? body.length : 0;
+  const responseLength = response ? response.length : 0;
+
+  const onNoClick = (reportId) => {
+    const options = function options() {
+      return {
+        url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews/${reportId}/report`,
+        headers: {
+          Authorization: config.TOKEN,
+        },
+        method: 'put',
+      };
+    };
+    options(reportId).params = {
+      review_id: reportId,
+    };
+    axios(options(reviewId)).then(() => console.log('success'));
+  };
 
   return (
     <div style={{ marginRight: '0' }}>
-      <div><TextRating ratingValue={rating} /></div>
-      {/* <div>{reviewId}</div> */}
       <div style={{ display: 'flex', marginTop: '10px' }}>
-        <div>{reviewerName}</div>
-        <div style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
+        <div className="userName">{reviewerName}</div>
+        <div className="date" style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
       </div>
-      <div style={{ marginTop: '20px', marginBottom: '20px' }}><strong>{summary}</strong></div>
-      <div>
+      <div><TextRating ratingValue={rating} /></div>
+      <div className="reviewSummary"><strong>{summary}</strong></div>
+      <div className="reviewBody">
         {
-          body.length > 250 && displayMore === 'false' ? (
+          bodyLength > 250 && displayMore === 'false' ? (
             <div>
               {body.slice(0, 250)}
               <button type="button" onClick={() => { setDisplay('true'); }}>Show More</button>
@@ -55,17 +76,17 @@ export default function RatingReviewsList({ review, helpOnClick }) {
       </div>
       <div>
         {
-          response.length === 0 ? <div />
+          (responseLength === 0 || !response) ? null
             : (
-              <div>
-                <div>Response from seller</div>
-                {response}
-
+              <div className="reviewListResponse">
+                <div style={{ marginBottom: '10px' }}><strong>Response:</strong></div>
+                <div>
+                  {response}
+                </div>
               </div>
             )
         }
       </div>
-
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         {
           photos.map((photo) => (
@@ -94,11 +115,17 @@ export default function RatingReviewsList({ review, helpOnClick }) {
           />
         </Box>
       </Modal>
-      <option onClick={() => helpOnClick(reviewId)}>
-        Helful?Yes(
-        {helpfulness}
-        )
-      </option>
+      <div style={{
+        display: 'flex', fontSize: '90%', marginTop: '5px', color: 'gray',
+      }}
+      >
+        <option className="helpYes" onClick={() => helpOnClick(reviewId)}>
+          Helful?Yes(
+          {helpfulness}
+          )
+        </option>
+        <option className="helpNo" onClick={() => onNoClick(reviewId)}> | Report</option>
+      </div>
       <hr />
     </div>
   );

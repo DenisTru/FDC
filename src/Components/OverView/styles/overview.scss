@@ -1,0 +1,94 @@
+$font-FamilySans: "adobe-clean", sans-serif;
+
+.sale-price {
+  padding-top: 10px;
+  padding-left: 1px;
+color: red;
+font-family:$font-FamilySans;
+}
+.original-price{
+  color: black;
+  display: inline-block;
+  font-family:$font-FamilySans;
+}
+.original-price-strike {
+  color: black;
+  display: inline-block;
+  text-decoration: line-through;
+  padding-left: 4px;
+  font-family:$font-FamilySans;
+}
+.read-reviews {
+margin-left: 5px;
+display: inline-block;
+color: rgb(106, 106, 106);
+text-decoration: underline;
+font-size: 12px;
+font-family:$font-FamilySans;
+}
+
+.category-title {
+  color: rgb(106, 106, 106);
+  padding-top: 10px;
+  padding-left: 2.5px;
+  font-family: $font-FamilySans
+
+}
+.name-title{
+  color: rgb(65,65,65);
+  font-size:30px;
+  font-weight: bold;
+  font-family: $font-FamilySans
+}
+.dollar{
+  color: rgb(65,65,65);
+  display: inline-block;
+  font-family: $font-FamilySans
+
+}
+.product-description{
+  color: rgb(65,65,65);
+  font-family: $font-FamilySans;
+  text-align: left;
+}
+
+.product-slogan{
+  color: rgb(65,65,65);
+  font-family: $font-FamilySans;
+  font-weight: 600;
+  text-align: left;
+  padding-top: 20px;
+}
+.overview-container {  display: grid;
+  grid-template-columns: 0.4fr 1.6fr 1fr;
+  grid-template-rows: 1.4fr 0.6fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    ". image-gallery info-panel"
+    ". product-info-container gmo-free";
+}
+
+.info-panel {
+  padding-top: 15px;
+  padding-left: 20px;
+  grid-area: info-panel;
+ }
+
+.image-gallery { grid-area: image-gallery; }
+
+.product-info-container {
+  grid-area: product-info-container;
+}
+
+
+.gmo-free {
+  grid-area: gmo-free;
+  font-family: $font-FamilySans;
+  font-size: smaller;
+
+}
+.gmo-free p {
+  color: rgba(106, 106, 106, 0.7);
+  font-weight: 600;
+}

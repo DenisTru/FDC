@@ -1,10 +1,12 @@
 import React from 'react';
 import $ from 'jquery';
+import { BsCheck } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 import ItemStyles from './itemStyles';
-import './styles/infoPanel.scss';
+import './styles/overview.scss';
 import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
+import ImageCarousel from './imageCarousel';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -19,15 +21,13 @@ class Overview extends React.Component {
   handleChangeSize = (e) => {
     const sku = $(`option[value="${e.target.value}"]`).attr('sku');
     this.setState(
-      { itemStock: Number(e.target.value), itemSku: sku },
-      () => console.log(this.state.itemStock),
+      { itemStock: e.target.value, itemSku: sku },
     );
   };
 
   handleChangeQuantity = (e) => {
     this.setState(
       { quantityToPurchase: e.target.value },
-      () => console.log(this.state.quantityToPurchase),
     );
   };
 
@@ -63,63 +63,72 @@ class Overview extends React.Component {
   render() {
     const {
       product, handleClick, currentStyle, reviewsStarAverage,
-      productStyles,
+      productStyles, styleImages,
     } = this.props;
     const { itemStock, quantityToPurchase } = this.state;
+
+    const formatedStyles = styleImages.map((style) => ({
+      original: style.url,
+      thumbnail: style.thumbnail_url,
+    }));
+
     if ($.isEmptyObject(product)) {
       return 'No Item to display';
     }
     const {
       category, name, slogan, description,
     } = product;
-    if (!description
-    || description === '') {
-      return (
-        <div>
+    return (
+      <div className="overview-container">
+        <div className="info-panel">
+          <div>
+            {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
+            {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
+          </div>
           <div className="category-title">{category}</div>
           <div className="name-title">{name}</div>
+          <div className="sale-price">
+            <div className="dollar">$</div>
+            {currentStyle.sale_price ? currentStyle.sale_price : ''}
+            {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
+          </div>
           <ItemStyles
             handleClick={handleClick}
             currentSelectedStyle={currentStyle}
             productStyles={productStyles}
           />
-          {/* <SizeSelector /> */}
+          <SizeSelector
+            currentSelectedStyle={currentStyle}
+            itemStock={itemStock}
+            quantityToPurchase={quantityToPurchase}
+            handleChangeSize={this.handleChangeSize}
+            handleChangeQuantity={this.handleChangeQuantity}
+          />
+          <button type="submit" onClick={this.handleCart}>
+            Add To Cart
+          </button>
         </div>
-      );
-    }
-    return (
-      <div>
-        <div>
-          {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
-          {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
+        <ImageCarousel styleImages={formatedStyles} />
+        <div className="product-info-container">
+          <div className="body">
+            <div className="product-slogan">{slogan || 's'}</div>
+            <div className="product-description">{description || 's'}</div>
+          </div>
         </div>
-        <div className="category-title">{category}</div>
-        <div className="name-title">{name}</div>
-        <div className="sale-price">
-          <div className="dollar">$</div>
-          {currentStyle.sale_price ? currentStyle.sale_price : ''}
-          {currentStyle.sale_price ? <div className="original-price-strike">{currentStyle.original_price}</div> : <div className="original-price">{currentStyle.original_price}</div>}
+        <div className="gmo-free">
+          <p>
+            <BsCheck size={20} />
+            GMO and Pesticide-free
+          </p>
+          <p>
+            <BsCheck size={20} />
+            Made with 100% Genetic Modification
+          </p>
+          <p>
+            <BsCheck size={20} />
+            Good Stuff
+          </p>
         </div>
-        <ItemStyles
-          handleClick={handleClick}
-          currentSelectedStyle={currentStyle}
-          productStyles={productStyles}
-        />
-        <SizeSelector
-          currentSelectedStyle={currentStyle}
-          itemStock={itemStock}
-          quantityToPurchase={quantityToPurchase}
-          handleChangeSize={this.handleChangeSize}
-          handleChangeQuantity={this.handleChangeQuantity}
-        />
-        <button type="submit" onClick={this.handleCart}>
-          Add To Cart
-        </button>
-        <div className="item-description-container">
-          <div className="product-slogan">{slogan || ''}</div>
-          <div className="product-description">{description || ''}</div>
-        </div>
-
       </div>
     );
   }
@@ -171,9 +180,12 @@ Overview.propTypes = {
         size: PropTypes.string,
       }),
     ),
-
   })).isRequired,
   reviewsStarAverage: PropTypes.number,
+  styleImages: PropTypes.arrayOf(PropTypes.shape({
+    thumbnail_url: PropTypes.string,
+    url: PropTypes.string,
+  })).isRequired,
 };
 
 export default Overview;

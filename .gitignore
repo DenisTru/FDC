@@ -1,6 +1,4 @@
 node_modules
 dist
 config.js
-bundle.js
 package-lock.json
-public/bundle.js
