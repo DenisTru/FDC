@@ -1,8 +1,9 @@
 import React from 'react';
 import '../../relateOutfitLists.scss';
+import fill from './assets/noImagefill.png';
 
-export default function relatedCardImage({ relatedProductStyles }) {
-  let url = 'NullImgURL';
+export default function relatedCardImage({ relatedProductStyles, changeProductID, product }) {
+  let url = fill;
   if (relatedProductStyles) {
     if (relatedProductStyles[0].photos) {
       if (relatedProductStyles[0].photos.length) {
@@ -13,8 +14,14 @@ export default function relatedCardImage({ relatedProductStyles }) {
     }
   }
   return (
-    <div id="image-container">
-      <img id="image" src={url} alt="NullImgURL" />
+    <div
+      id="image-container"
+      onClick={() => { changeProductID(product.id); }}
+      role="button"
+      tabIndex={0}
+      onKeyPress={() => { changeProductID(product.id); }}
+    >
+      <img id="image" src={url || fill} alt="NullImgURL" />
     </div>
   );
 }

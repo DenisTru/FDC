@@ -32,7 +32,7 @@ export default function TextRating({ ratingValue }) {
         name="text-feedback"
         sx={{
           '& .MuiRating-iconFilled': {
-            color: 'gray',
+            color: 'black',
           },
         }}
         value={value}
