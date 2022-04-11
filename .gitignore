@@ -2,3 +2,5 @@ node_modules
 dist
 config.js
 package-lock.json
+bundle.js
+public/bundle.js

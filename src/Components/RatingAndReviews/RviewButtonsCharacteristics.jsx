@@ -34,7 +34,7 @@ export default function ReviewButtonsCharacteristics({ onFieldChange }) {
       marginBottom: '20px',
     }}
     >
-      <div style={{ marginBottom: '10px', textAlign: 'center' }}>Characteristics Title</div>
+      <div style={{ marginBottom: '10px', textAlign: 'center' }}>Characteristics Choice</div>
       {
         Object.keys(formObj).map((id) => (
           <FormControl key={id}>
