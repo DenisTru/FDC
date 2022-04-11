@@ -5,11 +5,29 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 
+const axios = require('axios');
+
 const Input = styled('input')({
   display: 'none',
 });
 
-export default function ReviewButtonsPhoto() {
+const uploadOnChange = (file, cb) => {
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('key', 'c6066fe81870c98e11c0f7bceddc706b');
+  axios({
+    method: 'post',
+    url: 'https://api.imgbb.com/1/upload',
+    data: formData,
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  }).then(({ data }) => (data.data.image.url))
+    .then((url) => { cb(url, 'url'); })
+    .catch(() => alert('photo upload failed'));
+};
+
+export default function ReviewButtonsPhoto({ onFieldChange }) {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <label htmlFor="contained-button-file">
@@ -19,7 +37,7 @@ export default function ReviewButtonsPhoto() {
         </Button>
       </label>
       <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file" type="file" />
+        <Input accept="image/*" id="icon-button-file" type="file" onChange={(e) => uploadOnChange(e.target.files[0], onFieldChange)} />
         <IconButton color="primary" aria-label="upload picture" component="span">
           <PhotoCamera />
         </IconButton>
