@@ -14,7 +14,9 @@ import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
 import { getProduct, getProductStyles } from './Components/Overview/data';
+
 const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
+
 const root = createRoot(document.getElementById('root'));
 
 // need to refactor so that product can be fetched before is loading is set to false
