@@ -14,6 +14,7 @@ import { getProductStyles } from './Components/Overview/data';
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
+import newReviewsPost from './Components/RatingAndReviews/newReviews';
 
 const root = createRoot(document.getElementById('root'));
 
@@ -699,6 +700,31 @@ class App extends React.Component {
       });
   };
 
+  onReviewSubmit = () => {
+    // Do not touch, dangerous!!!!
+    const { reviewsNew, reviewsMeta, productId } = this.state;
+    const { characteristics } = reviewsMeta;
+    const char = Object.keys(characteristics).reduce((res, x) => {
+      res[characteristics[x].id] = Number(reviewsNew[x.toLowerCase()]);
+      return res;
+    }, {});
+    const newReviews = {
+      product_id: productId,
+      rating: Number(reviewsNew.rating),
+      summary: reviewsNew.summary,
+      body: reviewsNew.body,
+      recommend: reviewsNew.recommend === 'yes',
+      name: reviewsNew.name,
+      email: reviewsNew.email,
+      photos: [reviewsNew.url],
+      characteristics: char,
+    };
+    console.log(newReviews);
+    newReviewsPost(newReviews)
+      .then((data) => { console.log(data); })
+      .catch((err) => { console.log(err) });
+  };
+
   render() {
     const {
       reviews, isLoading, reviewsMeta,
@@ -765,6 +791,7 @@ class App extends React.Component {
                 reviewsAverageRating={reviewsAverageRating}
                 reviewsNew={reviewsNew}
                 reviewsTotal={reviewsTotal}
+                onReviewSubmit={this.onReviewSubmit}
               />
             )
 
