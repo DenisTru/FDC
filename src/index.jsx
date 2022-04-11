@@ -836,7 +836,7 @@ class App extends React.Component {
     if (isLoading) {
       return (
         <div>App is Loading</div>
-      );
+      )
     }
     return (
       <div>
