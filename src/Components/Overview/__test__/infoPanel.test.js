@@ -388,3 +388,17 @@ it('should show stars and reviews if they are given', () => {
 
   expect(screen.getByLabelText(/Rating of this product is 2.3 out of 5./i)).toBeInTheDocument();
 });
+
+it('it should have two drop down when renders', () => {
+  render(<Overview
+    productId={mockId}
+    product={mockProduct}
+    currentStyle={mockItemStyles.results[0]}
+    handleClick={mockStyleOnClick}
+    productStyles={mockItemStyles.results}
+    reviewsStarAverage={mockStars}
+    currentShownImage=""
+    styleImages={[]}
+  />);
+  expect(screen.getAllByRole('combobox')).toHaveLength(2);
+});

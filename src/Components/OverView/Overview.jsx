@@ -8,6 +8,7 @@ import './styles/overview.scss';
 import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
 import ImageCarousel from './imageCarousel';
+import fill from './assets/noImagefill.png';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class Overview extends React.Component {
       itemStock: '',
       quantityToPurchase: 1,
       itemSku: 0,
+      pickSize: 'default',
     };
   }
 
@@ -27,6 +29,7 @@ class Overview extends React.Component {
         itemStock: '',
         quantityToPurchase: 1,
         itemSku: 0,
+        pickSize: 'default',
       });
     }
   }
@@ -34,7 +37,7 @@ class Overview extends React.Component {
   handleChangeSize = (e) => {
     const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
     this.setState(
-      { itemStock: e.target.value, itemSku: sku },
+      { itemStock: e.target.value, itemSku: sku, pickSize: e.target.value },
     );
   };
 
@@ -67,13 +70,21 @@ class Overview extends React.Component {
       productStyles, styleImages,
     } = this.props;
     const {
-      itemStock, quantityToPurchase, itemSku, defaultSize,
+      itemStock, quantityToPurchase, itemSku, pickSize,
     } = this.state;
 
-    const formatedStyles = styleImages.map((style) => ({
-      original: style.url,
-      thumbnail: style.thumbnail_url,
-    }));
+    const formatedStyles = styleImages.map((style) => {
+      if (!style.url || !style.thumbnail_url) {
+        return {
+          original: fill,
+          thumbnail: fill,
+        };
+      }
+      return {
+        original: style.url,
+        thumbnail: style.thumbnail_url,
+      };
+    });
 
     if ($.isEmptyObject(product)) {
       return 'No Item to display';
@@ -86,7 +97,17 @@ class Overview extends React.Component {
         <div className="info-panel">
           <div>
             {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
-            {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
+            {reviewsStarAverage ? (
+              <div
+                role="button"
+                tabIndex="0"
+                className="read-reviews"
+                onClick={(e) => { e.preventDefault(); window.location.replace('/#ratings'); }}
+                onKeyDown={(e) => { e.preventDefault(); window.location.replace('/#ratings'); }}
+              >
+                Read all reviews
+              </div>
+            ) : ''}
           </div>
           <div className="category-title">{category}</div>
           <div className="name-title">{name}</div>
@@ -107,7 +128,7 @@ class Overview extends React.Component {
             quantityToPurchase={quantityToPurchase}
             handleChangeSize={this.handleChangeSize}
             handleChangeQuantity={this.handleChangeQuantity}
-            defaultSize={defaultSize}
+            pickSize={pickSize}
           />
           <button type="submit" onClick={this.handleCart}>
             Add To Cart
@@ -142,7 +163,6 @@ class Overview extends React.Component {
 Overview.defaultProps = {
   product: {},
   reviewsStarAverage: null,
-  defaultSize: false,
 };
 
 Overview.propTypes = {
@@ -192,7 +212,7 @@ Overview.propTypes = {
     thumbnail_url: PropTypes.string,
     url: PropTypes.string,
   })).isRequired,
-  defaultSize: PropTypes.bool,
+
 };
 
 export default Overview;
