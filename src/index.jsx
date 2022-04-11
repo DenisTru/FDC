@@ -709,8 +709,8 @@ class App extends React.Component {
       return res;
     }, {});
     const newReviews = {
-      product_id: productId,
-      rating: Number(reviewsNew.rating),
+      product_id: parseInt(productId, 10),
+      rating: parseInt(reviewsNew.rating, 10),
       summary: reviewsNew.summary,
       body: reviewsNew.body,
       recommend: reviewsNew.recommend === 'yes',
@@ -719,10 +719,11 @@ class App extends React.Component {
       photos: [reviewsNew.url],
       characteristics: char,
     };
-    console.log(newReviews);
     newReviewsPost(newReviews)
       .then((data) => { console.log(data); })
-      .catch((err) => { console.log(err) });
+      .catch((error) => {
+        console.log(error.response.data.errors);
+      });
   };
 
   render() {

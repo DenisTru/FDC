@@ -10,7 +10,7 @@ const options = {
 };
 
 const newReviewsPost = function newReviewsPost(newReviews) {
-  options.params = newReviews;
+  options.data = newReviews;
   return axios(options);
 };
 
