@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './styles/itemStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faGreaterThan } from '@fortawesome/free-solid-svg-icons';
+import fill from './assets/noImagefill.png'
 
 function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
   return (
@@ -20,7 +21,7 @@ function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
                 <div
                   key={style.style_id}
                   className="label"
-                  style={{ backgroundImage: `url(${style.photos[0].thumbnail_url})` }}
+                  style={style.photos[0].thumbnail_url ? { backgroundImage: `url(${style.photos[0].thumbnail_url})` } : { backgroundImage: fill }}
                 >
                   <FontAwesomeIcon icon={faCheckCircle} />
                 </div>
@@ -37,8 +38,9 @@ function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
               onClick={() => handleClick(style)}
               onKeyDown={() => handleClick(style)}
             >
+
               <img
-                src={style.photos[0].thumbnail_url}
+                src={style.photos[0].thumbnail_url ? style.photos[0].thumbnail_url : fill}
                 className="image--cover"
                 alt={style.name}
               />

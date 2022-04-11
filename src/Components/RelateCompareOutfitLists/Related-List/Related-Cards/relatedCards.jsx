@@ -11,8 +11,6 @@ export default function relatedCards({
 }) {
   if (relatedProductStyles && relatedProducts && relatedProductRatingInfo) {
     if (relatedProductStyles.length && relatedProducts.length && relatedProductRatingInfo.length) {
-      console.log('relatedProductRatingInfo ', relatedProductRatingInfo);
-
       return (
         <div id="related-slider">
           {relatedProducts.map((product, index) => (

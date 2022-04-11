@@ -14,14 +14,25 @@ class Overview extends React.Component {
     super(props);
     this.state = {
       itemStock: '',
-      quantityToPurchase: 0,
+      quantityToPurchase: 1,
       itemSku: 0,
     };
   }
 
+  componentDidUpdate(prevProps) {
+    // if current sytle changes we clear item stock to default value
+    const { currentStyle } = this.props;
+    if (prevProps.currentStyle !== currentStyle) {
+      this.setState({
+        itemStock: '',
+        quantityToPurchase: 1,
+        itemSku: 0,
+      });
+    }
+  }
+
   handleChangeSize = (e) => {
     const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
-    console.log(sku);
     this.setState(
       { itemStock: e.target.value, itemSku: sku },
     );
@@ -37,14 +48,17 @@ class Overview extends React.Component {
     e.preventDefault();
     const addQuantityToCart = [];
     const { quantityToPurchase, itemSku } = this.state;
-    for (let i = 0; i < quantityToPurchase; i += 1) {
-      addQuantityToCart.push(addToCartPOST(itemSku));
-    }
 
-    Promise.all(addQuantityToCart)
-      .then((data) => {
-        console.log(data);
-      });
+    if (itemSku !== 0) {
+      for (let i = 0; i < quantityToPurchase; i += 1) {
+        addQuantityToCart.push(addToCartPOST(itemSku));
+      }
+
+      Promise.all(addQuantityToCart)
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
 
   render() {
@@ -52,7 +66,9 @@ class Overview extends React.Component {
       product, handleClick, currentStyle, reviewsStarAverage,
       productStyles, styleImages,
     } = this.props;
-    const { itemStock, quantityToPurchase } = this.state;
+    const {
+      itemStock, quantityToPurchase, itemSku, defaultSize,
+    } = this.state;
 
     const formatedStyles = styleImages.map((style) => ({
       original: style.url,
@@ -83,6 +99,7 @@ class Overview extends React.Component {
             handleClick={handleClick}
             currentSelectedStyle={currentStyle}
             productStyles={productStyles}
+            itemSku={itemSku}
           />
           <SizeSelector
             currentSelectedStyle={currentStyle}
@@ -90,6 +107,7 @@ class Overview extends React.Component {
             quantityToPurchase={quantityToPurchase}
             handleChangeSize={this.handleChangeSize}
             handleChangeQuantity={this.handleChangeQuantity}
+            defaultSize={defaultSize}
           />
           <button type="submit" onClick={this.handleCart}>
             Add To Cart
@@ -124,6 +142,7 @@ class Overview extends React.Component {
 Overview.defaultProps = {
   product: {},
   reviewsStarAverage: null,
+  defaultSize: false,
 };
 
 Overview.propTypes = {
@@ -173,6 +192,7 @@ Overview.propTypes = {
     thumbnail_url: PropTypes.string,
     url: PropTypes.string,
   })).isRequired,
+  defaultSize: PropTypes.bool,
 };
 
 export default Overview;
