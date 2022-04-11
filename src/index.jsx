@@ -558,7 +558,15 @@ class App extends React.Component {
 
   onFieldChange = (value, fieldName) => {
     const { reviewsNew } = this.state;
-    reviewsNew[fieldName] = value;
+    if (fieldName === 'url' && !reviewsNew[fieldName]) {
+      reviewsNew[fieldName] = [value];
+    } else if (fieldName === 'url' && reviewsNew[fieldName]) {
+      reviewsNew[fieldName].push(value);
+    } else {
+      reviewsNew[fieldName] = value;
+    }
+    // console.log(reviewsNew['url']);
+
     this.setState({ reviewsNew });
   };
 
@@ -813,7 +821,7 @@ class App extends React.Component {
       recommend: reviewsNew.recommend === 'yes',
       name: reviewsNew.name,
       email: reviewsNew.email,
-      photos: [reviewsNew.url],
+      photos: reviewsNew.url,
       characteristics: char,
     };
     newReviewsPost(newReviews)
