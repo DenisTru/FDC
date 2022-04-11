@@ -430,6 +430,7 @@ class App extends React.Component {
       productToCompare: {},
       productToCompareStyles: [],
       productToCompareRating: {},
+      productInfo: {},
     };
   }
 
@@ -500,8 +501,10 @@ class App extends React.Component {
                 this.setState({ reviews: data, isLoading: false });
               });
           });
-        this.getSelectedProductInfo();
       });
+
+    // Get Related - Compare - Outfit Information
+    this.getSelectedProductInfo();
   }
 
   styleOnClick = (selectedStyle) => {
@@ -688,6 +691,7 @@ class App extends React.Component {
     promises.push(getProductInfo(productId));
     promises.push(getProductStyles(productId));
     promises.push(getRelatedProductIds(productId));
+    promises.push(getMetaReviews(productId));
 
     Promise.all(promises)
       .then((result) => {
@@ -696,6 +700,64 @@ class App extends React.Component {
           productStyles: result[1].data.results,
           relatedProductIDs: result[2].data,
         }, this.getRelatedProductInformation);
+
+        // Creating productInfo START HERE ---------------------------------------------------------
+        // Get Product Rating Info and Format it
+        const getProductReviewInfo = function getProductReviewInfo(reviews) {
+          const keys = Object.keys(reviews);
+          const values = Object.values(reviews);
+          let numReviews = 0;
+          let sum = 0;
+          for (let i = 0; i < keys.length; i += 1) {
+            sum += keys[i] * parseInt(values[i], 10);
+            numReviews += parseInt(values[i], 10);
+          }
+          return { rating: ((sum / numReviews) || 0), numReviews };
+        };
+        const formattedReviewInfo = getProductReviewInfo(result[3].data.ratings);
+        // Get Related Product Info
+        let relatedProductsInfo = [];
+        let relatedProductsStyles = [];
+        let relatedProductsReviewInfo = [];
+        const relatedProductIDs = result[2].data;
+        const productPromises = [];
+        const stylePromises = [];
+        const reviewsPromises = [];
+        for (let i = 0; i < relatedProductIDs.length; i += 1) {
+          const productID = relatedProductIDs[i];
+          productPromises.push(getRelatedProductInfo(productID));
+          stylePromises.push(getRelatedProductStyles(productID));
+          reviewsPromises.push(getMetaReviews(productID));
+        }
+        Promise.all(productPromises)
+          .then((products) => {
+            relatedProductsInfo = products.map((product) => product.data);
+          });
+        Promise.all(stylePromises)
+          .then((products) => {
+            relatedProductsStyles = products.map((product) => product.data.results);
+          });
+        Promise.all(reviewsPromises)
+          .then((products) => {
+            relatedProductsReviewInfo = products.map((product) => product.data.ratings);
+          });
+        const reviews = relatedProductsReviewInfo.map((product) => getProductReviewInfo(product));
+        // Format Product Info Object Container
+        const relatedProducts = [];
+        for (let i = 0; i < reviews.length; i += 1) {
+          const product = relatedProductsInfo[i];
+          const styles = relatedProductsStyles[i];
+          const reviewInfo = reviews[i];
+          relatedProducts.push({ product, styles, reviewInfo });
+        }
+        const productInfo = {
+          product: result[0].data,
+          productStyles: result[1].data.results,
+          productReviewInfo: formattedReviewInfo,
+          relatedProducts,
+        };
+        // console.log('productInfo ', productInfo);
+        // Creating productInfo STOP HERE ----------------------------------------------------------
       })
       .catch((err) => {
         console.log(err);
@@ -719,7 +781,7 @@ class App extends React.Component {
             sum += keys[i] * parseInt(values[i], 10);
             numReviews += parseInt(values[i], 10);
           }
-          return { rating: ((sum / keys.length) || 0), numReviews };
+          return { rating: ((sum / numReviews) || 0), numReviews };
         });
         this.setState({
           productRatingInfo,
