@@ -11,6 +11,7 @@ Click around and explore!
 #### Installing<br />
 1. Clone the repository to your local machine.
 2. Navigate to the repository and install dependencies ``` yarn install ```
+3. Requires a config.js file in 3 areas, the root, Overview, RatingsAndReviews, with your api token.
 
 ### Usage<br />
 -``` yarn start ``` to use webpack in development mode<br />
