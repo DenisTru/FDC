@@ -10,10 +10,10 @@ import helpPut from './Components/RatingAndReviews/helpPut';
 import OutfitList from './Components/RelateCompareOutfitLists/Outfit-List/outfitList';
 import RelatedList from './Components/RelateCompareOutfitLists/Related-List/RelatedList';
 import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/compareModal';
-import { getProductStyles } from './Components/Overview/data';
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
+import { getProductStyles } from './Components/Overview/data';
 
 const root = createRoot(document.getElementById('root'));
 
