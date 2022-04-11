@@ -9,6 +9,7 @@ import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
 import ImageCarousel from './imageCarousel';
 import fill from './assets/noImagefill.png';
+import SocialShare from './socialShare';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class Overview extends React.Component {
   render() {
     const {
       product, handleClick, currentStyle, reviewsStarAverage,
-      productStyles, styleImages,
+      productStyles, styleImages, currentShownImage,
     } = this.props;
     const {
       itemStock, quantityToPurchase, itemSku, pickSize,
@@ -139,6 +140,7 @@ class Overview extends React.Component {
           <div className="body">
             <div className="product-slogan">{slogan || 's'}</div>
             <div className="product-description">{description || 's'}</div>
+            <SocialShare className="social-share-container" image={currentShownImage} />
           </div>
         </div>
         <div className="gmo-free">
@@ -212,7 +214,7 @@ Overview.propTypes = {
     thumbnail_url: PropTypes.string,
     url: PropTypes.string,
   })).isRequired,
-
+  currentShownImage: PropTypes.string.isRequired,
 };
 
 export default Overview;
