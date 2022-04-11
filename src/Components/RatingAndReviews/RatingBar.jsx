@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 
@@ -28,3 +29,24 @@ const RatingBar = function RatingBar({
 };
 
 export default RatingBar;
+
+RatingBar.propTypes = {
+  ratingBarOnClick: PropTypes.func.isRequired,
+  range: PropTypes.string,
+  count: PropTypes.number,
+  ratings: PropTypes.shape({
+    2: PropTypes.string,
+    3: PropTypes.string,
+    4: PropTypes.string,
+    5: PropTypes.string,
+    1: PropTypes.string,
+  }),
+};
+
+RatingBar.defaultProps = {
+  range: '5',
+  count: 0,
+  ratings: {
+    1: '0', 2: '0', 3: '0', 4: '0', 5: '0',
+  },
+};

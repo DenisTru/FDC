@@ -410,7 +410,7 @@ class App extends React.Component {
       reviewsTotal: 0,
       reviewsAverageRating: 0,
       reviewsNew: {},
-      productId: 66643,
+      productId: 66645,
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
@@ -661,7 +661,6 @@ class App extends React.Component {
 
   // Relate Compare Outfit Lists - Handle 'related item product card click' click
   changeProductID = (productID) => {
-    console.log('@@@')
     const {
       reviewsSort,
     } = this.state;
@@ -751,19 +750,26 @@ class App extends React.Component {
           relatedProductRatingInfo={relatedProductRatingInfo}
           productStyles={productStyles}
         />
-        <RatingReviews
-          characteristics={characteristics}
-          ratings={ratings}
-          recommended={recommended}
-          helpOnClick={this.helpOnClick}
-          data={reviews}
-          moreReviewsOnClick={this.moreReviewsOnClick}
-          onSortChange={this.onSortChange}
-          onFieldChange={this.onFieldChange}
-          reviewsAverageRating={reviewsAverageRating}
-          reviewsNew={reviewsNew}
-          reviewsTotal={reviewsTotal}
-        />
+        {
+          (reviews.length === 0 && reviewsTotal === 0) ? null
+            : (
+              <RatingReviews
+                characteristics={characteristics}
+                ratings={ratings}
+                recommended={recommended}
+                helpOnClick={this.helpOnClick}
+                data={reviews}
+                moreReviewsOnClick={this.moreReviewsOnClick}
+                onSortChange={this.onSortChange}
+                onFieldChange={this.onFieldChange}
+                reviewsAverageRating={reviewsAverageRating}
+                reviewsNew={reviewsNew}
+                reviewsTotal={reviewsTotal}
+              />
+            )
+
+        }
+
       </div>
     );
   }
