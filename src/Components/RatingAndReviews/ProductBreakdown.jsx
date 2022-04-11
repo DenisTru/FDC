@@ -19,25 +19,41 @@ export default function ProductBreakdown({ characteristics }) {
     <div
       className="productBreakDown"
       style={{
-        width: '80%', height: '300px', paddingTop: '30px', borderRadius: '16px',
+        width: '80%', paddingTop: '30px', borderRadius: '16px', paddingBottom: '30px',
       }}
     >
       {
         types.map((type) => (
           keys.includes(type) ? (
             <div key={type} style={{ marginBottom: '20px' }}>
-              <div style={{ textAlign: 'center', color: '#161912' }}>
+              <div style={{
+                textAlign: 'center',
+                color: '#161912',
+                fontSize: '90%',
+              }}
+              >
+                How do you like the
+                {' '}
                 {`${type} `}
               </div>
               <div>
-                <div style={{ marginLeft: '15%' }}>
+                <div style={{ marginLeft: '5%' }}>
                   <span className="styleBar">
-                    <span className="subStyleBar1" style={{ width: `${(characteristics[type].value / 5) * 80}%` }} />
-                    <span className="middleBar" style={{ zIndex: '1' }} />
-                    <span className="subStyleBar2" style={{ width: `${80 - (characteristics[type].value / 5) * 80}%` }} />
-                    <span className="subStyleBar3" />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <i />
+                    <span className="middleBar" style={{ left: `${(characteristics[type].value / 5) * 80}%` }} />
                   </span>
-                  <div style={{ width: '85%', display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{
+                    width: '85%',
+                    marginLeft: '8%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '80%',
+                  }}
+                  >
                     <div className="charFirst">
                       {
                         obj[type.toLowerCase()][0]
