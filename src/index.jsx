@@ -720,7 +720,7 @@ class App extends React.Component {
       characteristics: char,
     };
     newReviewsPost(newReviews)
-      .then((data) => { console.log(data); })
+      .then(() => { console.log('success'); })
       .catch((error) => {
         console.log(error.response.data.errors);
       });
