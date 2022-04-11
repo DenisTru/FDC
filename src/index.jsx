@@ -407,7 +407,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      productId: 66643,
+      productId: 66642,
       reviews: [],
       reviewsMeta: [],
       reviewsSort: 'helpful',
@@ -849,6 +849,7 @@ class App extends React.Component {
           styleImages={styleImages}
           currentShownImage={currentShownImage}
           reviewsStarAverage={reviewsAverageRating}
+          scrollToReviews={this.scrollToReviews}
         />
         <CompareModal
           compare={compare}
