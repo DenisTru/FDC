@@ -60,9 +60,11 @@ export default function RatingReviews({
   };
 
   return (
-    <div style={{
-      marginTop: '50px', display: 'flex', width: '80%', marginLeft: '10%',
-    }}
+    <div
+      id="ratings"
+      style={{
+        marginTop: '50px', display: 'flex', width: '80%', marginLeft: '10%',
+      }}
     >
       <div style={{ width: '40%' }}>
         <RatingBreakdown

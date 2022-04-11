@@ -3,7 +3,7 @@ import '../../relateOutfitLists.scss';
 import fill from './assets/noImagefill.png';
 
 export default function relatedCardImage({ relatedProductStyles, changeProductID, product }) {
-  let url = fill;
+  let url;
   if (relatedProductStyles) {
     if (relatedProductStyles[0].photos) {
       if (relatedProductStyles[0].photos.length) {
