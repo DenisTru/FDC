@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
 
 const RatingBar = function RatingBar({
   range,
   ratingBarOnClick,
   count,
   ratings,
+  productId,
 }) {
   const [isSelected, setIsSelected] = useState(false);
+  useEffect(() => {
+    setIsSelected(false);
+  }, [productId]);
   return (
     <div className={isSelected ? 'ratingBarSelected' : 'ratingBar'} style={{ width: '60%' }}>
       <Box onClick={() => { setIsSelected(!isSelected); ratingBarOnClick(Number(range)); }}>
@@ -31,9 +35,6 @@ const RatingBar = function RatingBar({
 export default RatingBar;
 
 RatingBar.propTypes = {
-  ratingBarOnClick: PropTypes.func.isRequired,
-  range: PropTypes.string,
-  count: PropTypes.number,
   ratings: PropTypes.shape({
     2: PropTypes.string,
     3: PropTypes.string,
@@ -41,12 +42,22 @@ RatingBar.propTypes = {
     5: PropTypes.string,
     1: PropTypes.string,
   }),
+  recommended: PropTypes.shape({
+    false: PropTypes.string,
+    true: PropTypes.string,
+  }),
+  ratingBarOnClick: PropTypes.func.isRequired,
+  productId: PropTypes.number,
+  range: PropTypes.string,
+  count: PropTypes.number,
 };
 
 RatingBar.defaultProps = {
-  range: '5',
-  count: 0,
   ratings: {
     1: '0', 2: '0', 3: '0', 4: '0', 5: '0',
   },
+  recommended: {},
+  productId: 66643,
+  range: '5',
+  count: 0,
 };
