@@ -430,7 +430,9 @@ class App extends React.Component {
       productToCompare: {},
       productToCompareStyles: [],
       productToCompareRating: {},
+      productID: 66642,
       productInfo: {},
+      productStyle: [],
     };
   }
 
@@ -573,8 +575,8 @@ class App extends React.Component {
 
   // Relate Compare Outfit Lists - Handle 'add to outfit' click
   addToOutfit = () => {
-    const { productId, productRatingInfo } = this.state;
-    if (!this.productIsInOutfit(productId)) {
+    const { productID, productRatingInfo } = this.state;
+    if (!this.productIsInOutfit(productID)) {
       const {
         product, outfitProductsAndStyles,
         outfitProductIDs, productStyles,
@@ -582,7 +584,7 @@ class App extends React.Component {
       const addsOutfit = outfitProductsAndStyles;
       addsOutfit.push({ product, productStyles, productRatingInfo });
       const addsProductID = outfitProductIDs;
-      addsProductID[productId] = productId;
+      addsProductID[productID] = productID;
       this.setState({
         outfitProductsAndStyles: addsOutfit,
         outfitProductIDs: addsProductID,
@@ -674,7 +676,7 @@ class App extends React.Component {
             sum += keys[i] * parseInt(values[i], 10);
             numReviews += parseInt(values[i], 10);
           }
-          return { rating: ((sum / keys.length) || 0), numReviews };
+          return { rating: ((sum / numReviews) || 0), numReviews };
         });
         this.setState({
           relatedProductRatingInfo,
@@ -685,79 +687,21 @@ class App extends React.Component {
   // Relate Compare Outfit Lists - Handle 'related item product card click' click and re render page
   getSelectedProductInfo = () => {
     const {
-      productId,
+      productID,
     } = this.state;
     const promises = [];
-    promises.push(getProductInfo(productId));
-    promises.push(getProductStyles(productId));
-    promises.push(getRelatedProductIds(productId));
-    promises.push(getMetaReviews(productId));
+    promises.push(getProductInfo(productID));
+    promises.push(getProductStyles(productID));
+    promises.push(getRelatedProductIds(productID));
+    promises.push(getMetaReviews(productID));
 
     Promise.all(promises)
       .then((result) => {
         this.setState({
-          product: result[0].data,
-          productStyles: result[1].data.results,
+          productInfo: result[0].data,
+          productStyle: result[1].data.results,
           relatedProductIDs: result[2].data,
         }, this.getRelatedProductInformation);
-
-        // Creating productInfo START HERE ---------------------------------------------------------
-        // Get Product Rating Info and Format it
-        const getProductReviewInfo = function getProductReviewInfo(reviews) {
-          const keys = Object.keys(reviews);
-          const values = Object.values(reviews);
-          let numReviews = 0;
-          let sum = 0;
-          for (let i = 0; i < keys.length; i += 1) {
-            sum += keys[i] * parseInt(values[i], 10);
-            numReviews += parseInt(values[i], 10);
-          }
-          return { rating: ((sum / numReviews) || 0), numReviews };
-        };
-        const formattedReviewInfo = getProductReviewInfo(result[3].data.ratings);
-        // Get Related Product Info
-        let relatedProductsInfo = [];
-        let relatedProductsStyles = [];
-        let relatedProductsReviewInfo = [];
-        const relatedProductIDs = result[2].data;
-        const productPromises = [];
-        const stylePromises = [];
-        const reviewsPromises = [];
-        for (let i = 0; i < relatedProductIDs.length; i += 1) {
-          const productID = relatedProductIDs[i];
-          productPromises.push(getRelatedProductInfo(productID));
-          stylePromises.push(getRelatedProductStyles(productID));
-          reviewsPromises.push(getMetaReviews(productID));
-        }
-        Promise.all(productPromises)
-          .then((products) => {
-            relatedProductsInfo = products.map((product) => product.data);
-          });
-        Promise.all(stylePromises)
-          .then((products) => {
-            relatedProductsStyles = products.map((product) => product.data.results);
-          });
-        Promise.all(reviewsPromises)
-          .then((products) => {
-            relatedProductsReviewInfo = products.map((product) => product.data.ratings);
-          });
-        const reviews = relatedProductsReviewInfo.map((product) => getProductReviewInfo(product));
-        // Format Product Info Object Container
-        const relatedProducts = [];
-        for (let i = 0; i < reviews.length; i += 1) {
-          const product = relatedProductsInfo[i];
-          const styles = relatedProductsStyles[i];
-          const reviewInfo = reviews[i];
-          relatedProducts.push({ product, styles, reviewInfo });
-        }
-        const productInfo = {
-          product: result[0].data,
-          productStyles: result[1].data.results,
-          productReviewInfo: formattedReviewInfo,
-          relatedProducts,
-        };
-        // console.log('productInfo ', productInfo);
-        // Creating productInfo STOP HERE ----------------------------------------------------------
       })
       .catch((err) => {
         console.log(err);
@@ -765,7 +709,7 @@ class App extends React.Component {
 
     // Get product rating info
     const reviewPromise = [];
-    reviewPromise.push(getMetaReviews(productId));
+    reviewPromise.push(getMetaReviews(productID));
     Promise.all(reviewPromise)
       .then((result) => {
         const productRatingInfo = result.map((obj) => obj.data.ratings);
@@ -773,6 +717,7 @@ class App extends React.Component {
       })
       .then((ratings) => {
         const productRatingInfo = ratings.map((obj) => {
+          console.log(obj);
           const keys = Object.keys(obj);
           const values = Object.values(obj);
           let numReviews = 0;
@@ -791,6 +736,10 @@ class App extends React.Component {
 
   // Relate Compare Outfit Lists - Handle 'related item product card click' click
   changeProductID = (productID) => {
+    this.setState({
+      productId: productID,
+      productID,
+    }, this.getSelectedProductInfo);
     const {
       reviewsSort,
     } = this.state;
@@ -888,10 +837,10 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsMeta, outfitProductsAndStyles, productToCompareStyles,
-      reviewsAverageRating, reviewsNew, reviewsTotal, productRatingInfo,
+      reviewsAverageRating, reviewsNew, reviewsTotal, productRatingInfo, productID,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
-      relatedProducts, relatedProductStyles, relatedProductRatingInfo,
-      compare, productToCompare, styleImages, currentShownImage,
+      relatedProducts, relatedProductStyles, relatedProductRatingInfo, productInfo,
+      compare, productToCompare, styleImages, currentShownImage, productStyle,
 
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
@@ -916,15 +865,15 @@ class App extends React.Component {
         <CompareModal
           compare={compare}
           stopComparing={this.stopComparing}
-          currentProduct={product}
-          currentProductStyles={productStyles}
+          currentProduct={productInfo}
+          currentProductStyles={productStyle}
           currentProductRatingInfo={productRatingInfo}
           productToCompare={productToCompare}
           productToCompareStyles={productToCompareStyles}
           productToCompareRating={productToCompareRating}
         />
         <RelatedList
-          productId={productId}
+          productId={productID}
           relatedProducts={relatedProducts}
           relatedProductStyles={relatedProductStyles}
           relatedProductRatingInfo={relatedProductRatingInfo}
