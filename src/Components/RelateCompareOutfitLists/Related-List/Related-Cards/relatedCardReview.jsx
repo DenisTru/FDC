@@ -17,7 +17,7 @@ export default function relatedCardReview({ relatedProductRatingInfo, index }) {
     <div id="productStarRating">
       <GetStars
         ratingValue={0}
-        numRatings={relatedProductRatingInfo[index].numReviews}
+        numRatings={0}
       />
     </div>
   );
