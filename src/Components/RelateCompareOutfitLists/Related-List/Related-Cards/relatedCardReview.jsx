@@ -21,7 +21,7 @@ export default function relatedCardReview({ relatedProductRatingInfo, index }) {
         <GetStars ratingValue={0} />
       </div>
       <div id="number-of-ratings">
-        {`${'No Reviews'}`}
+        {`${'(0)'}`}
       </div>
     </div>
   );

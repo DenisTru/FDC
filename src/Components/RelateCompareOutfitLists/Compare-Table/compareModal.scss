@@ -28,7 +28,6 @@ body.active-modal {
   background: rgba(49, 49, 49, 0.8);
 }
 
-// Modal box itself
 .modal-content {
   position: absolute;
   top: 40%;
@@ -59,4 +58,11 @@ td {
   width: 160px;
   text-align: center;
   vertical-align: top;
+}
+
+#rating-num {
+  position: relative;
+  text-align: right;
+  top: -23px;
+  left: -15px;
 }
