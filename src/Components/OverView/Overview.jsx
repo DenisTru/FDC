@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { BsCheck } from 'react-icons/bs';
 import PropTypes from 'prop-types';
+import { addToCartDELETE, addToCartPOST } from './data';
 import ItemStyles from './itemStyles';
 import './styles/overview.scss';
 import StarRating from './starRating';
@@ -13,13 +14,25 @@ class Overview extends React.Component {
     super(props);
     this.state = {
       itemStock: '',
-      quantityToPurchase: 0,
+      quantityToPurchase: 1,
       itemSku: 0,
     };
   }
 
+  componentDidUpdate(prevProps) {
+    // if current sytle changes we clear item stock to default value
+    const { currentStyle } = this.props;
+    if (prevProps.currentStyle !== currentStyle) {
+      this.setState({
+        itemStock: '',
+        quantityToPurchase: 1,
+        itemSku: 0,
+      });
+    }
+  }
+
   handleChangeSize = (e) => {
-    const sku = $(`option[value="${e.target.value}"]`).attr('sku');
+    const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
     this.setState(
       { itemStock: e.target.value, itemSku: sku },
     );
@@ -33,31 +46,19 @@ class Overview extends React.Component {
 
   handleCart = (e) => {
     e.preventDefault();
-    const promises = [];
+    const addQuantityToCart = [];
     const { quantityToPurchase, itemSku } = this.state;
 
-    function addCart(item) {
-      return fetch('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/cart', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ sku_id: item }),
-      });
+    if (itemSku !== 0) {
+      for (let i = 0; i < quantityToPurchase; i += 1) {
+        addQuantityToCart.push(addToCartPOST(itemSku));
+      }
+
+      Promise.all(addQuantityToCart)
+        .then((data) => {
+          console.log(data);
+        });
     }
-
-    for (let i = 0; i < quantityToPurchase; i += 1) {
-      promises.push(addCart(itemSku));
-    }
-
-    Promise.all(promises)
-      .then(() => {
-
-      })
-      .catch(() => {
-
-      });
   };
 
   render() {
@@ -65,7 +66,9 @@ class Overview extends React.Component {
       product, handleClick, currentStyle, reviewsStarAverage,
       productStyles, styleImages,
     } = this.props;
-    const { itemStock, quantityToPurchase } = this.state;
+    const {
+      itemStock, quantityToPurchase, itemSku, defaultSize,
+    } = this.state;
 
     const formatedStyles = styleImages.map((style) => ({
       original: style.url,
@@ -96,6 +99,7 @@ class Overview extends React.Component {
             handleClick={handleClick}
             currentSelectedStyle={currentStyle}
             productStyles={productStyles}
+            itemSku={itemSku}
           />
           <SizeSelector
             currentSelectedStyle={currentStyle}
@@ -103,6 +107,7 @@ class Overview extends React.Component {
             quantityToPurchase={quantityToPurchase}
             handleChangeSize={this.handleChangeSize}
             handleChangeQuantity={this.handleChangeQuantity}
+            defaultSize={defaultSize}
           />
           <button type="submit" onClick={this.handleCart}>
             Add To Cart
@@ -137,6 +142,7 @@ class Overview extends React.Component {
 Overview.defaultProps = {
   product: {},
   reviewsStarAverage: null,
+  defaultSize: false,
 };
 
 Overview.propTypes = {
@@ -159,8 +165,8 @@ Overview.propTypes = {
     photos: PropTypes.arrayOf(PropTypes.shape({ thumbnail_url: PropTypes.string })),
     skus: PropTypes.objectOf(
       PropTypes.shape({
-        quantity: PropTypes.number.isRequired,
-        size: PropTypes.string.isRequired,
+        quantity: PropTypes.number,
+        size: PropTypes.string,
       }),
     ).isRequired,
   }).isRequired,
@@ -186,6 +192,7 @@ Overview.propTypes = {
     thumbnail_url: PropTypes.string,
     url: PropTypes.string,
   })).isRequired,
+  defaultSize: PropTypes.bool,
 };
 
 export default Overview;

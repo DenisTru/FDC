@@ -13,12 +13,11 @@ import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/co
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
-import { getProductStyles } from './Components/Overview/data';
-
+import { getProduct, getProductStyles } from './Components/Overview/data';
+const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
 const root = createRoot(document.getElementById('root'));
 
-// the mock items will carry intial state of product, and itemstyles
-// however these will be re-rendered out by componentdidmount() to the selected product/style
+// need to refactor so that product can be fetched before is loading is set to false
 const mockProduct = {
   id: 66642,
   campus: 'hr-rfc',
@@ -436,37 +435,69 @@ class App extends React.Component {
       productId,
     } = this.state;
 
-    getMetaReviews(productId).then((meta) => {
-      const { ratings, recommended, characteristics } = meta.data;
-      let { reviewsMeta } = this.state;
-      reviewsMeta = { characteristics, recommended, ratings };
-      const sum = Object.entries(ratings).slice().reduce((res, x) => {
-        // eslint-disable-next-line no-param-reassign
-        res += Number(x[0]) * Number(x[1]);
-        return res;
-      }, 0);
-      const count = Object.entries(ratings).slice().reduce((res, x) => {
-        // eslint-disable-next-line no-param-reassign
-        res += Number(x[1]);
-        return res;
-      }, 0);
-      const ratingValue = Number((sum / count).toFixed(1));
-      this.setState({
-        reviewsTotal: count,
-        reviewsAverageRating: ratingValue,
-        reviewsMeta,
-      });
-      return count;
-    })
-      .then((count) => {
-        getReviews(1, count, reviewsSort, productId)
-          .then((res) => {
-            let { data } = res;
-            data = data.results;
-            this.setState({ reviews: data, isLoading: false });
+    getProduct(productId)
+      .then((res) => {
+        const data = res.data.filter((item) => item.id === productId);
+        this.setState({
+          product: data[0],
+        });
+        return data[0];
+      })
+      .then((data) => {
+        getProductStyles(data.id)
+          .then((styleData) => {
+            const styles = styleData.data.results;
+            styles.forEach((result) => {
+              result.photos.map((photo) => {
+                const newPhoto = photo;
+                if (!photo.url || !photo.thumbnail_url) {
+                  newPhoto.url = emptyImageFill;
+                  newPhoto.thumbnail_url = emptyImageFill;
+                }
+                return newPhoto;
+              });
+            });
+            this.setState({
+              productStyles: styles,
+              currentSelectedStyle: styles[0],
+              styleImages: styles[0].photos,
+              currentShownImage: styles[0].photos[0].url,
+            });
           });
+      })
+      .then(() => {
+        getMetaReviews(productId).then((meta) => {
+          const { ratings, recommended, characteristics } = meta.data;
+          let { reviewsMeta } = this.state;
+          reviewsMeta = { characteristics, recommended, ratings };
+          const sum = Object.entries(ratings).slice().reduce((res, x) => {
+            // eslint-disable-next-line no-param-reassign
+            res += Number(x[0]) * Number(x[1]);
+            return res;
+          }, 0);
+          const count = Object.entries(ratings).slice().reduce((res, x) => {
+            // eslint-disable-next-line no-param-reassign
+            res += Number(x[1]);
+            return res;
+          }, 0);
+          const ratingValue = Number((sum / count).toFixed(1));
+          this.setState({
+            reviewsTotal: count,
+            reviewsAverageRating: ratingValue,
+            reviewsMeta,
+          });
+          return count;
+        })
+          .then((count) => {
+            getReviews(1, count, reviewsSort, productId)
+              .then((res) => {
+                let { data } = res;
+                data = data.results;
+                this.setState({ reviews: data, isLoading: false });
+              });
+          });
+        this.getSelectedProductInfo();
       });
-    this.getSelectedProductInfo();
   }
 
   styleOnClick = (selectedStyle) => {
@@ -697,39 +728,69 @@ class App extends React.Component {
     const {
       reviewsSort,
     } = this.state;
-    getMetaReviews(productID).then((meta) => {
-      const { ratings, recommended, characteristics } = meta.data;
-      let { reviewsMeta } = this.state;
-      reviewsMeta = { characteristics, recommended, ratings };
-      const sum = Object.entries(ratings).slice().reduce((res, x) => {
-        // eslint-disable-next-line no-param-reassign
-        res += Number(x[0]) * Number(x[1]);
-        return res;
-      }, 0);
-      const count = Object.entries(ratings).slice().reduce((res, x) => {
-        // eslint-disable-next-line no-param-reassign
-        res += Number(x[1]);
-        return res;
-      }, 0);
-      const ratingValue = Number((sum / count).toFixed(1));
-      this.setState({
-        reviewsTotal: count,
-        reviewsAverageRating: ratingValue,
-        reviewsMeta,
-      });
-      return count;
-    })
-      .then((count) => {
-        getReviews(1, count, reviewsSort, productID)
-          .then((res) => {
-            let { data } = res;
-            data = data.results;
-            this.setState(
-              { reviews: data, isLoading: false, productId: productID },
-              this.getSelectedProductInfo,
-            );
+    getProductInfo(productID)
+      .then((res) => {
+        const { data } = res;
+        this.setState({
+          product: data,
+        });
+        return data;
+      })
+      .then((data) => {
+        getProductStyles(data.id)
+          .then((styleData) => {
+            const styles = styleData.data.results;
+            styles.forEach((result) => {
+              result.photos.map((photo) => {
+                const newPhoto = photo;
+                if (!photo.url || !photo.thumbnail_url) {
+                  newPhoto.url = emptyImageFill;
+                  newPhoto.thumbnail_url = emptyImageFill;
+                }
+                return newPhoto;
+              });
+            });
+            this.setState({
+              productStyles: styles,
+              currentSelectedStyle: styles[0],
+              styleImages: styles[0].photos,
+              currentShownImage: styles[0].photos[0].url,
+            });
           });
-      });
+      })
+      .then(() => getMetaReviews(productID).then((meta) => {
+        const { ratings, recommended, characteristics } = meta.data;
+        let { reviewsMeta } = this.state;
+        reviewsMeta = { characteristics, recommended, ratings };
+        const sum = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[0]) * Number(x[1]);
+          return res;
+        }, 0);
+        const count = Object.entries(ratings).slice().reduce((res, x) => {
+          // eslint-disable-next-line no-param-reassign
+          res += Number(x[1]);
+          return res;
+        }, 0);
+        const ratingValue = Number((sum / count).toFixed(1));
+        this.setState({
+          reviewsTotal: count,
+          reviewsAverageRating: ratingValue,
+          reviewsMeta,
+        });
+        return count;
+      })
+        .then((count) => {
+          getReviews(1, count, reviewsSort, productID)
+            .then((res) => {
+              let { data } = res;
+              data = data.results;
+              this.setState(
+                { reviews: data, isLoading: false, productId: productID },
+                this.getSelectedProductInfo,
+              );
+            });
+        }));
   };
 
   render() {
