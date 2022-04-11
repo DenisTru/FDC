@@ -12,6 +12,7 @@ export default function RatingReviews({
   data, helpOnClick,
   onSortChange, characteristics, ratings, recommended,
   onFieldChange, reviewsAverageRating, reviewsNew, reviewsTotal,
+  onReviewSubmit,
 }) {
   const pageSize = 2;
   const [displayCount, setDisplayCount] = useState(pageSize);
@@ -53,9 +54,11 @@ export default function RatingReviews({
   };
 
   return (
-    <div style={{
-      marginTop: '50px', display: 'flex', width: '80%', marginLeft: '10%',
-    }}
+    <div
+      id="ratings"
+      style={{
+        marginTop: '50px', display: 'flex', width: '80%', marginLeft: '10%',
+      }}
     >
       <div style={{ width: '40%' }}>
         <RatingBreakdown
@@ -97,6 +100,7 @@ export default function RatingReviews({
           }
         </div>
         <ReviewButtons
+          onReviewSubmit={onReviewSubmit}
           moreReviewsOnClick={moreReviewsOnClick}
           btnVisible={btnVisible}
           onFieldChange={onFieldChange}

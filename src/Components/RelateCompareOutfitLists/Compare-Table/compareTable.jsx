@@ -8,34 +8,34 @@ export default function compareTable({
 }) {
   // Handle review edge cases
   let currentProductRating = (
-    <td>
-      <GetStars ratingValue={0} />
-      <td id="rating-num">(0)</td>
-    </td>
+    <GetStars
+      ratingValue={0}
+      numRatings={0}
+    />
   );
 
   let compareProductRating = (
-    <td>
-      <GetStars ratingValue={0} />
-      <td id="rating-num">(0)</td>
-    </td>
+    <GetStars
+      ratingValue={0}
+      numRatings={0}
+    />
   );
 
   if (currentProductRatingInfo[0].numReviews > 0) {
     currentProductRating = (
-      <td>
-        <GetStars ratingValue={currentProductRatingInfo[0].rating} />
-        <td id="rating-num">{`(${currentProductRatingInfo[0].numReviews})`}</td>
-      </td>
+      <GetStars
+        ratingValue={currentProductRatingInfo[0].rating}
+        numRatings={currentProductRatingInfo[0].numReviews}
+      />
     );
   }
 
   if (productToCompareRating.numReviews > 0) {
     compareProductRating = (
-      <td>
-        <GetStars ratingValue={currentProductRatingInfo[0].rating} />
-        <td id="rating-num">{`(${productToCompareRating.numReviews})`}</td>
-      </td>
+      <GetStars
+        ratingValue={currentProductRatingInfo[0].rating}
+        numRatings={productToCompareRating.numReviews}
+      />
     );
   }
 

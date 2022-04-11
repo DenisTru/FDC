@@ -1,8 +1,9 @@
 import React from 'react';
 import '../../relateOutfitLists.scss';
+import fill from '../../Related-List/Related-Cards/assets/noImagefill.png';
 
 export default function relatedCardImage({ productStyle }) {
-  let url = 'NullImgURL';
+  let url;
   if (productStyle) {
     if (productStyle[0].photos) {
       if (productStyle[0].photos.length) {
@@ -16,7 +17,7 @@ export default function relatedCardImage({ productStyle }) {
     <div
       id="image-container"
     >
-      <img id="image" src={url} alt="NullImgURL" />
+      <img id="image" src={url || fill} alt="NullImgURL" />
     </div>
   );
 }
