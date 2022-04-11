@@ -19,7 +19,7 @@ export default function ProductBreakdown({ characteristics }) {
     <div
       className="productBreakDown"
       style={{
-        width: '80%', height: '300px', paddingTop: '30px', borderRadius: '16px',
+        width: '80%', paddingTop: '30px', borderRadius: '16px', paddingBottom: '30px',
       }}
     >
       {
