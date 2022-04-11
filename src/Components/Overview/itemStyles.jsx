@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './styles/itemStyles.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faGreaterThan } from '@fortawesome/free-solid-svg-icons';
-import fill from './assets/noImagefill.png'
+import fill from './assets/noImagefill.png';
 
 function ItemStyles({ productStyles, currentSelectedStyle, handleClick }) {
   return (

@@ -153,7 +153,7 @@ export default function ReviewButtons({
 
 ReviewButtons.propTypes = {
   moreReviewsOnClick: PropTypes.func.isRequired,
-  onFieldChange: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func,
   btnVisible: PropTypes.bool.isRequired,
   reviewsNew: PropTypes.shape({
 
@@ -162,4 +162,5 @@ ReviewButtons.propTypes = {
 
 ReviewButtons.defaultProps = {
   reviewsNew: {},
+  onFieldChange: () => { },
 };

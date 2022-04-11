@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import TextField from '@mui/material/TextField';
 import RatingReviewsList from './RatingReviewsList';
 import ReviewButtons from './ReviewButtons';
 import reviewPropTypes from './reviewPropTypes';
@@ -15,15 +16,25 @@ export default function RatingReviews({
   const pageSize = 2;
   const [displayCount, setDisplayCount] = useState(pageSize);
   const [rating, setRating] = useState([]);
+  const [keyword, setKeyword] = useState('');
 
-  const newData = rating.length === 0
+  let newData = rating.length === 0
     ? data.slice()
     : data.slice().filter((x) => rating.includes(x.rating));
+  if (keyword !== '') {
+    newData = newData.filter((x) => (x.body.toLowerCase().includes(keyword.toLowerCase())
+      || x.summary.toLowerCase().includes(keyword.toLowerCase())));
+  }
+
   const displayReviews = newData.slice(0, displayCount);
   const btnVisible = newData.length > displayCount;
 
   const moreReviewsOnClick = () => {
     setDisplayCount(displayCount + pageSize);
+  };
+
+  const onKeywordChange = (value) => {
+    setKeyword(value);
   };
 
   const ratingBarOnClick = (range) => {
@@ -56,10 +67,24 @@ export default function RatingReviews({
         <ProductBreakdown characteristics={characteristics} />
       </div>
       <div style={{ width: '60%' }}>
-        <SortOptions
-          onSortChange={onSortChange}
-          reviewsTotal={reviewsTotal}
-        />
+        <div className="sortOption">
+          <SortOptions
+            onSortChange={onSortChange}
+            reviewsTotal={reviewsTotal}
+            data={data}
+          />
+        </div>
+        <div style={{ marginTop: '20px' }}>
+          <div>
+            <TextField
+              label="Search key word"
+              color="action"
+              focused
+              onChange={(e) => onKeywordChange(e.target.value)}
+              size="small"
+            />
+          </div>
+        </div>
         <div className="reviewList">
           {
             displayReviews.map((review) => (
@@ -84,9 +109,9 @@ export default function RatingReviews({
 }
 
 RatingReviews.propTypes = {
-  data: PropTypes.arrayOf(reviewPropTypes).isRequired,
-  helpOnClick: PropTypes.func.isRequired,
-  onSortChange: PropTypes.func.isRequired,
+  data: PropTypes.arrayOf(reviewPropTypes),
+  helpOnClick: PropTypes.func,
+  onSortChange: PropTypes.func,
   ratings: PropTypes.shape({
     2: PropTypes.string,
     3: PropTypes.string,
@@ -120,7 +145,7 @@ RatingReviews.propTypes = {
       value: PropTypes.string,
     }),
   }),
-  onFieldChange: PropTypes.func.isRequired,
+  onFieldChange: PropTypes.func,
   reviewsAverageRating: PropTypes.number.isRequired,
   reviewsNew: PropTypes.shape({
     summary: PropTypes.string,
@@ -135,4 +160,8 @@ RatingReviews.defaultProps = {
   recommended: {},
   characteristics: {},
   reviewsNew: {},
+  data: [],
+  helpOnClick: () => { },
+  onSortChange: () => { },
+  onFieldChange: () => { },
 };

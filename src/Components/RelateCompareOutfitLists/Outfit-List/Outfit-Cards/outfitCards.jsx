@@ -2,32 +2,39 @@ import React from 'react';
 import '../../relateOutfitLists.scss';
 import RemoveOutfitButton from './removeOutfitButton';
 import AddOutfitCard from './addOutfitCard';
-import TextRating from '../../../RatingAndReviews/StaticStars';
+import OutfitCardPrice from './outfitCardPrice';
 import OutfitCardImage from './outfitCardImage';
+import OutfitCardReview from './outfitCardReview';
 
 export default function outfitCards({
-  outfitProducts, addToOutfit, removeFromOutfit, relatedProductRatings, productStyles,
+  outfitProductsAndStyles, addToOutfit, removeFromOutfit,
 }) {
   return (
     <div id="outfit-slider">
-      <AddOutfitCard addToOutfit={addToOutfit} outfitProducts={outfitProducts} />
-      {outfitProducts.map((product, index) => (
-        <div className="slider-cards" key={JSON.stringify(product)}>
+      <AddOutfitCard addToOutfit={addToOutfit} outfitProductsAndStyles={outfitProductsAndStyles} />
+      {outfitProductsAndStyles.map((productInfo) => (
+        <div className="slider-cards" key={JSON.stringify(productInfo.product.id)}>
           <div id="image-container">
-            <OutfitCardImage imageURL={productStyles[0].photos} />
+            <OutfitCardImage productStyle={productInfo.productStyles} />
           </div>
-          <RemoveOutfitButton removeFromOutfit={removeFromOutfit} productid={product.id} />
+          <RemoveOutfitButton
+            removeFromOutfit={removeFromOutfit}
+            productid={productInfo.product.id}
+          />
           <div id="productCategory">
-            {product.category}
+            {productInfo.product.category}
           </div>
           <div id="productName">
-            {product.name}
+            {productInfo.product.name}
           </div>
           <div id="productPrice">
-            {product.default_price}
+            <OutfitCardPrice
+              productStyles={productInfo.productStyles}
+              productPrice={productInfo.product.default_price}
+            />
           </div>
           <div id="productStarRating">
-            {TextRating(relatedProductRatings[index])}
+            <OutfitCardReview productRating={productInfo.productRatingInfo} />
           </div>
         </div>
       ))}
