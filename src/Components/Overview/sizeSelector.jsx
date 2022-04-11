@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import './styles/sizeSelector.scss';
 
 function SizeSelector({
-  currentSelectedStyle, itemStock, handleChangeSize, handleChangeQuantity,
+  currentSelectedStyle, itemStock, handleChangeSize, handleChangeQuantity, defaultSize,
 }) {
   const skuOptions = Object.entries(currentSelectedStyle.skus);
   const sumStock = skuOptions.reduce((prev, current) => prev + current[1].quantity, 0);
-  const currentStock = Array.from(Array(itemStock).keys());
 
   if (sumStock <= 0) {
     return (
@@ -27,7 +26,7 @@ function SizeSelector({
           defaultValue="DEFAULT"
           onChange={handleChangeSize}
         >
-          <option key="default-6" value="DEFAULT" disabled>Select Size</option>
+          <option key="default-6" value="DEFAULT" disabled={itemStock}>Select Size</option>
           {Object.entries(currentSelectedStyle.skus).filter((item) => item[1].quantity > 0)
             .map((item) => (
               <option
@@ -41,14 +40,22 @@ function SizeSelector({
         </select>
       </div>
       <div className="custom-select">
-        <select defaultValue={itemStock ? 'ONE' : 'DEFAULT'} onChange={(e) => handleChangeQuantity(e)} disabled={!itemStock}>
-          <option key="default-7" value={itemStock ? 'ONE' : 'DEFAULT'} disabled={itemStock ? 'ONE' : 'DEFAULT'}>-</option>
-          {Array.from(Array(Number(itemStock)), (e, i) => {
-            if (i < 14) {
-              return <option key={i + 2}>{i + 2}</option>;
-            }
-          })}
-        </select>
+        {itemStock ? (
+          <select onChange={(e) => handleChangeQuantity(e)}>
+            {Array.from(Array(Number(itemStock)), (e, i) => {
+              if (i < 14) {
+                if (i > 0) {
+                  return <option key={i}>{i}</option>;
+                }
+              }
+            })}
+          </select>
+        ) : (
+          <select disabled={!itemStock}>
+            <option>-</option>
+          </select>
+        )}
+
       </div>
     </div>
   );
@@ -64,8 +71,8 @@ SizeSelector.propTypes = {
     photos: PropTypes.arrayOf(PropTypes.shape({ thumbnail_url: PropTypes.string })),
     skus: PropTypes.objectOf(
       PropTypes.shape({
-        quantity: PropTypes.number.isRequired,
-        size: PropTypes.string.isRequired,
+        quantity: PropTypes.number,
+        size: PropTypes.string,
       }),
     ).isRequired,
   }).isRequired,
