@@ -12,6 +12,7 @@ export default function RatingReviews({
   data, helpOnClick,
   onSortChange, characteristics, ratings, recommended,
   onFieldChange, reviewsAverageRating, reviewsNew, reviewsTotal,
+  onReviewSubmit,
 }) {
   const pageSize = 2;
   const [displayCount, setDisplayCount] = useState(pageSize);
@@ -97,6 +98,7 @@ export default function RatingReviews({
           }
         </div>
         <ReviewButtons
+          onReviewSubmit={onReviewSubmit}
           moreReviewsOnClick={moreReviewsOnClick}
           btnVisible={btnVisible}
           onFieldChange={onFieldChange}
