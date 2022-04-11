@@ -13,6 +13,8 @@ import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/co
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
+import newReviewsPost from './Components/RatingAndReviews/newReviews';
+
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
 const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
@@ -795,6 +797,32 @@ class App extends React.Component {
         }));
   };
 
+  onReviewSubmit = () => {
+    // Do not touch, dangerous!!!!
+    const { reviewsNew, reviewsMeta, productId } = this.state;
+    const { characteristics } = reviewsMeta;
+    const char = Object.keys(characteristics).reduce((res, x) => {
+      res[characteristics[x].id] = Number(reviewsNew[x.toLowerCase()]);
+      return res;
+    }, {});
+    const newReviews = {
+      product_id: parseInt(productId, 10),
+      rating: parseInt(reviewsNew.rating, 10),
+      summary: reviewsNew.summary,
+      body: reviewsNew.body,
+      recommend: reviewsNew.recommend === 'yes',
+      name: reviewsNew.name,
+      email: reviewsNew.email,
+      photos: [reviewsNew.url],
+      characteristics: char,
+    };
+    newReviewsPost(newReviews)
+      .then(() => { console.log('success'); })
+      .catch((error) => {
+        console.log(error.response.data.errors);
+      });
+  };
+
   render() {
     const {
       reviews, isLoading, reviewsMeta, outfitProductsAndStyles, productToCompareStyles,
@@ -861,6 +889,7 @@ class App extends React.Component {
                 reviewsAverageRating={reviewsAverageRating}
                 reviewsNew={reviewsNew}
                 reviewsTotal={reviewsTotal}
+                onReviewSubmit={this.onReviewSubmit}
               />
             )
 

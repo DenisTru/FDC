@@ -11,7 +11,7 @@ import HoverRating from './StarsHoverRating';
 
 export default function ReviewButtons({
   moreReviewsOnClick, btnVisible,
-  onFieldChange, reviewsNew,
+  onFieldChange, reviewsNew, onReviewSubmit,
 }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -56,7 +56,7 @@ export default function ReviewButtons({
             </div>
             <div>
               Do you recommend this product?
-              <form action="#">
+              <form onSubmit={(e) => { e.preventDefault(); onReviewSubmit(); }}>
                 <fieldset id="group1" onChange={(e) => { onFieldChange(e.target.value, 'recommend'); }}>
                   <label htmlFor="yes">
                     <input type="radio" name="recommend" value="yes" required />
@@ -136,7 +136,7 @@ export default function ReviewButtons({
                   <Typography>
                     Upload your photo
                   </Typography>
-                  <ReviewButtonsPhoto />
+                  <ReviewButtonsPhoto onFieldChange={onFieldChange} />
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
