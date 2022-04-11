@@ -890,6 +890,7 @@ class App extends React.Component {
           removeFromOutfit={this.removeFromOutfit}
         />
         <RatingReviews
+          productId={productId}
           characteristics={characteristics}
           ratings={ratings}
           recommended={recommended}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import RatingReviewsList from './RatingReviewsList';
@@ -9,7 +9,7 @@ import RatingBreakdown from './RatingBreakdown';
 import ProductBreakdown from './ProductBreakdown';
 
 export default function RatingReviews({
-  data, helpOnClick,
+  data, helpOnClick, productId,
   onSortChange, characteristics, ratings, recommended,
   onFieldChange, reviewsAverageRating, reviewsNew, reviewsTotal,
   onReviewSubmit,
@@ -18,6 +18,12 @@ export default function RatingReviews({
   const [displayCount, setDisplayCount] = useState(pageSize);
   const [rating, setRating] = useState([]);
   const [keyword, setKeyword] = useState('');
+
+  useEffect(() => {
+    setDisplayCount(pageSize);
+    setRating([]);
+    setKeyword('');
+  }, [productId]);
 
   let newData = rating.length === 0
     ? data.slice()
@@ -60,6 +66,7 @@ export default function RatingReviews({
     >
       <div style={{ width: '40%' }}>
         <RatingBreakdown
+          productId={productId}
           ratings={ratings}
           recommended={recommended}
           reviewsAverageRating={reviewsAverageRating}
@@ -81,6 +88,7 @@ export default function RatingReviews({
               label="Search key word"
               color="action"
               focused
+              value={keyword}
               onChange={(e) => onKeywordChange(e.target.value)}
               size="small"
             />
@@ -154,6 +162,7 @@ RatingReviews.propTypes = {
     body: PropTypes.string,
   }),
   reviewsTotal: PropTypes.number.isRequired,
+  productId: PropTypes.number,
 };
 RatingReviews.defaultProps = {
   ratings: {
@@ -166,4 +175,5 @@ RatingReviews.defaultProps = {
   helpOnClick: () => { },
   onSortChange: () => { },
   onFieldChange: () => { },
+  productId: 66643,
 };
