@@ -52,7 +52,6 @@ class Overview extends React.Component {
     e.preventDefault();
     const addQuantityToCart = [];
     const { quantityToPurchase, itemSku } = this.state;
-
     if (itemSku !== 0) {
       for (let i = 0; i < quantityToPurchase; i += 1) {
         addQuantityToCart.push(addToCartPOST(itemSku));
