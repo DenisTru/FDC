@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import { BsCheck } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import { addToCartDELETE, addToCartPOST } from './data';
+import { addToCartPOST } from './data';
 import ItemStyles from './itemStyles';
 import './styles/overview.scss';
 import StarRating from './starRating';
@@ -52,16 +52,12 @@ class Overview extends React.Component {
     e.preventDefault();
     const addQuantityToCart = [];
     const { quantityToPurchase, itemSku } = this.state;
-
     if (itemSku !== 0) {
       for (let i = 0; i < quantityToPurchase; i += 1) {
         addQuantityToCart.push(addToCartPOST(itemSku));
       }
 
-      Promise.all(addQuantityToCart)
-        .then((data) => {
-          console.log(data);
-        });
+      Promise.all(addQuantityToCart);
     }
   };
 
@@ -140,7 +136,7 @@ class Overview extends React.Component {
           <div className="body">
             <div className="product-slogan">{slogan || 's'}</div>
             <div className="product-description">{description || 's'}</div>
-            <SocialShare className="social-share-container" image={currentShownImage} />
+            <SocialShare image={currentShownImage} />
           </div>
         </div>
         <div className="gmo-free">
