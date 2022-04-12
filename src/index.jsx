@@ -434,8 +434,6 @@ class App extends React.Component {
       productToCompareStyles: [],
       productToCompareRating: {},
       productID: 66642,
-      productInfo: {},
-      productStyle: [],
       productBundle: {},
     };
   }
@@ -737,9 +735,7 @@ class App extends React.Component {
     Promise.all(promises)
       .then((result) => {
         this.setState({
-          productInfo: result[0].data,
-          productStyle: result[1].data.results,
-          relatedProductIDs: result[2].data, // The only thing needed externally
+          relatedProductIDs: result[2].data,
           productBundle: {
             productInfo: result[0].data,
             productStyles: result[1].data.results,
@@ -895,16 +891,14 @@ class App extends React.Component {
       widget,
       time,
     },
-  })
-    .then((res) => console.log(res));
+  });
 
   render() {
     const {
       reviews, isLoading, reviewsMeta, outfitProductsAndStyles, productToCompareStyles,
       reviewsAverageRating, reviewsNew, reviewsTotal, productRatingInfo, productID,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
-      relatedProducts, relatedProductStyles, relatedProductRatingInfo, productInfo,
-      compare, productToCompare, styleImages, currentShownImage, productStyle, productBundle,
+      compare, productToCompare, styleImages, currentShownImage, productBundle,
 
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
@@ -932,8 +926,7 @@ class App extends React.Component {
           <CompareModal
             compare={compare}
             stopComparing={this.stopComparing}
-            currentProduct={productInfo}
-            currentProductStyles={productStyle}
+            currentProductStyles={productBundle.productStyles}
             currentProductRatingInfo={productRatingInfo}
             productToCompare={productToCompare}
             productToCompareStyles={productToCompareStyles}
@@ -945,9 +938,6 @@ class App extends React.Component {
         <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'RelatedList', Date.now().toString())}>
           <RelatedList
             productId={productID}
-            relatedProducts={relatedProducts}
-            relatedProductStyles={relatedProductStyles}
-            relatedProductRatingInfo={relatedProductRatingInfo}
             startComparing={this.startComparing}
             changeProductID={this.changeProductID}
             productBundle={productBundle}

@@ -3,8 +3,7 @@ import './compareModal.scss';
 import CompareTable from './compareTable';
 
 export default function compareModal({
-  compare, stopComparing,
-  currentProduct, currentProductStyles, currentProductRatingInfo,
+  compare, stopComparing, productBundle,
   productToCompare, productToCompareStyles, productToCompareRating,
 }) {
   if (compare) {
@@ -23,9 +22,9 @@ export default function compareModal({
           <h2>Comparing</h2>
           <button className="close-modal" type="button" onClick={stopComparing}>X</button>
           <CompareTable
-            currentProduct={currentProduct}
-            currentProductStyles={currentProductStyles}
-            currentProductRatingInfo={currentProductRatingInfo}
+            currentProduct={productBundle.productInfo}
+            currentProductStyles={productBundle.styles}
+            currentProductRatingInfo={productBundle.productReviews}
             productToCompare={productToCompare}
             productToCompareStyles={productToCompareStyles}
             productToCompareRating={productToCompareRating}
