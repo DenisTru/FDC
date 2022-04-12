@@ -11,7 +11,7 @@ import './index.scss';
 const axios = require('axios');
 const config = require('./config');
 
-export default function RatingReviewsList({ review, helpOnClick }) {
+export default function RatingReviewsList({ review, helpOnClick, keyword }) {
   const createdAt = review.date;
   const reviewerName = review.reviewer_name;
   const reviewId = review.review_id;
@@ -47,6 +47,24 @@ export default function RatingReviewsList({ review, helpOnClick }) {
     };
     axios(options(reviewId)).then(() => console.log('success'));
   };
+  const l = keyword.length;
+  const summaryIncludes = summary.toLowerCase().includes(keyword.toLowerCase());
+  const bodyIncludes = body.toLowerCase().includes(keyword.toLowerCase());
+
+  const hightLight = (text) => {
+    const first = text.slice(0, text.toLowerCase().indexOf(keyword.toLowerCase()));
+    const second = l > 0 ? text.slice(
+      text.toLowerCase().indexOf(keyword.toLowerCase()),
+      text.indexOf(keyword) + l + 1,
+    ) : text.slice(
+      text.toLowerCase().indexOf(keyword.toLowerCase()),
+      text.indexOf(keyword) + l,
+    );
+    const third = l > 0
+      ? text.slice(text.indexOf(keyword) + l + 1)
+      : text.slice(text.indexOf(keyword) + l);
+    return [first, second, third];
+  };
 
   return (
     <div style={{ marginRight: '0' }}>
@@ -55,15 +73,68 @@ export default function RatingReviewsList({ review, helpOnClick }) {
         <div className="date" style={{ marginLeft: 'auto' }}>{moment(createdAt).format('MMM Do YYYY')}</div>
       </div>
       <div><TextRating ratingValue={rating} /></div>
-      <div className="reviewSummary"><strong>{summary}</strong></div>
+      <div className="reviewSummary" style={{ display: 'flex' }}>
+        {summaryIncludes
+          ? (
+            <strong>
+              {
+                hightLight(summary, keyword)[0]
+              }
+              <span style={{ color: '#F1E1A6' }}>
+                {hightLight(summary, keyword)[1]}
+              </span>
+              {
+                hightLight(summary)[2]
+              }
+            </strong>
+          )
+          : <strong>{summary}</strong>}
+
+      </div>
       <div className="reviewBody">
         {
           bodyLength > 250 && displayMore === 'false' ? (
             <div>
-              {body.slice(0, 250)}
+              {
+                bodyIncludes
+                  ? (
+                    <strong>
+                      {
+                        hightLight(body.slice(0, 250))[0]
+                      }
+                      <span style={{ color: '#F1E1A6' }}>
+                        {hightLight(body.slice(0, 250))[1]}
+                      </span>
+                      {
+                        hightLight(body.slice(0, 250))[2]
+                      }
+                    </strong>
+                  )
+                  : <strong>{body}</strong>
+              }
               <button type="button" onClick={() => { setDisplay('true'); }}>Show More</button>
             </div>
-          ) : body
+          ) : (
+            <div>
+              {
+                bodyIncludes
+                  ? (
+                    <strong>
+                      {
+                        hightLight(body)[0]
+                      }
+                      <span style={{ color: '#F1E1A6' }}>
+                        {hightLight(body)[1]}
+                      </span>
+                      {
+                        hightLight(body)[2]
+                      }
+                    </strong>
+                  )
+                  : <strong>{body}</strong>
+              }
+            </div>
+          )
         }
       </div>
       <div>
@@ -134,4 +205,5 @@ export default function RatingReviewsList({ review, helpOnClick }) {
 RatingReviewsList.propTypes = {
   review: reviewPropTypes.isRequired,
   helpOnClick: PropTypes.func.isRequired,
+  keyword: PropTypes.string.isRequired,
 };

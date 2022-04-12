@@ -435,7 +435,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const {
-      reviewsSort,
       productId,
     } = this.state;
 
@@ -533,24 +532,6 @@ class App extends React.Component {
     this.setState({ reviews });
   };
 
-  // Reviews And Ratings click on more reviews button
-  moreReviewsOnClick = () => {
-    const {
-      reviewsCount,
-      reviewsSort,
-      productId,
-      reviewsNextPage,
-    } = this.state;
-    let { reviews, reviewsPage } = this.state;
-    reviewsPage += 1;
-    reviews = reviews.concat(reviewsNextPage);
-    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
-      let { data } = res;
-      data = data.results;
-      this.setState({ reviews, reviewsNextPage: data, reviewsPage });
-    });
-  };
-
   // Revews And Ratings sort options
   onSortChange = (sortType) => {
     const {
@@ -573,8 +554,6 @@ class App extends React.Component {
     } else {
       reviewsNew[fieldName] = value;
     }
-    // console.log(reviewsNew['url']);
-
     this.setState({ reviewsNew });
   };
 
@@ -897,7 +876,6 @@ class App extends React.Component {
           recommended={recommended}
           helpOnClick={this.helpOnClick}
           data={reviews}
-          moreReviewsOnClick={this.moreReviewsOnClick}
           onSortChange={this.onSortChange}
           onFieldChange={this.onFieldChange}
           reviewsAverageRating={reviewsAverageRating}

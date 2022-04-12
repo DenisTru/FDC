@@ -103,6 +103,7 @@ export default function RatingReviews({
                 helpOnClick={helpOnClick}
                 key={review.review_id}
                 review={review}
+                keyword={keyword}
               />
             ))
           }
@@ -124,6 +125,7 @@ RatingReviews.propTypes = {
   data: PropTypes.arrayOf(reviewPropTypes),
   helpOnClick: PropTypes.func,
   onSortChange: PropTypes.func,
+  onReviewSubmit: PropTypes.func,
   ratings: PropTypes.shape({
     2: PropTypes.string,
     3: PropTypes.string,
@@ -177,5 +179,6 @@ RatingReviews.defaultProps = {
   helpOnClick: () => { },
   onSortChange: () => { },
   onFieldChange: () => { },
+  onReviewSubmit: () => { },
   productId: 66643,
 };
