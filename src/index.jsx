@@ -578,7 +578,6 @@ class App extends React.Component {
     } else {
       reviewsNew[fieldName] = value;
     }
-    // console.log(reviewsNew['url']);
 
     this.setState({ reviewsNew });
   };
@@ -733,7 +732,6 @@ class App extends React.Component {
       })
       .then((ratings) => {
         const productRatingInfo = ratings.map((obj) => {
-          console.log(obj);
           const keys = Object.keys(obj);
           const values = Object.values(obj);
           let numReviews = 0;
@@ -866,6 +864,7 @@ class App extends React.Component {
       );
     }
     return (
+
       <div>
         <Overview
           productId={productId}
