@@ -15,6 +15,7 @@ import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
 import newReviewsPost from './Components/RatingAndReviews/newReviews';
+import EnableColorOnDarkAppBar from './Components/navBar';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
@@ -909,6 +910,7 @@ class App extends React.Component {
     }
     return (
       <div>
+        <EnableColorOnDarkAppBar />
         <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'OverView', Date.now().toString())}>
           <Overview
             productId={productId}
