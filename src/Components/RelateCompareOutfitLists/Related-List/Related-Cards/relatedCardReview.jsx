@@ -2,13 +2,13 @@ import React from 'react';
 import '../../relateOutfitLists.scss';
 import GetStars from './getStars';
 
-export default function relatedCardReview({ relatedProductRatingInfo, index }) {
-  if (index < relatedProductRatingInfo.length && relatedProductRatingInfo[index].numReviews > 0) {
+export default function relatedCardReview({ relatedProductRatingInfo }) {
+  if (relatedProductRatingInfo.numReviews > 0) {
     return (
       <div id="productStarRating">
         <GetStars
-          ratingValue={relatedProductRatingInfo[index].rating}
-          numRatings={relatedProductRatingInfo[index].numReviews}
+          ratingValue={relatedProductRatingInfo.rating}
+          numRatings={relatedProductRatingInfo.numReviews}
         />
       </div>
     );

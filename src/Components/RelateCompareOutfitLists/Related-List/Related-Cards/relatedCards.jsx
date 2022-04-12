@@ -28,24 +28,23 @@ export default function relatedCards({
       const filteredRelatedProducts = removesDuplicates(relatedProducts, productId);
       return (
         <div id="related-slider">
-          {filteredRelatedProducts.map((product, index) => (
+          {productBundle.relatedProductsInfo.map((product) => (
             <div
               className="slider-cards"
-              key={JSON.stringify(product.id)}
+              key={JSON.stringify(product.product.id)}
             >
               <div id="image-container">
                 <RelatedCardImage
-                  relatedProductStyles={relatedProductStyles[index]}
+                  relatedProductStyles={product.styles}
                   changeProductID={changeProductID}
-                  product={product}
+                  product={product.product}
                 />
               </div>
               <RelatedCardButton
                 startComparing={startComparing}
-                product={product}
-                relatedProductRatingInfo={relatedProductRatingInfo}
-                index={index}
-                relatedProductStyles={relatedProductStyles[index]}
+                product={product.product}
+                relatedProductRatingInfo={product.reviews}
+                relatedProductStyles={product.styles}
               />
               <div
                 onClick={() => { changeProductID(product.id); }}
@@ -54,20 +53,19 @@ export default function relatedCards({
                 onKeyPress={() => { changeProductID(product.id); }}
               >
                 <div id="productCategory">
-                  {product.category}
+                  {product.product.category}
                 </div>
                 <div id="productName">
-                  {product.name}
+                  {product.product.name}
                 </div>
                 <div id="productPrice">
                   <RelatedCardPrice
-                    productPrice={product.default_price}
-                    productStyles={relatedProductStyles[index]}
+                    productPrice={product.product.default_price}
+                    productStyles={product.styles}
                   />
                 </div>
                 <RelatedCardReview
-                  relatedProductRatingInfo={relatedProductRatingInfo}
-                  index={index}
+                  relatedProductRatingInfo={product.reviews}
                 />
               </div>
             </div>
