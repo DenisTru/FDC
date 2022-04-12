@@ -1,5 +1,6 @@
 /* eslint-disable import/extensions */
 import React from 'react';
+import axios from 'axios';
 import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
@@ -16,6 +17,8 @@ import {
 import newReviewsPost from './Components/RatingAndReviews/newReviews';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
+
+const config = require('../config');
 
 const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
 
@@ -838,6 +841,19 @@ class App extends React.Component {
       });
   };
 
+  onComponentClick = (element, widget, time) => axios('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/interactions', {
+    headers: {
+      Authorization: config.TOKEN,
+    },
+    method: 'POST',
+    data: {
+      element,
+      widget,
+      time,
+    },
+  })
+    .then((res) => console.log(res));
+
   render() {
     const {
       reviews, isLoading, reviewsMeta, outfitProductsAndStyles, productToCompareStyles,
@@ -854,64 +870,74 @@ class App extends React.Component {
       );
     }
     return (
-
       <div>
-        <Overview
-          productId={productId}
-          product={product}
-          currentStyle={currentSelectedStyle}
-          handleClick={this.styleOnClick}
-          productStyles={productStyles}
-          styleImages={styleImages}
-          currentShownImage={currentShownImage}
-          reviewsStarAverage={reviewsAverageRating}
-          scrollToReviews={this.scrollToReviews}
-        />
-        <CompareModal
-          compare={compare}
-          stopComparing={this.stopComparing}
-          currentProduct={productInfo}
-          currentProductStyles={productStyle}
-          currentProductRatingInfo={productRatingInfo}
-          productToCompare={productToCompare}
-          productToCompareStyles={productToCompareStyles}
-          productToCompareRating={productToCompareRating}
-        />
-        <RelatedList
-          productId={productID}
-          relatedProducts={relatedProducts}
-          relatedProductStyles={relatedProductStyles}
-          relatedProductRatingInfo={relatedProductRatingInfo}
-          startComparing={this.startComparing}
-          changeProductID={this.changeProductID}
-        />
-        <OutfitList
-          outfitProductsAndStyles={outfitProductsAndStyles}
-          addToOutfit={this.addToOutfit}
-          removeFromOutfit={this.removeFromOutfit}
-        />
-        {
-          (reviews.length === 0 && reviewsTotal === 0) ? null
-            : (
-              <RatingReviews
-                characteristics={characteristics}
-                ratings={ratings}
-                recommended={recommended}
-                helpOnClick={this.helpOnClick}
-                data={reviews}
-                moreReviewsOnClick={this.moreReviewsOnClick}
-                onSortChange={this.onSortChange}
-                onFieldChange={this.onFieldChange}
-                reviewsAverageRating={reviewsAverageRating}
-                reviewsNew={reviewsNew}
-                reviewsTotal={reviewsTotal}
-                onReviewSubmit={this.onReviewSubmit}
-              />
-            )
+        <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'OverView', Date.now().toString())}>
+          <Overview
+            productId={productId}
+            product={product}
+            currentStyle={currentSelectedStyle}
+            handleClick={this.styleOnClick}
+            productStyles={productStyles}
+            styleImages={styleImages}
+            currentShownImage={currentShownImage}
+            reviewsStarAverage={reviewsAverageRating}
+            scrollToReviews={this.scrollToReviews}
+          />
+        </div>
+        <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'CompareModal', Date.now().toString())}>
+          <CompareModal
+            compare={compare}
+            stopComparing={this.stopComparing}
+            currentProduct={productInfo}
+            currentProductStyles={productStyle}
+            currentProductRatingInfo={productRatingInfo}
+            productToCompare={productToCompare}
+            productToCompareStyles={productToCompareStyles}
+            productToCompareRating={productToCompareRating}
+          />
 
-        }
+        </div>
+        <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'RelatedList', Date.now().toString())}>
+          <RelatedList
+            productId={productID}
+            relatedProducts={relatedProducts}
+            relatedProductStyles={relatedProductStyles}
+            relatedProductRatingInfo={relatedProductRatingInfo}
+            startComparing={this.startComparing}
+            changeProductID={this.changeProductID}
+          />
+
+        </div>
+
+        <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'OutfitList', Date.now().toString())}>
+          <OutfitList
+            outfitProductsAndStyles={outfitProductsAndStyles}
+            addToOutfit={this.addToOutfit}
+            removeFromOutfit={this.removeFromOutfit}
+          />
+
+        </div>
+
+        <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'RatingReviews', Date.now().toString())}>
+          <RatingReviews
+            productId={productId}
+            characteristics={characteristics}
+            ratings={ratings}
+            recommended={recommended}
+            helpOnClick={this.helpOnClick}
+            data={reviews}
+            moreReviewsOnClick={this.moreReviewsOnClick}
+            onSortChange={this.onSortChange}
+            onFieldChange={this.onFieldChange}
+            reviewsAverageRating={reviewsAverageRating}
+            reviewsNew={reviewsNew}
+            reviewsTotal={reviewsTotal}
+            onReviewSubmit={this.onReviewSubmit}
+          />
+        </div>
 
       </div>
+
     );
   }
 }
