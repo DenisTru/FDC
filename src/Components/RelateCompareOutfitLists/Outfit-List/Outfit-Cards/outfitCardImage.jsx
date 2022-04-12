@@ -14,10 +14,8 @@ export default function relatedCardImage({ productStyle }) {
     }
   }
   return (
-    <div
-      id="image-container"
-    >
-      <img id="image" src={url || fill} alt="NullImgURL" />
+    <div id="image-container">
+      <img id="image" src={url || fill} alt={fill} />
     </div>
   );
 }

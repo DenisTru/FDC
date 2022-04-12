@@ -26,6 +26,7 @@ export default function relatedCards({
     if (relatedProductStyles.length && relatedProducts.length && relatedProductRatingInfo.length) {
       const filteredRelatedProducts = removesDuplicates(relatedProducts, productId);
       console.log('relatedProducts ', relatedProducts);
+      console.log('relatedProductStyles ', relatedProductStyles);
       console.log('filteredRelatedProducts ', filteredRelatedProducts);
       return (
         <div id="related-slider">

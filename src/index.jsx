@@ -683,7 +683,7 @@ class App extends React.Component {
             sum += keys[i] * parseInt(values[i], 10);
             numReviews += parseInt(values[i], 10);
           }
-          return { rating: ((sum / keys.length) || 0), numReviews };
+          return { rating: ((sum / numReviews) || 0), numReviews };
         });
         this.setState({
           relatedProductRatingInfo,
@@ -742,7 +742,6 @@ class App extends React.Component {
   // Relate Compare Outfit Lists - Handle 'related item product card click' click
   changeProductID = (productID) => {
     this.setState({
-      // productId: productID,
       productID,
     }, this.getSelectedProductInfo);
     const {
@@ -871,15 +870,15 @@ class App extends React.Component {
         <CompareModal
           compare={compare}
           stopComparing={this.stopComparing}
-          currentProduct={productInfo} // product
-          currentProductStyles={productStyle} // productStyles
+          currentProduct={productInfo}
+          currentProductStyles={productStyle}
           currentProductRatingInfo={productRatingInfo}
           productToCompare={productToCompare}
           productToCompareStyles={productToCompareStyles}
           productToCompareRating={productToCompareRating}
         />
         <RelatedList
-          productId={productID} // productId
+          productId={productID}
           relatedProducts={relatedProducts}
           relatedProductStyles={relatedProductStyles}
           relatedProductRatingInfo={relatedProductRatingInfo}
