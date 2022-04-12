@@ -15,7 +15,7 @@ const slideRight = () => {
 
 export default function relatedList({
   relatedProducts, relatedProductStyles, relatedProductRatingInfo,
-  startComparing, changeProductID, productId,
+  startComparing, changeProductID, productId, productBundle,
 }) {
   return (
     <div className="sliders">
@@ -28,6 +28,7 @@ export default function relatedList({
           startComparing={startComparing}
           changeProductID={changeProductID}
           productId={productId}
+          productBundle={productBundle}
         />
         <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
         <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />

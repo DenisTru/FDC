@@ -436,6 +436,7 @@ class App extends React.Component {
       productID: 66642,
       productInfo: {},
       productStyle: [],
+      productBundle: {},
     };
   }
 
@@ -638,12 +639,41 @@ class App extends React.Component {
     });
   };
 
+  // Relate Compare Outfit Lists - creates product bundle
+  createProductBundle = () => {
+    const {
+      productBundle,
+      relatedProducts,
+      relatedProductStyles,
+      relatedProductRatingInfo,
+    } = this.state;
+    const {
+      productInfo, productReviews, productStyles,
+    } = productBundle;
+    const relatedProductsInformation = [];
+    for (let i = 0; i < relatedProducts.length; i += 1) {
+      const product = relatedProducts[i];
+      const styles = relatedProductStyles[i];
+      const reviews = relatedProductRatingInfo[i];
+      relatedProductsInformation.push({
+        product,
+        styles,
+        reviews,
+      });
+    }
+    this.setState({
+      productBundle: {
+        productInfo,
+        productReviews,
+        productStyles,
+        relatedProductsInfo: relatedProductsInformation,
+      },
+    });
+  };
+
   // Relate Compare Outfit Lists - get Related Product Information
   getRelatedProductInformation = () => {
-    const {
-      relatedProductIDs,
-    } = this.state;
-
+    const { relatedProductIDs } = this.state;
     const productPromises = [];
     const stylePromises = [];
     const reviewsPromises = [];
@@ -657,10 +687,10 @@ class App extends React.Component {
 
     Promise.all(productPromises)
       .then((result) => {
-        const productInfo = result.map((obj) => obj.data);
+        const relatedProductsInfo = result.map((obj) => obj.data);
         this.setState({
-          relatedProducts: productInfo,
-        });
+          relatedProducts: relatedProductsInfo,
+        }, this.createProductBundle);
       });
 
     Promise.all(stylePromises)
@@ -668,7 +698,7 @@ class App extends React.Component {
         const relatedProductStyles = result.map((obj) => obj.data.results);
         this.setState({
           relatedProductStyles,
-        });
+        }, this.createProductBundle);
       });
 
     Promise.all(reviewsPromises)
@@ -690,7 +720,7 @@ class App extends React.Component {
         });
         this.setState({
           relatedProductRatingInfo,
-        });
+        }, this.createProductBundle);
       });
   };
 
@@ -709,7 +739,13 @@ class App extends React.Component {
         this.setState({
           productInfo: result[0].data,
           productStyle: result[1].data.results,
-          relatedProductIDs: result[2].data,
+          relatedProductIDs: result[2].data, // The only thing needed externally
+          productBundle: {
+            productInfo: result[0].data,
+            productStyles: result[1].data.results,
+            productReviews: {},
+            relatedProductsInfo: [],
+          },
         }, this.getRelatedProductInformation);
       })
       .catch((err) => {
@@ -736,9 +772,17 @@ class App extends React.Component {
           }
           return { rating: ((sum / numReviews) || 0), numReviews };
         });
+        const { productBundle } = this.state;
+        const { productInfo, productStyles, relatedProductsInfo } = productBundle;
         this.setState({
           productRatingInfo,
-        });
+          productBundle: {
+            productInfo,
+            productStyles,
+            relatedProductsInfo,
+            productReviews: productRatingInfo,
+          },
+        }, this.getRelatedProductInformation);
       });
   };
 
@@ -860,7 +904,7 @@ class App extends React.Component {
       reviewsAverageRating, reviewsNew, reviewsTotal, productRatingInfo, productID,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
       relatedProducts, relatedProductStyles, relatedProductRatingInfo, productInfo,
-      compare, productToCompare, styleImages, currentShownImage, productStyle,
+      compare, productToCompare, styleImages, currentShownImage, productStyle, productBundle,
 
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
@@ -894,6 +938,7 @@ class App extends React.Component {
             productToCompare={productToCompare}
             productToCompareStyles={productToCompareStyles}
             productToCompareRating={productToCompareRating}
+            productBundle={productBundle}
           />
 
         </div>
@@ -905,6 +950,7 @@ class App extends React.Component {
             relatedProductRatingInfo={relatedProductRatingInfo}
             startComparing={this.startComparing}
             changeProductID={this.changeProductID}
+            productBundle={productBundle}
           />
 
         </div>
@@ -914,6 +960,7 @@ class App extends React.Component {
             outfitProductsAndStyles={outfitProductsAndStyles}
             addToOutfit={this.addToOutfit}
             removeFromOutfit={this.removeFromOutfit}
+            productBundle={productBundle}
           />
 
         </div>

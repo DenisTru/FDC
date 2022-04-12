@@ -19,15 +19,13 @@ const removesDuplicates = function removesDuplicates(relatedProducts, currentPro
 };
 
 export default function relatedCards({
-  relatedProducts, relatedProductStyles, productId,
+  relatedProducts, relatedProductStyles, productId, productBundle,
   relatedProductRatingInfo, startComparing, changeProductID,
 }) {
+  console.log('productBundle ', productBundle);
   if (relatedProductStyles && relatedProducts && relatedProductRatingInfo) {
     if (relatedProductStyles.length && relatedProducts.length && relatedProductRatingInfo.length) {
       const filteredRelatedProducts = removesDuplicates(relatedProducts, productId);
-      console.log('relatedProducts ', relatedProducts);
-      console.log('relatedProductStyles ', relatedProductStyles);
-      console.log('filteredRelatedProducts ', filteredRelatedProducts);
       return (
         <div id="related-slider">
           {filteredRelatedProducts.map((product, index) => (
