@@ -78,10 +78,10 @@ export default function RatingReviewsList({ review, helpOnClick, keyword }) {
           ? (
             <strong>
               {
-                hightLight(summary, keyword)[0]
+                hightLight(summary)[0]
               }
               <span style={{ color: '#F1E1A6' }}>
-                {hightLight(summary, keyword)[1]}
+                {hightLight(summary)[1]}
               </span>
               {
                 hightLight(summary)[2]

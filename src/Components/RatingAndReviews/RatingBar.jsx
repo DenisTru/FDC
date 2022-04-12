@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
+import Typography from '@mui/material/Typography';
 
 const RatingBar = function RatingBar({
   range,
@@ -15,18 +16,21 @@ const RatingBar = function RatingBar({
     setIsSelected(false);
   }, [productId]);
   return (
-    <div className={isSelected ? 'ratingBarSelected' : 'ratingBar'} style={{ width: '60%' }}>
-      <Box onClick={() => { setIsSelected(!isSelected); ratingBarOnClick(Number(range)); }}>
-        {`${range} `}
-        stars
-        <LinearProgress
-          sx={{ height: '15px' }}
-          thickness={4}
-          variant="determinate"
-          color="inherit"
-          value={(!Number.isNaN(Number(ratings[range]))
-            / count ? Number(ratings[range]) / count : 0) * 100}
-        />
+    <div style={{ width: '80%' }} className={isSelected ? 'ratingBarSelected' : 'ratingBar'}>
+      <Box display="flex" onClick={() => { setIsSelected(!isSelected); ratingBarOnClick(Number(range)); }}>
+        <Box width="80%">
+          <Box>
+            {`${range} stars`}
+          </Box>
+          <LinearProgress
+            sx={{ height: '15px' }}
+            thickness={4}
+            variant="determinate"
+            color="inherit"
+            value={(!Number.isNaN(Number(ratings[range]))
+              / count ? Number(ratings[range]) / count : 0) * 100}
+          />
+        </Box>
       </Box>
     </div>
   );

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -24,14 +25,14 @@ const uploadOnChange = (file, cb) => {
     },
   }).then(({ data }) => (data.data.image.url))
     .then((url) => { cb(url, 'url'); })
-    .catch(() => alert('photo upload failed'));
+    .catch((err) => alert(err));
 };
 
 export default function ReviewButtonsPhoto({ onFieldChange }) {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <label htmlFor="contained-button-file">
-        <Input accept="image/*" id="contained-button-file" multiple type="file" />
+        <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={(e) => uploadOnChange(e.target.files[0], onFieldChange)} />
         <Button variant="contained" component="span">
           Upload
         </Button>
