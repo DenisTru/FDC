@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './styles/sizeSelector.scss';
 
 function SizeSelector({
-  currentSelectedStyle, itemStock, handleChangeSize, handleChangeQuantity, defaultSize,
+  currentSelectedStyle, itemStock, handleChangeSize, handleChangeQuantity, pickSize,
 }) {
   const skuOptions = Object.entries(currentSelectedStyle.skus);
   const sumStock = skuOptions.reduce((prev, current) => prev + current[1].quantity, 0);
@@ -22,11 +22,8 @@ function SizeSelector({
   return (
     <div className="selectSize-container">
       <div className="custom-select">
-        <select
-          defaultValue="DEFAULT"
-          onChange={handleChangeSize}
-        >
-          <option key="default-6" value="DEFAULT" disabled={itemStock}>Select Size</option>
+        <select value={pickSize} onChange={handleChangeSize}>
+          <option key="default-6" value="default" disabled>Select Size</option>
           {Object.entries(currentSelectedStyle.skus).filter((item) => item[1].quantity > 0)
             .map((item) => (
               <option

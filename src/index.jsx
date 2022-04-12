@@ -563,7 +563,14 @@ class App extends React.Component {
 
   onFieldChange = (value, fieldName) => {
     const { reviewsNew } = this.state;
-    reviewsNew[fieldName] = value;
+    if (fieldName === 'url' && !reviewsNew[fieldName]) {
+      reviewsNew[fieldName] = [value];
+    } else if (fieldName === 'url' && reviewsNew[fieldName]) {
+      reviewsNew[fieldName].push(value);
+    } else {
+      reviewsNew[fieldName] = value;
+    }
+
     this.setState({ reviewsNew });
   };
 
@@ -848,6 +855,7 @@ class App extends React.Component {
       );
     }
     return (
+
       <div>
         <Overview
           productId={productId}
