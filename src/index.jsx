@@ -429,7 +429,6 @@ class App extends React.Component {
       relatedProductRatingInfo: [],
       outfitProductsAndStyles: [],
       outfitProductIDs: {},
-      productRatingInfo: [],
       compare: false,
       productToCompare: {},
       productToCompareStyles: [],
@@ -585,14 +584,17 @@ class App extends React.Component {
 
   // Relate Compare Outfit Lists - Handle 'add to outfit' click
   addToOutfit = () => {
-    const { productID, productRatingInfo } = this.state;
+    const { productID, productBundle } = this.state;
     if (!this.productIsInOutfit(productID)) {
       const {
-        product, outfitProductsAndStyles,
-        outfitProductIDs, productStyles,
+        outfitProductsAndStyles,
+        outfitProductIDs,
       } = this.state;
+
+      const { productInfo, productStyles, productReviews } = productBundle;
+      console.log('productBundle ', productBundle);
       const addsOutfit = outfitProductsAndStyles;
-      addsOutfit.push({ product, productStyles, productRatingInfo });
+      addsOutfit.push({ productInfo, productStyles, productReviews });
       const addsProductID = outfitProductIDs;
       addsProductID[productID] = productID;
       this.setState({
@@ -610,7 +612,7 @@ class App extends React.Component {
     const removesProduct = outfitProductsAndStyles;
     for (let i = 0; i < removesProduct.length; i += 1) {
       const product = removesProduct[i];
-      if (product.product.id === productID) {
+      if (product.productInfo.id === productID) {
         removesProduct.splice(i, 1);
         break;
       }
@@ -649,6 +651,7 @@ class App extends React.Component {
     const {
       productInfo, productReviews, productStyles,
     } = productBundle;
+
     const relatedProductsInformation = [];
     for (let i = 0; i < relatedProducts.length; i += 1) {
       const product = relatedProducts[i];
@@ -689,7 +692,7 @@ class App extends React.Component {
         const relatedProductsInfo = result.map((obj) => obj.data);
         this.setState({
           relatedProducts: relatedProductsInfo,
-        }, this.createProductBundle);
+        });
       });
 
     Promise.all(stylePromises)
@@ -697,7 +700,7 @@ class App extends React.Component {
         const relatedProductStyles = result.map((obj) => obj.data.results);
         this.setState({
           relatedProductStyles,
-        }, this.createProductBundle);
+        });
       });
 
     Promise.all(reviewsPromises)
@@ -723,33 +726,10 @@ class App extends React.Component {
       });
   };
 
-  // Relate Compare Outfit Lists - Handle 'related item product card click' click and re render page
-  getSelectedProductInfo = () => {
+  getSelectedProductRatings = () => {
     const {
       productID,
     } = this.state;
-    const promises = [];
-    promises.push(getProductInfo(productID));
-    promises.push(getProductStyles(productID));
-    promises.push(getRelatedProductIds(productID));
-
-    Promise.all(promises)
-      .then((result) => {
-        this.setState({
-          relatedProductIDs: result[2].data,
-          productBundle: {
-            productInfo: result[0].data,
-            productStyles: result[1].data.results,
-            productReviews: {},
-            relatedProductsInfo: [],
-          },
-        }, this.getRelatedProductInformation);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    // Get product rating info
     const reviewPromise = [];
     reviewPromise.push(getMetaReviews(productID));
     Promise.all(reviewPromise)
@@ -772,7 +752,6 @@ class App extends React.Component {
         const { productBundle } = this.state;
         const { productInfo, productStyles, relatedProductsInfo } = productBundle;
         this.setState({
-          productRatingInfo,
           productBundle: {
             productInfo,
             productStyles,
@@ -780,6 +759,33 @@ class App extends React.Component {
             productReviews: productRatingInfo,
           },
         }, this.getRelatedProductInformation);
+      });
+  };
+
+  // Relate Compare Outfit Lists - Handle 'related item product card click' click and re render page
+  getSelectedProductInfo = () => {
+    const {
+      productID,
+    } = this.state;
+    const promises = [];
+    promises.push(getProductInfo(productID));
+    promises.push(getProductStyles(productID));
+    promises.push(getRelatedProductIds(productID));
+
+    Promise.all(promises)
+      .then((result) => {
+        this.setState({
+          relatedProductIDs: result[2].data,
+          productBundle: {
+            productInfo: result[0].data,
+            productStyles: result[1].data.results,
+            productReviews: {},
+            relatedProductsInfo: [],
+          },
+        }, this.getSelectedProductRatings);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -897,7 +903,7 @@ class App extends React.Component {
   render() {
     const {
       reviews, isLoading, reviewsMeta, outfitProductsAndStyles, productToCompareStyles,
-      reviewsAverageRating, reviewsNew, reviewsTotal, productRatingInfo, productID,
+      reviewsAverageRating, reviewsNew, reviewsTotal, productID,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
       compare, productToCompare, styleImages, currentShownImage, productBundle,
 
@@ -928,8 +934,6 @@ class App extends React.Component {
           <CompareModal
             compare={compare}
             stopComparing={this.stopComparing}
-            currentProductStyles={productBundle.productStyles}
-            currentProductRatingInfo={productRatingInfo}
             productToCompare={productToCompare}
             productToCompareStyles={productToCompareStyles}
             productToCompareRating={productToCompareRating}
