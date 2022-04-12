@@ -17,7 +17,7 @@ export default function outfitList({
   outfitProductsAndStyles, addToOutfit, removeFromOutfit,
 }) {
   return (
-    <div>
+    <div className="sliders">
       <p>YOUR OUTFIT</p>
       <div className="slider-container">
         <OutfitCards

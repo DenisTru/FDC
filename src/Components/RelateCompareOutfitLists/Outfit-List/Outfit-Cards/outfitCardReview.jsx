@@ -3,7 +3,7 @@ import '../../relateOutfitLists.scss';
 import GetStars from '../../Related-List/Related-Cards/getStars';
 
 export default function outfitCardReview({ productRating }) {
-  if (productRating.length && productRating[0].numReviews > 0) {
+  if (productRating && productRating.length && productRating[0].numReviews > 0) {
     return (
       <GetStars
         ratingValue={productRating[0].rating}
