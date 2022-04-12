@@ -1,7 +1,12 @@
 @import "~react-image-gallery/styles/scss/image-gallery.scss";
-.image-gallery-slide img {
+.image-gallery-slide  {
   width: 100%;
-  height: 500px;
+  height: 40vh;
+}
+
+
+.fullscreen .image-gallery-slide  {
+  min-height: 100vh;
 }
 .image-gallery{
   background-color: rgb(255, 255, 255);
