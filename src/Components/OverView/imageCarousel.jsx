@@ -11,7 +11,10 @@ function ImageCarousel(props) {
 }
 
 ImageCarousel.propTypes = {
-  styleImages: PropTypes.string.isRequired,
+  styleImages: PropTypes.arrayOf(PropTypes.shape({
+    thumbnail_url: PropTypes.string,
+    url: PropTypes.string,
+  })).isRequired,
 };
 
 export default ImageCarousel;

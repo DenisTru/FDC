@@ -8,6 +8,7 @@ COPY package.json .
 COPY yarn.lock .
 RUN yarn install --frozen-lockfile
 
+### create build
 COPY . .
 RUN yarn run buildProd
 
@@ -18,7 +19,7 @@ FROM nginx:1.21-alpine
 RUN rm -rf /etc/nginx/conf.d
 COPY conf /etc/nginx
 
-COPY --from=builder /usr/src/app/public /usr/share/nginx/html
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
 
 EXPOSE 80
 

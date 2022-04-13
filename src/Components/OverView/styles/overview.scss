@@ -92,3 +92,29 @@ font-family:$font-FamilySans;
   color: rgba(106, 106, 106, 0.7);
   font-weight: 600;
 }
+.cart {
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  color: #eeeeee;
+  font-weight: 600;
+  font-size: 15px;
+  background-color: #153f00;
+  padding: 15px 50px;
+  margin: 0 auto;
+}
+.cart span {
+  position: relative;
+  z-index: 1;
+}
+.cart:after {
+  content: "";
+  left: 0;
+  top: 0;
+  height: 470%;
+  width: 140%;
+}

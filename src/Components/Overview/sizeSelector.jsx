@@ -36,26 +36,33 @@ function SizeSelector({
             ))}
         </select>
       </div>
-      <div className="custom-select">
+      <div className="custom-select q">
         {itemStock ? (
-          <select onChange={(e) => handleChangeQuantity(e)}>
-            {Array.from(Array(Number(itemStock)), (e, i) => {
-              if (i < 14) {
-                if (i > 0) {
-                  return <option key={i}>{i}</option>;
+          <div className="inner-custom-select">
+            <select onChange={(e) => handleChangeQuantity(e)}>
+              {Array.from(Array(Number(itemStock)), (e, i) => {
+                if (i < 14) {
+                  if (i > 0) {
+                    return <option key={i}>{i}</option>;
+                  }
                 }
-              }
-              return '';
-            })}
-          </select>
+                return '';
+              })}
+            </select>
+            <div className="custom-arrow" />
+          </div>
         ) : (
-          <select disabled={!itemStock}>
-            <option>-</option>
-          </select>
+          <div className="inner-custom-select">
+            <select disabled={!itemStock}>
+              <option>-</option>
+            </select>
+            <div className="custom-arrow" />
+          </div>
         )}
 
       </div>
     </div>
+
   );
 }
 

@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -45,3 +47,6 @@ export default function ReviewButtonsPhoto({ onFieldChange }) {
     </Stack>
   );
 }
+ReviewButtonsPhoto.propTypes = {
+  onFieldChange: PropTypes.func.isRequired,
+};

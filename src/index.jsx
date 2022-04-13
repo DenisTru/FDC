@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
 import React from 'react';
 import axios from 'axios';
@@ -105,7 +106,7 @@ const mockItemStyles = [
       },
       2390362: {
         quantity: 4,
-        size: 'XL',
+        size: 'XXL',
       },
     },
   },
@@ -906,7 +907,6 @@ class App extends React.Component {
       reviewsAverageRating, reviewsNew, reviewsTotal, productID,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
       compare, productToCompare, styleImages, currentShownImage, productBundle,
-
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {
