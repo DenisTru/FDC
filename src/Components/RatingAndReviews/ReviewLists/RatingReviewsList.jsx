@@ -4,12 +4,12 @@ import moment from 'moment';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import CheckIcon from '@mui/icons-material/Check';
-import reviewPropTypes from './reviewPropTypes';
-import TextRating from './StaticStars';
-import './index.scss';
+import reviewPropTypes from '../reviewPropTypes';
+import TextRating from '../Stars/StaticStars';
+import '../index.scss';
 
 const axios = require('axios');
-const config = require('./config');
+const config = require('../config');
 
 export default function RatingReviewsList({ review, helpOnClick, keyword }) {
   const createdAt = review.date;

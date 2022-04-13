@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './index.scss';
+import '../index.scss';
 
 export default function ProductBreakdown({ characteristics }) {
   const keys = Object.keys(characteristics).slice();

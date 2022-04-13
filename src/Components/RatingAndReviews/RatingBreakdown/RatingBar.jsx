@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import Typography from '@mui/material/Typography';
 
 const RatingBar = function RatingBar({
   range,

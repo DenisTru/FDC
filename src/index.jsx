@@ -3,17 +3,17 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
-import getReviews from './Components/RatingAndReviews/data.js';
+import getReviews from './Components/RatingAndReviews/api/data.js';
 import Overview from './Components/Overview/Overview';
-import getMetaReviews from './Components/RatingAndReviews/metaData';
-import helpPut from './Components/RatingAndReviews/helpPut';
+import getMetaReviews from './Components/RatingAndReviews/api/metaData';
+import helpPut from './Components/RatingAndReviews/api/helpPut';
 import OutfitList from './Components/RelateCompareOutfitLists/Outfit-List/outfitList';
 import RelatedList from './Components/RelateCompareOutfitLists/Related-List/RelatedList';
 import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/compareModal';
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
-import newReviewsPost from './Components/RatingAndReviews/newReviews';
+import newReviewsPost from './Components/RatingAndReviews/api/newReviews';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
 

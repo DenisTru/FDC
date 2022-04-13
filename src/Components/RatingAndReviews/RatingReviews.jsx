@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
-import RatingReviewsList from './RatingReviewsList';
-import ReviewButtons from './ReviewButtons';
+import RatingReviewsList from './ReviewLists/RatingReviewsList';
+import ReviewButtons from './ReviewButtons/ReviewButtons';
 import reviewPropTypes from './reviewPropTypes';
-import SortOptions from './SortOptions';
-import RatingBreakdown from './RatingBreakdown';
-import ProductBreakdown from './ProductBreakdown';
+import SortOptions from './ReviewLists/SortOptions';
+import RatingBreakdown from './RatingBreakdown/RatingBreakdown';
+import ProductBreakdown from './ProductBreakdown/ProductBreakdown';
 
 export default function RatingReviews({
   data, helpOnClick, productId,
@@ -93,6 +93,7 @@ export default function RatingReviews({
               value={keyword}
               onChange={(e) => onKeywordChange(e.target.value)}
               size="small"
+              fullWidth
             />
           </div>
         </div>

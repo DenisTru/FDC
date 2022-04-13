@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography';
@@ -7,7 +8,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ReviewButtonsCharacteristics from './RviewButtonsCharacteristics';
 import ReviewButtonsPhoto from './ReviewButtonsPhoto';
-import HoverRating from './StarsHoverRating';
+import HoverRating from '../Stars/StarsHoverRating';
 
 export default function ReviewButtons({
   moreReviewsOnClick, btnVisible,
@@ -158,9 +159,11 @@ ReviewButtons.propTypes = {
   reviewsNew: PropTypes.shape({
 
   }),
+  onReviewSubmit: PropTypes.func,
 };
 
 ReviewButtons.defaultProps = {
   reviewsNew: {},
   onFieldChange: () => { },
+  onReviewSubmit: () => { },
 };

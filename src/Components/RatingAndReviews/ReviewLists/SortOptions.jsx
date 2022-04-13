@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import reviewPropTypes from './reviewPropTypes';
+import reviewPropTypes from '../reviewPropTypes';
 
 export default function SortOptions({ onSortChange, data }) {
   return (

@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import PropTypes from 'prop-types';
-import TextRating from './StaticStars';
+import TextRating from '../Stars/StaticStars';
 import RatingBar from './RatingBar';
 
 export default function RatingBreakdown({
