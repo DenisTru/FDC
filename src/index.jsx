@@ -436,6 +436,7 @@ class App extends React.Component {
       productID: 66642,
       productBundle: {},
     };
+    this.onComponentClick = this.onComponentClick.bind(this);
   }
 
   componentDidMount() {
@@ -863,7 +864,6 @@ class App extends React.Component {
   };
 
   onReviewSubmit = () => {
-    // Do not touch, dangerous!!!!
     const { reviewsNew, reviewsMeta, productId } = this.state;
     const { characteristics } = reviewsMeta;
     const char = Object.keys(characteristics).reduce((res, x) => {

@@ -45,6 +45,7 @@ function SizeSelector({
                   return <option key={i}>{i}</option>;
                 }
               }
+              return '';
             })}
           </select>
         ) : (
@@ -76,7 +77,7 @@ SizeSelector.propTypes = {
   itemStock: PropTypes.string.isRequired,
   handleChangeSize: PropTypes.func.isRequired,
   handleChangeQuantity: PropTypes.func.isRequired,
-
+  pickSize: PropTypes.string.isRequired,
 };
 
 export default SizeSelector;
