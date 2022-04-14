@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -73,3 +74,6 @@ export default function ReviewButtonsCharacteristics({ onFieldChange }) {
     </Box>
   );
 }
+ReviewButtonsCharacteristics.propTypes = {
+  onFieldChange: PropTypes.func.isRequired,
+};

@@ -1,24 +1,177 @@
-@import "~react-image-gallery/styles/scss/image-gallery.scss";
-.image-gallery-slide  {
+
+.slides {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  grid-area: slides;
+}
+.thumb-nail-list {
+  position: absolute;
+  left:0;
+  top: 20px;
+  bottom:0;
+  width: 50%;
+  z-index: 1;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+.thumb-nail-list .thumb {
+  width: 15%;
+  padding: 5px;
+}
+.thumb-nail-list .thumb-active{
+  width: 20%;
+  border-radius: 3px;
+  border: solid #5B6DCD 3px;
+}
+
+
+
+.image{
   width: 100%;
-  height: 40vh;
+  height: 500px;
+  border-radius: 5px;
+
+}
+.thumb-arrow{
+  position: absolute;
+  top: 95%;
+  right: 85%;
+  font-size: 1.5em;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select:none;
+  stroke: black;
+}
+.right-arrow{
+  position: absolute;
+  top: 50%;
+  right: 100px;
+  font-size: 3em;
+  color: black;
+  z-index: 1;
+  cursor: pointer;
+  user-select:none;
+  stroke: black;
 }
 
 
-.fullscreen .image-gallery-slide  {
-  min-height: 100vh;
+.left-arrow{
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  font-size: 3em;
+  color: black;
+  z-index: 1;
+  cursor: pointer;
+  user-select:none;
 }
-.image-gallery{
-  background-color: rgb(255, 255, 255);
+
+.slide {
+  opacity: 0;
+  transition-duration: 1s ease;
 }
-.image-gallery-thumbnail {
-  width: auto;
-
+.slide.active {
+  -webkit-transform: translate3d(0,0,1px);
+  max-height: 800px;
+  opacity: 1;
+  transition-duration: 0.3s;
+  transform: scale(1.08);
+  cursor: zoom-in;
+  image-rendering: auto;
 }
 
-.image-gallery-thumbnail img {
-  width: auto;
-  height: 75px;
+.slides-modal{
+  padding-top: 20px;
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  grid-area: slides;
+}
+.slide-active-modal-image{
+  object-fit: contain;
+  width: 100%;
+  height: 850px;
+  border-radius: 5px;
 
+}
+.slide-active-modal {
+  opacity: 1;
+  transition-duration: 0.8s;
+  transform: scale(1.08);
+  width: 100%;
+  height: 100%;
 
+}
+.thumb-arrow-modal{
+  position: absolute;
+  top: 95%;
+  right: 85%;
+  font-size: 1.5em;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select:none;
+  stroke: white
+}
+
+.right-arrow-modal{
+  position: absolute;
+  top: 50%;
+  right: 100px;
+  font-size: 3em;
+  color: black;
+  z-index: 1;
+  cursor: pointer;
+  user-select:none;
+  stroke: white
+}
+
+.left-arrow-modal{
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  font-size: 3em;
+  color: rgb(250, 250, 250);
+  z-index: 1;
+  cursor: pointer;
+  user-select:none;
+}
+.MuiBox-root.css-1wnsr1i {
+  width: 80vw !important;
+  height: 80vh;
+  background: rgb(0, 0, 0);
+}
+
+.container-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 3px solid #f1f1f1;
+  margin: 0 5px;
+  background: #f1f1f1;
+}
+.dot.active {
+  background: rgb(32, 32, 32);
 }

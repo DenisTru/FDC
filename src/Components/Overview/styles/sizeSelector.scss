@@ -3,7 +3,64 @@
   padding-top: 5px;
   padding-bottom: 5px;
   display: inline-block;
+
 }
 .custom-select select {
   font-size: .8rem;
+  padding: .8em 1.0em;
+  cursor: pointer;
+}
+
+.q select{
+  margin-left: 20px;
+  width: 4rem;
+}
+
+.selectSize-container{
+  overflow:hidden;
+  width:auto;
+  padding-bottom: 15px;
+  padding-top: 10px;
+}
+.custom-select {
+  position: relative;
+}
+
+
+.dropdown {
+  width: 30rem;
+  position: relative;
+}
+
+.dropdown:hover .dropdown-list {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-select{
+  padding: 1.5rem;
+  border-radius: 4px;
+  background-color: whitesmoke;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.dropdown-list{
+  border-radius: 4px;
+  background-color: white;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s linear, visability 0.2s linear;
+}
+.dropdown-list-item{
+  padding: 1rem;
+  font-size: 1.4rem;
 }
