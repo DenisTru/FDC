@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-const style = {
+const styles = {
   position: 'absolute',
   top: '50%',
   left: '50%',
@@ -123,34 +123,32 @@ class ImageCarousel extends React.Component {
             </div>
           ))}
         </div>
-        <div>
+        <div className="gallery-modal">
           <Modal
             open={open}
             onClose={this.handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={style}>
-        <div className="slides">
-
-          {styleImages.length > 6 ? <FiArrowDown className="thumb-arrow" /> : ''}
-          {currentSlide === 0 ? '' : <FiArrowLeftCircle className="left-arrow" onClick={this.setPrev} />}
-          {
-              currentSlide === styleImages.length - 1 ? '' : <FiArrowRightCircle className="right-arrow" onClick={this.setNext} />
+            <Box sx={styles}>
+              <div className="slides-modal">
+                {styleImages.length > 6 ? <FiArrowDown className="thumb-arrow-modal" /> : ''}
+                {currentSlide === 0 ? '' : <FiArrowLeftCircle className="left-arrow-modal" onClick={this.setPrev} />}
+                {
+              currentSlide === styleImages.length - 1 ? '' : <FiArrowRightCircle className="right-arrow-modal" onClick={this.setNext} />
             }
-          {styleImages.map((style, index) => (
-            <div
-              role="button"
-              tabIndex={0}
-              key={style.original}
-              className={index === currentSlide ? 'slide active' : 'slide'}
-              onClick={this.handleOpen}
-              onKeyDown={this.handleOpen}
-            >
-              {index === currentSlide && (<img className="image" src={style.original} alt="main" />)}
-            </div>
-          ))}
-        </div>
+                {styleImages.map((style, index) => (
+                  <div
+                    key={style.original}
+                    className={index === currentSlide ? 'slide-active-modal' : 'slide'}
+                  >
+                    {index === currentSlide && (<img className="slide-active-modal-image" src={style.original} alt="main" />)}
+                  </div>
+                ))}
+                <div className="container-dots">
+                  {Array.from({ length: styleImages.length - 1 }).map((item, index) => <div className={currentSlide === index + 1 ? 'dot active' : 'dot'}> </div>)}
+                </div>
+              </div>
             </Box>
           </Modal>
         </div>
