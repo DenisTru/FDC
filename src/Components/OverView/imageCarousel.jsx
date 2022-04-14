@@ -2,16 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './styles/imageCarousel.scss';
 import { FiArrowDown, FiArrowLeftCircle, FiArrowRightCircle } from 'react-icons/fi';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 class ImageCarousel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentSlide: 0,
+      open: false,
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     // if current sytle changes we clear item stock to default value
     const { currentStyle } = this.props;
     if (prevProps.currentStyle !== currentStyle) {
@@ -21,7 +38,20 @@ class ImageCarousel extends React.Component {
     }
   }
 
-  setNext = (e) => {
+  handleOpen = () => {
+    this.setState({
+      open: true,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+
+  setNext = () => {
     const { currentSlide } = this.state;
     const { styleImages } = this.props;
     const totalImages = styleImages.length;
@@ -31,7 +61,7 @@ class ImageCarousel extends React.Component {
     }, () => console.log(currentSlide));
   };
 
-  setPrev = (e) => {
+  setPrev = () => {
     const { currentSlide } = this.state;
     const { styleImages } = this.props;
     const totalImages = styleImages.length;
@@ -42,18 +72,35 @@ class ImageCarousel extends React.Component {
   };
 
   thumbnailSetSlide = (e) => {
+    const { currentSlide } = this.state;
     const index = e.target.getAttribute('value');
     this.setState({
       currentSlide: Number(index),
-    }, () => console.log(this.state.currentSlide));
+    }, () => console.log(currentSlide));
   };
 
   render() {
     const { styleImages } = this.props;
-    const { currentSlide } = this.state;
+    const { currentSlide, open } = this.state;
 
     return (
       <div className="image-gallery-container">
+
+        <div>
+          <Modal
+            open={open}
+            onClose={this.handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              test
+            </Box>
+          </Modal>
+        </div>
+
+
+
         <div className="thumb-nail-list">
           {styleImages.map((style, index) => (
             <div
@@ -74,6 +121,7 @@ class ImageCarousel extends React.Component {
           ))}
         </div>
         <div className="slides">
+
           {styleImages.length > 6 ? <FiArrowDown className="thumb-arrow" /> : ''}
           {currentSlide === 0 ? '' : <FiArrowLeftCircle className="left-arrow" onClick={this.setPrev} />}
           {
@@ -81,7 +129,11 @@ class ImageCarousel extends React.Component {
             }
 
           {styleImages.map((style, index) => (
-            <div key={style.original} className={index === currentSlide ? 'slide active' : 'slide'}>
+            <div
+              key={style.original}
+              className={index === currentSlide ? 'slide active' : 'slide'}
+              onClick={this.handleOpen}
+            >
               {index === currentSlide && (<img className="image" src={style.original} alt="main" />)}
             </div>
           ))}

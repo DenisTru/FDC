@@ -59,7 +59,7 @@
   right: 100px;
   font-size: 3em;
   color: black;
-  z-index: 10;
+  z-index: 1;
   cursor: pointer;
   user-select:none;
   stroke: black;
@@ -72,7 +72,7 @@
   left: 100px;
   font-size: 3em;
   color: black;
-  z-index: 10;
+  z-index: 1;
   cursor: pointer;
   user-select:none;
 }
@@ -85,4 +85,6 @@
   opacity: 1;
   transition-duration: 0.8s;
   transform: scale(1.08);
+  cursor: zoom-in;
+
 }
