@@ -882,6 +882,7 @@ class App extends React.Component {
       photos: [reviewsNew.url],
       characteristics: char,
     };
+    console.log(newReviews);
     newReviewsPost(newReviews)
       .then(() => { console.log('success'); })
       .catch((error) => {
