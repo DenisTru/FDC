@@ -474,41 +474,47 @@ class App extends React.Component {
           });
       })
       .then(() => {
-        getMetaReviews(productId).then((meta) => {
-          const { ratings, recommended, characteristics } = meta.data;
-          let { reviewsMeta } = this.state;
-          reviewsMeta = { characteristics, recommended, ratings };
-          const sum = Object.entries(ratings).slice().reduce((res, x) => {
-            // eslint-disable-next-line no-param-reassign
-            res += Number(x[0]) * Number(x[1]);
-            return res;
-          }, 0);
-          const count = Object.entries(ratings).slice().reduce((res, x) => {
-            // eslint-disable-next-line no-param-reassign
-            res += Number(x[1]);
-            return res;
-          }, 0);
-          const ratingValue = Number((sum / count).toFixed(1));
-          this.setState({
-            reviewsTotal: count,
-            reviewsAverageRating: ratingValue,
-            reviewsMeta,
-          });
-          return count;
-        })
-          .then((count) => {
-            getReviews(1, count, reviewsSort, productId)
-              .then((res) => {
-                let { data } = res;
-                data = data.results;
-                this.setState({ reviews: data, isLoading: false });
-              });
+        this.getMetaAndReviewsData();
+        this.getSelectedProductInfo();
+      });
+  }
+
+  getMetaAndReviewsData = () => {
+    const {
+      reviewsSort,
+      productId,
+    } = this.state;
+    getMetaReviews(productId).then((meta) => {
+      const { ratings, recommended, characteristics } = meta.data;
+      let { reviewsMeta } = this.state;
+      reviewsMeta = { characteristics, recommended, ratings };
+      const sum = Object.entries(ratings).slice().reduce((res, x) => {
+        // eslint-disable-next-line no-param-reassign
+        res += Number(x[0]) * Number(x[1]);
+        return res;
+      }, 0);
+      const count = Object.entries(ratings).slice().reduce((res, x) => {
+        // eslint-disable-next-line no-param-reassign
+        res += Number(x[1]);
+        return res;
+      }, 0);
+      const ratingValue = Number((sum / count).toFixed(1));
+      this.setState({
+        reviewsTotal: count,
+        reviewsAverageRating: ratingValue,
+        reviewsMeta,
+      });
+      return count;
+    })
+      .then((count) => {
+        getReviews(1, count, reviewsSort, productId)
+          .then((res) => {
+            let { data } = res;
+            data = data.results;
+            this.setState({ reviews: data, isLoading: false });
           });
       });
-
-    // Get Related - Compare - Outfit Information
-    this.getSelectedProductInfo();
-  }
+  };
 
   styleOnClick = (selectedStyle) => {
     this.setState({
