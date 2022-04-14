@@ -1,29 +1,73 @@
-@import "~react-image-gallery/styles/scss/image-gallery.scss";
+// @import "~react-image-gallery/styles/scss/image-gallery.scss";
 
-.image-gallery-slide img {
+// .image-gallery-slide img {
+//   width: 100%;
+//   height: 500px;
+// }
+
+// .fullscreen .image-gallery-slide img {
+//   min-height: 100vh;
+// }
+
+// .image-gallery{
+//   background-color: rgb(215, 215, 215);
+// }
+// .image-gallery-thumbnail {
+//   width: auto;
+// }
+
+// .image-gallery-left-nav,
+// .image-gallery-right-nav {
+//   padding: 50px 10px;
+//   top: 50%;
+//   transform: translateY(-50%);
+
+//   .image-gallery-svg {
+//     height: 60px;
+//     width: 30px;
+//   }
+// }
+
+.slides {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image{
   width: 100%;
   height: 500px;
+  border-radius: 3px;
 }
-
-.fullscreen .image-gallery-slide img {
-  min-height: 100vh;
-}
-
-.image-gallery{
-  background-color: rgb(215, 215, 215);
-}
-.image-gallery-thumbnail {
-  width: auto;
-}
-
-.image-gallery-left-nav,
-.image-gallery-right-nav {
-  padding: 50px 10px;
+.right-arrow{
+  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-
-  .image-gallery-svg {
-    height: 60px;
-    width: 30px;
-  }
+  right: 32px;
+  font-size: 3em;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select:none;
+  stroke: black;
+}
+.left-arrow{
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  font-size: 3em;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select:none;
+}
+.slide {
+  opacity: 0;
+  transition-duration: 0.8s ease;
+}
+.slide.active {
+  opacity: 1;
+  transition-duration: 0.8s;
+  transform: scale(1.08);
 }

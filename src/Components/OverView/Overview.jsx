@@ -127,7 +127,11 @@ class Overview extends React.Component {
             handleChangeQuantity={this.handleChangeQuantity}
             pickSize={pickSize}
           />
-          <button type="button" className="cart">
+          <button
+            type="button"
+            className="cart"
+            onClick={this.handleCart}
+          >
             <span>Add To Cart</span>
           </button>
         </div>
