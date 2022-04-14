@@ -31,7 +31,20 @@ app.post('/componentClick', (req, res) => {
       widget,
       time,
     },
-  }).then((data)=>console.log(data));
+  }).then((data) => console.log(data));
+});
+
+app.post('/getProductInfo', (req, res) => {
+  const { productId } = req.body;
+  const options = {
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
+    headers: {
+      Authorization: TOKEN,
+    },
+    method: 'get',
+  };
+
+  res.send(axios(options));
 });
 
 // GET REQUEST FOR PRODUCT INFORMATION

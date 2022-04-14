@@ -37,15 +37,20 @@ const getRelatedProductStyles = function getRelatedProductStyles(productId) {
   return axios(options);
 };
 
+// GREAT JOB TEAM VENUS!!!!!!!!!!!!!!!
 const getProductInfo = function getProductInfo(productId) {
-  const options = {
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
-    headers: {
-      Authorization: config.TOKEN,
-    },
-    method: 'get',
-  };
-  return axios(options);
+  // Testinng the server post request
+  return axios.post('/getProductInfo', { productId })
+    .then((data) => console.log('post sent: data = ', data));
+  // Below, the applicationn runs normally
+  // const options = {
+  //   url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
+  //   headers: {
+  //     Authorization: config.TOKEN,
+  //   },
+  //   method: 'get',
+  // };
+  // return axios(options);
 };
 
 module.exports = {
