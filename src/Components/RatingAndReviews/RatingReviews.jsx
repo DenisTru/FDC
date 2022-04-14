@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
-import RatingReviewsList from './RatingReviewsList';
-import ReviewButtons from './ReviewButtons';
+import RatingReviewsList from './ReviewLists/RatingReviewsList';
+import ReviewButtons from './ReviewButtons/ReviewButtons';
 import reviewPropTypes from './reviewPropTypes';
-import SortOptions from './SortOptions';
-import RatingBreakdown from './RatingBreakdown';
-import ProductBreakdown from './ProductBreakdown';
+import SortOptions from './ReviewLists/SortOptions';
+import RatingBreakdown from './RatingBreakdown/RatingBreakdown';
+import ProductBreakdown from './ProductBreakdown/ProductBreakdown';
 
 export default function RatingReviews({
   data, helpOnClick, productId,
@@ -93,6 +93,7 @@ export default function RatingReviews({
               value={keyword}
               onChange={(e) => onKeywordChange(e.target.value)}
               size="small"
+              fullWidth
             />
           </div>
         </div>
@@ -103,6 +104,7 @@ export default function RatingReviews({
                 helpOnClick={helpOnClick}
                 key={review.review_id}
                 review={review}
+                keyword={keyword}
               />
             ))
           }
@@ -124,6 +126,7 @@ RatingReviews.propTypes = {
   data: PropTypes.arrayOf(reviewPropTypes),
   helpOnClick: PropTypes.func,
   onSortChange: PropTypes.func,
+  onReviewSubmit: PropTypes.func,
   ratings: PropTypes.shape({
     2: PropTypes.string,
     3: PropTypes.string,
@@ -178,5 +181,6 @@ RatingReviews.defaultProps = {
   helpOnClick: () => { },
   onSortChange: () => { },
   onFieldChange: () => { },
+  onReviewSubmit: () => { },
   productId: 66643,
 };
