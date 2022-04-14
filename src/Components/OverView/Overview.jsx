@@ -135,7 +135,7 @@ class Overview extends React.Component {
             <span>Add To Cart</span>
           </button>
         </div>
-        <ImageCarousel styleImages={formatedStyles} />
+        <ImageCarousel currentStyle={currentStyle} styleImages={formatedStyles} />
         <div className="product-info-container">
           <div className="body">
             <div className="product-slogan">{slogan || 's'}</div>

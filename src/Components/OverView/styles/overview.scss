@@ -65,7 +65,7 @@ font-family:$font-FamilySans;
   gap: 0px 0px;
   grid-auto-flow: row;
   grid-template-areas:
-    ". slides info-panel"
+    ". image-gallery-container info-panel"
     ". product-info-container gmo-free";
 }
 
@@ -75,7 +75,11 @@ font-family:$font-FamilySans;
   grid-area: info-panel;
  }
 
-.slides{ grid-area: slides; }
+.image-gallery-container{
+  grid-area: image-gallery-container;
+  position: relative;
+
+}
 
 .product-info-container {
   grid-area: product-info-container;
