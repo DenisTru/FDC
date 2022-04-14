@@ -10,10 +10,10 @@ export default function relatedCards({
 }) {
   return (
     <div id="related-slider">
-      {productBundle.relatedProductsInfo.map((product) => (
+      {productBundle.relatedProductsInfo.map((product, index) => (
         <div
           className="slider-cards"
-          key={JSON.stringify(product)}
+          key={JSON.stringify(product + index)}
         >
           <div id="image-container">
             <RelatedCardImage

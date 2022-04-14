@@ -1,5 +1,6 @@
 import React from 'react';
 import './compareModal.scss';
+import '../relateOutfitLists.scss';
 import GetStars from '../Related-List/Related-Cards/getStars';
 
 export default function compareTable({
