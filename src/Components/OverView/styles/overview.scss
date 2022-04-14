@@ -25,6 +25,7 @@ color: rgb(106, 106, 106);
 text-decoration: underline;
 font-size: 12px;
 font-family:$font-FamilySans;
+cursor: pointer;
 }
 
 .category-title {
@@ -114,6 +115,15 @@ font-family:$font-FamilySans;
 .cart span {
   position: relative;
   z-index: 1;
+  border: none;
+  color: #FFFFFF;
+  padding: 20px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
 }
 .cart:after {
   content: "";
@@ -121,4 +131,19 @@ font-family:$font-FamilySans;
   top: 0;
   height: 470%;
   width: 140%;
+  background: #90EE90;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+.cart:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
 }

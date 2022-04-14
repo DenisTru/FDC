@@ -10,7 +10,9 @@
   position: relative;
 
 }
-
+.thumb{
+  cursor: pointer;
+}
 
 .image--cover {
   opacity: 1.0;
@@ -28,6 +30,8 @@
 .thumb-image-container img:hover {
   opacity: 0.3;
   filter: alpha(opacity=30);
+  cursor: pointer;
+
 
 }
 

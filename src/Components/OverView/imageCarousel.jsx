@@ -50,7 +50,6 @@ class ImageCarousel extends React.Component {
     });
   };
 
-
   setNext = () => {
     const { currentSlide } = this.state;
     const { styleImages } = this.props;
@@ -85,22 +84,6 @@ class ImageCarousel extends React.Component {
 
     return (
       <div className="image-gallery-container">
-
-        <div>
-          <Modal
-            open={open}
-            onClose={this.handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              test
-            </Box>
-          </Modal>
-        </div>
-
-
-
         <div className="thumb-nail-list">
           {styleImages.map((style, index) => (
             <div
@@ -127,17 +110,51 @@ class ImageCarousel extends React.Component {
           {
               currentSlide === styleImages.length - 1 ? '' : <FiArrowRightCircle className="right-arrow" onClick={this.setNext} />
             }
-
           {styleImages.map((style, index) => (
             <div
+              role="button"
+              tabIndex={0}
               key={style.original}
               className={index === currentSlide ? 'slide active' : 'slide'}
               onClick={this.handleOpen}
+              onKeyDown={this.handleOpen}
             >
               {index === currentSlide && (<img className="image" src={style.original} alt="main" />)}
             </div>
           ))}
         </div>
+        <div>
+          <Modal
+            open={open}
+            onClose={this.handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+        <div className="slides">
+
+          {styleImages.length > 6 ? <FiArrowDown className="thumb-arrow" /> : ''}
+          {currentSlide === 0 ? '' : <FiArrowLeftCircle className="left-arrow" onClick={this.setPrev} />}
+          {
+              currentSlide === styleImages.length - 1 ? '' : <FiArrowRightCircle className="right-arrow" onClick={this.setNext} />
+            }
+          {styleImages.map((style, index) => (
+            <div
+              role="button"
+              tabIndex={0}
+              key={style.original}
+              className={index === currentSlide ? 'slide active' : 'slide'}
+              onClick={this.handleOpen}
+              onKeyDown={this.handleOpen}
+            >
+              {index === currentSlide && (<img className="image" src={style.original} alt="main" />)}
+            </div>
+          ))}
+        </div>
+            </Box>
+          </Modal>
+        </div>
+
       </div>
     );
   }
