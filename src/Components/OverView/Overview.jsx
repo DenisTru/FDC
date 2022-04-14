@@ -2,12 +2,14 @@ import React from 'react';
 import $ from 'jquery';
 import { BsCheck } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import { addToCartDELETE, addToCartPOST } from './data';
+import { addToCartPOST } from './data';
 import ItemStyles from './itemStyles';
 import './styles/overview.scss';
 import StarRating from './starRating';
 import SizeSelector from './sizeSelector';
 import ImageCarousel from './imageCarousel';
+import fill from './assets/noImagefill.png';
+import SocialShare from './socialShare';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -16,6 +18,7 @@ class Overview extends React.Component {
       itemStock: '',
       quantityToPurchase: 1,
       itemSku: 0,
+      pickSize: 'default',
     };
   }
 
@@ -27,6 +30,7 @@ class Overview extends React.Component {
         itemStock: '',
         quantityToPurchase: 1,
         itemSku: 0,
+        pickSize: 'default',
       });
     }
   }
@@ -34,7 +38,7 @@ class Overview extends React.Component {
   handleChangeSize = (e) => {
     const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
     this.setState(
-      { itemStock: e.target.value, itemSku: sku },
+      { itemStock: e.target.value, itemSku: sku, pickSize: e.target.value },
     );
   };
 
@@ -48,32 +52,36 @@ class Overview extends React.Component {
     e.preventDefault();
     const addQuantityToCart = [];
     const { quantityToPurchase, itemSku } = this.state;
-
     if (itemSku !== 0) {
       for (let i = 0; i < quantityToPurchase; i += 1) {
         addQuantityToCart.push(addToCartPOST(itemSku));
       }
 
-      Promise.all(addQuantityToCart)
-        .then((data) => {
-          console.log(data);
-        });
+      Promise.all(addQuantityToCart);
     }
   };
 
   render() {
     const {
       product, handleClick, currentStyle, reviewsStarAverage,
-      productStyles, styleImages,
+      productStyles, styleImages, currentShownImage,
     } = this.props;
     const {
-      itemStock, quantityToPurchase, itemSku, defaultSize,
+      itemStock, quantityToPurchase, itemSku, pickSize,
     } = this.state;
 
-    const formatedStyles = styleImages.map((style) => ({
-      original: style.url,
-      thumbnail: style.thumbnail_url,
-    }));
+    const formatedStyles = styleImages.map((style) => {
+      if (!style.url || !style.thumbnail_url) {
+        return {
+          original: fill,
+          thumbnail: fill,
+        };
+      }
+      return {
+        original: style.url,
+        thumbnail: style.thumbnail_url,
+      };
+    });
 
     if ($.isEmptyObject(product)) {
       return 'No Item to display';
@@ -86,7 +94,17 @@ class Overview extends React.Component {
         <div className="info-panel">
           <div>
             {reviewsStarAverage ? <StarRating reviewsStarAverage={reviewsStarAverage} /> : ''}
-            {reviewsStarAverage ? <a className="read-reviews">Read all reviews</a> : ''}
+            {reviewsStarAverage ? (
+              <div
+                role="button"
+                tabIndex="0"
+                className="read-reviews"
+                onClick={(e) => { e.preventDefault(); window.location.replace('/#ratings'); }}
+                onKeyDown={(e) => { e.preventDefault(); window.location.replace('/#ratings'); }}
+              >
+                Read all reviews
+              </div>
+            ) : ''}
           </div>
           <div className="category-title">{category}</div>
           <div className="name-title">{name}</div>
@@ -107,7 +125,7 @@ class Overview extends React.Component {
             quantityToPurchase={quantityToPurchase}
             handleChangeSize={this.handleChangeSize}
             handleChangeQuantity={this.handleChangeQuantity}
-            defaultSize={defaultSize}
+            pickSize={pickSize}
           />
           <button type="submit" onClick={this.handleCart}>
             Add To Cart
@@ -118,6 +136,7 @@ class Overview extends React.Component {
           <div className="body">
             <div className="product-slogan">{slogan || 's'}</div>
             <div className="product-description">{description || 's'}</div>
+            <SocialShare image={currentShownImage} />
           </div>
         </div>
         <div className="gmo-free">
@@ -142,7 +161,6 @@ class Overview extends React.Component {
 Overview.defaultProps = {
   product: {},
   reviewsStarAverage: null,
-  defaultSize: false,
 };
 
 Overview.propTypes = {
@@ -192,7 +210,7 @@ Overview.propTypes = {
     thumbnail_url: PropTypes.string,
     url: PropTypes.string,
   })).isRequired,
-  defaultSize: PropTypes.bool,
+  currentShownImage: PropTypes.string.isRequired,
 };
 
 export default Overview;

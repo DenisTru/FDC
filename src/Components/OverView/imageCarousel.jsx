@@ -5,7 +5,7 @@ import ImageGallery from 'react-image-gallery';
 function ImageCarousel(props) {
   const { styleImages } = props;
   return (
-    <ImageGallery thumbnailPosition="left" items={styleImages} />
+    <ImageGallery thumbnailPosition="left" items={styleImages} showPlayButton={false} />
   );
 }
 
