@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import './styles/imageCarousel.scss';
 import { FiArrowDown, FiArrowLeftCircle, FiArrowRightCircle } from 'react-icons/fi';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 const styles = {
@@ -146,7 +144,18 @@ class ImageCarousel extends React.Component {
                   </div>
                 ))}
                 <div className="container-dots">
-                  {Array.from({ length: styleImages.length - 1 }).map((item, index) => <div className={currentSlide === index + 1 ? 'dot active' : 'dot'}> </div>)}
+                  {Array.from({ length: styleImages.length - 1 }).map((item, index) => (
+                    <div
+                      key={index}
+                      value={index}
+                      aria-label="small dot to change photo"
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => this.thumbnailSetSlide(e)}
+                      onKeyDown={(e) => this.thumbnailSetSlide(e)}
+                      className={currentSlide === index ? 'dot active' : 'dot'}
+                    />
+                  ))}
                 </div>
               </div>
             </Box>
