@@ -12,29 +12,29 @@ export default function outfitCards({
   return (
     <div id="outfit-slider">
       <AddOutfitCard addToOutfit={addToOutfit} outfitProductsAndStyles={outfitProductsAndStyles} />
-      {outfitProductsAndStyles.map((productInfo) => (
-        <div className="slider-cards" key={JSON.stringify(productInfo.product.id)}>
+      {outfitProductsAndStyles.map((product, index) => (
+        <div className="slider-cards" key={JSON.stringify(product.productInfo.id + index)}>
           <div id="image-container">
-            <OutfitCardImage productStyle={productInfo.productStyles} />
+            <OutfitCardImage productStyles={product.productStyles} />
           </div>
           <RemoveOutfitButton
             removeFromOutfit={removeFromOutfit}
-            productid={productInfo.product.id}
+            productid={product.productInfo.id}
           />
           <div id="productCategory">
-            {productInfo.product.category}
+            {product.productInfo.category}
           </div>
           <div id="productName">
-            {productInfo.product.name}
+            {product.productInfo.name}
           </div>
           <div id="productPrice">
             <OutfitCardPrice
-              productStyles={productInfo.productStyles}
-              productPrice={productInfo.product.default_price}
+              productStyles={product.productStyles}
+              productPrice={product.productInfo.default_price}
             />
           </div>
           <div id="productStarRating">
-            <OutfitCardReview productRating={productInfo.productRatingInfo} />
+            <OutfitCardReview productRating={product.productReviews} />
           </div>
         </div>
       ))}

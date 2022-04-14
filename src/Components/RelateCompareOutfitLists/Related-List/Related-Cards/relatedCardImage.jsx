@@ -21,7 +21,7 @@ export default function relatedCardImage({ relatedProductStyles, changeProductID
       tabIndex={0}
       onKeyPress={() => { changeProductID(product.id); }}
     >
-      <img id="image" src={url || fill} alt="NullImgURL" />
+      <img id="image" src={url || fill} alt={fill} />
     </div>
   );
 }

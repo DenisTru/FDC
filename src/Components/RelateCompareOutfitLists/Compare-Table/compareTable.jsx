@@ -1,12 +1,13 @@
 import React from 'react';
 import './compareModal.scss';
+import '../relateOutfitLists.scss';
 import GetStars from '../Related-List/Related-Cards/getStars';
 
 export default function compareTable({
   currentProduct, currentProductStyles, currentProductRatingInfo,
   productToCompare, productToCompareStyles, productToCompareRating,
 }) {
-  // Handle review edge cases
+  // Handle review edge cases (values are undefined and throw errors)
   let currentProductRating = (
     <GetStars
       ratingValue={0}
@@ -21,7 +22,7 @@ export default function compareTable({
     />
   );
 
-  if (currentProductRatingInfo[0].numReviews > 0) {
+  if (currentProductRatingInfo[0] !== undefined) {
     currentProductRating = (
       <GetStars
         ratingValue={currentProductRatingInfo[0].rating}
@@ -30,10 +31,10 @@ export default function compareTable({
     );
   }
 
-  if (productToCompareRating.numReviews > 0) {
+  if (productToCompareRating.numReviews !== undefined) {
     compareProductRating = (
       <GetStars
-        ratingValue={currentProductRatingInfo[0].rating}
+        ratingValue={productToCompareRating.rating}
         numRatings={productToCompareRating.numReviews}
       />
     );

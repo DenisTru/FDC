@@ -6,9 +6,12 @@
 // display: flex;
 // justify-content: center;
 // align-items: center;
-// position: absolute;
 // }
 
 html {
   scroll-behavior: smooth;
+  background-color: #DFDFDE;
+}
+.overview-container{
+  padding-top: 25px;
 }

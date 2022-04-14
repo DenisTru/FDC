@@ -167,6 +167,7 @@ RatingReviews.propTypes = {
   }),
   reviewsTotal: PropTypes.number.isRequired,
   productId: PropTypes.number,
+  onReviewSubmit: PropTypes.func.isRequired,
 };
 RatingReviews.defaultProps = {
   ratings: {

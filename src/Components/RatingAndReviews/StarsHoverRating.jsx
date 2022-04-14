@@ -1,6 +1,7 @@
 import React from 'react';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 
 const labels = {
@@ -61,3 +62,6 @@ export default function HoverRating({ onFieldChange }) {
     </Box>
   );
 }
+HoverRating.propTypes = {
+  onFieldChange: PropTypes.func.isRequired,
+};
