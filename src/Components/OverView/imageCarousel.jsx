@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './styles/imageCarousel.scss';
-import { FiArrowLeftCircle, FiArrowRightCircle } from 'react-icons/fi';
+import { FiArrowDown, FiArrowLeftCircle, FiArrowRightCircle } from 'react-icons/fi';
 
 class ImageCarousel extends React.Component {
   constructor(props) {
@@ -74,8 +74,12 @@ class ImageCarousel extends React.Component {
           ))}
         </div>
         <div className="slides">
-          <FiArrowLeftCircle className="left-arrow" onClick={this.setPrev} />
-          <FiArrowRightCircle className="right-arrow" onClick={this.setNext} />
+          {styleImages.length > 6 ? <FiArrowDown className="thumb-arrow" /> : ''}
+          {currentSlide === 0 ? '' : <FiArrowLeftCircle className="left-arrow" onClick={this.setPrev} />}
+          {
+              currentSlide === styleImages.length - 1 ? '' : <FiArrowRightCircle className="right-arrow" onClick={this.setNext} />
+            }
+
           {styleImages.map((style, index) => (
             <div key={style.original} className={index === currentSlide ? 'slide active' : 'slide'}>
               {index === currentSlide && (<img className="image" src={style.original} alt="main" />)}

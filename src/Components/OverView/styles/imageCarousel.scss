@@ -29,7 +29,7 @@
   padding: 5px;
 }
 .thumb-nail-list .thumb-active{
-  width: 25%;
+  width: 20%;
   border-radius: 3px;
   border: solid #5B6DCD 3px;
 }
@@ -42,6 +42,17 @@
   border-radius: 5px;
 
 }
+.thumb-arrow{
+  position: absolute;
+  top: 95%;
+  right: 85%;
+  font-size: 1.5em;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select:none;
+  stroke: black;
+}
 .right-arrow{
   position: absolute;
   top: 50%;
@@ -53,6 +64,8 @@
   user-select:none;
   stroke: black;
 }
+
+
 .left-arrow{
   position: absolute;
   top: 50%;
@@ -63,6 +76,7 @@
   cursor: pointer;
   user-select:none;
 }
+
 .slide {
   opacity: 0;
   transition-duration: 0.8s ease;
