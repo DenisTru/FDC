@@ -79,13 +79,16 @@
 
 .slide {
   opacity: 0;
-  transition-duration: 0.8s ease;
+  transition-duration: 1s ease;
 }
 .slide.active {
+  -webkit-transform: translate3d(0,0,1px);
+  max-height: 800px;
   opacity: 1;
-  transition-duration: 0.8s;
+  transition-duration: 0.3s;
   transform: scale(1.08);
   cursor: zoom-in;
+  image-rendering: auto;
 
 }
 
