@@ -127,11 +127,15 @@ class Overview extends React.Component {
             handleChangeQuantity={this.handleChangeQuantity}
             pickSize={pickSize}
           />
-          <button type="submit" onClick={this.handleCart}>
-            Add To Cart
+          <button
+            type="button"
+            className="cart"
+            onClick={this.handleCart}
+          >
+            <span>Add To Cart</span>
           </button>
         </div>
-        <ImageCarousel styleImages={formatedStyles} />
+        <ImageCarousel currentStyle={currentStyle} styleImages={formatedStyles} />
         <div className="product-info-container">
           <div className="body">
             <div className="product-slogan">{slogan || 's'}</div>

@@ -35,7 +35,7 @@ export default function EnableColorOnDarkAppBar() {
       sx={{ flexGrow: 1, textAlign: 'center' }}
     >
       <ThemeProvider theme={darkTheme}>
-        <AppBar position="static" color='secondary'>
+        <AppBar position="static" color="secondary">
           {appBarLabel('Everline')}
         </AppBar>
       </ThemeProvider>

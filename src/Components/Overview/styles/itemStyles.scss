@@ -10,7 +10,9 @@
   position: relative;
 
 }
-
+.thumb{
+  cursor: pointer;
+}
 
 .image--cover {
   opacity: 1.0;
@@ -21,13 +23,15 @@
   object-fit: cover;
   object-position: center ;
   border: 1.5px solid rgb(65, 65, 65);
-  background-color: rgb(224, 224, 244);
+  background-color: rgb(215,215,215);
 }
 
 
 .thumb-image-container img:hover {
   opacity: 0.3;
   filter: alpha(opacity=30);
+  cursor: pointer;
+
 
 }
 
