@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
 import React from 'react';
 import axios from 'axios';
@@ -19,7 +20,7 @@ import EnableColorOnDarkAppBar from './Components/navBar';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
-const config = require('../config');
+const config = require('./Components/Overview/config');
 
 const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
 
@@ -105,7 +106,7 @@ const mockItemStyles = [
       },
       2390362: {
         quantity: 4,
-        size: 'XL',
+        size: 'XXL',
       },
     },
   },
@@ -436,11 +437,13 @@ class App extends React.Component {
       productID: 66642,
       productBundle: {},
     };
+    this.onComponentClick = this.onComponentClick.bind(this);
   }
 
   componentDidMount() {
     const {
       productId,
+      reviewsSort,
     } = this.state;
 
     getProduct(productId)
@@ -864,11 +867,11 @@ class App extends React.Component {
       recommend: reviewsNew.recommend === 'yes',
       name: reviewsNew.name,
       email: reviewsNew.email,
-      photos: [reviewsNew.url],
+      photos: reviewsNew.url,
       characteristics: char,
     };
     newReviewsPost(newReviews)
-      .then(() => { console.log('success'); })
+      .then(() => { this.getMetaAndReviewsData(); })
       .catch((error) => {
         console.log(error.response.data.errors);
       });
@@ -892,7 +895,6 @@ class App extends React.Component {
       reviewsAverageRating, reviewsNew, reviewsTotal, productID,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
       compare, productToCompare, styleImages, currentShownImage, productBundle,
-
     } = this.state;
     const { characteristics, ratings, recommended } = reviewsMeta;
     if (isLoading) {

@@ -157,7 +157,8 @@ ReviewButtons.propTypes = {
   onFieldChange: PropTypes.func,
   btnVisible: PropTypes.bool.isRequired,
   reviewsNew: PropTypes.shape({
-
+    summary: PropTypes.string,
+    body: PropTypes.string,
   }),
   onReviewSubmit: PropTypes.func,
 };
