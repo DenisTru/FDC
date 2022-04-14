@@ -4,3 +4,9 @@ config.js
 package-lock.json
 bundle.js
 public/bundle.js
+.env
+*.DS_Store
+*.map
+*bundle.js
+config.js
+node_modules/

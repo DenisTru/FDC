@@ -889,11 +889,7 @@ class App extends React.Component {
       });
   };
 
-  onComponentClick = (element, widget, time) => axios('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/interactions', {
-    headers: {
-      Authorization: config.TOKEN,
-    },
-    method: 'POST',
+  onComponentClick = (element, widget, time) => axios.post('/componentClick', {
     data: {
       element,
       widget,
