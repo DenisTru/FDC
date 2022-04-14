@@ -18,53 +18,16 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(urlencodedParser);
 app.use(bodyParser.json());
 
-app.post('/componentClick', (req, res) => {
-  const { element, widget, time } = req.body.data;
-
-  axios('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/interactions', {
-    headers: {
-      Authorization: TOKEN,
-    },
-    method: 'POST',
-    data: {
-      element,
-      widget,
-      time,
-    },
-  }).then((data) => console.log(data));
+app.use('*', (req, res) => {
+  const { method } = req;
+  const url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc${req.originalUrl}`;
+  const headers = { Authorization: TOKEN };
+  const data = req.body;
+  axios({
+    method, url, headers, data,
+  }).then((result) => { res.send(result.data); })
+    .catch((err) => res.send(err));
 });
-
-app.post('/getProductInfo', (req, res) => {
-  const { productId } = req.body;
-  const options = {
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
-    headers: {
-      Authorization: TOKEN,
-    },
-    method: 'get',
-  };
-
-  res.send(axios(options));
-});
-
-// GET REQUEST FOR PRODUCT INFORMATION
-// We need access to the productID
-// Send the axios request to the API with the correct Authentication Header
-// Recieve the data from the API and remove the authentication from the header
-// Send back the data to the client
-
-// `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`
-// app.get('/api/fec2/hr-rfc', (req, res) => {
-//   console.log(JSON.stringify(req.body));
-//   const { options } = req.body;
-
-//   axios(options)
-//     .then((result) => {
-//       // remove authorization header from result
-
-//       res.send(result);
-//     });
-// });
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}!`);

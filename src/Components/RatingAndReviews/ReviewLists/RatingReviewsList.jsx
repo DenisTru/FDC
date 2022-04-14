@@ -9,7 +9,6 @@ import TextRating from '../Stars/StaticStars';
 import '../index.scss';
 
 const axios = require('axios');
-const config = require('../config');
 
 export default function RatingReviewsList({ review, helpOnClick, keyword }) {
   const createdAt = review.date;
@@ -35,10 +34,7 @@ export default function RatingReviewsList({ review, helpOnClick, keyword }) {
   const onNoClick = (reportId) => {
     const options = function options() {
       return {
-        url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews/${reportId}/report`,
-        headers: {
-          Authorization: config.TOKEN,
-        },
+        url: `/reviews/${reportId}/report`,
         method: 'put',
       };
     };

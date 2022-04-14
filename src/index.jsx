@@ -443,7 +443,6 @@ class App extends React.Component {
   componentDidMount() {
     const {
       productId,
-      reviewsSort,
     } = this.state;
 
     getProduct(productId)

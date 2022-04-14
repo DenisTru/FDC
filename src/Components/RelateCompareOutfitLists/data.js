@@ -1,12 +1,8 @@
 const axios = require('axios');
-const config = require('./config');
 
 const getRelatedProductIds = function getRelatedProductIds(productId) {
   const options = {
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}/related`,
-    headers: {
-      Authorization: config.TOKEN,
-    },
+    url: `/products/${productId}/related`,
     method: 'get',
   };
 
@@ -15,10 +11,7 @@ const getRelatedProductIds = function getRelatedProductIds(productId) {
 
 const getRelatedProductInfo = function getRelatedProductInfo(productId) {
   const options = {
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
-    headers: {
-      Authorization: config.TOKEN,
-    },
+    url: `/products/${productId}`,
     method: 'get',
   };
 
@@ -27,10 +20,7 @@ const getRelatedProductInfo = function getRelatedProductInfo(productId) {
 
 const getRelatedProductStyles = function getRelatedProductStyles(productId) {
   const options = {
-    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}/styles`,
-    headers: {
-      Authorization: config.TOKEN,
-    },
+    url: `/products/${productId}/styles`,
     method: 'get',
   };
 
@@ -40,17 +30,14 @@ const getRelatedProductStyles = function getRelatedProductStyles(productId) {
 // GREAT JOB TEAM VENUS!!!!!!!!!!!!!!!
 const getProductInfo = function getProductInfo(productId) {
   // Testinng the server post request
-  return axios.post('/getProductInfo', { productId })
-    .then((data) => console.log('post sent: data = ', data));
+  // axios.post('/getProductInfo', { productId })
+  //   .then((data) => console.log('post sent: data = ', data));
   // Below, the applicationn runs normally
-  // const options = {
-  //   url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/products/${productId}`,
-  //   headers: {
-  //     Authorization: config.TOKEN,
-  //   },
-  //   method: 'get',
-  // };
-  // return axios(options);
+  const options = {
+    url: `/products/${productId}`,
+    method: 'get',
+  };
+  return axios(options);
 };
 
 module.exports = {
