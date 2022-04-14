@@ -5,17 +5,17 @@ import axios from 'axios';
 import { createRoot } from 'react-dom/client';
 import './index.scss';
 import RatingReviews from './Components/RatingAndReviews/RatingReviews';
-import getReviews from './Components/RatingAndReviews/data.js';
+import getReviews from './Components/RatingAndReviews/api/data.js';
 import Overview from './Components/Overview/Overview';
-import getMetaReviews from './Components/RatingAndReviews/metaData';
-import helpPut from './Components/RatingAndReviews/helpPut';
+import getMetaReviews from './Components/RatingAndReviews/api/metaData';
+import helpPut from './Components/RatingAndReviews/api/helpPut';
 import OutfitList from './Components/RelateCompareOutfitLists/Outfit-List/outfitList';
 import RelatedList from './Components/RelateCompareOutfitLists/Related-List/RelatedList';
 import CompareModal from './Components/RelateCompareOutfitLists/Compare-Table/compareModal';
 import {
   getRelatedProductIds, getRelatedProductInfo, getRelatedProductStyles, getProductInfo,
 } from './Components/RelateCompareOutfitLists/data';
-import newReviewsPost from './Components/RatingAndReviews/newReviews';
+import newReviewsPost from './Components/RatingAndReviews/api/newReviews';
 import EnableColorOnDarkAppBar from './Components/navBar';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
@@ -442,8 +442,8 @@ class App extends React.Component {
 
   componentDidMount() {
     const {
-      reviewsSort,
       productId,
+      reviewsSort,
     } = this.state;
 
     getProduct(productId)
@@ -477,41 +477,47 @@ class App extends React.Component {
           });
       })
       .then(() => {
-        getMetaReviews(productId).then((meta) => {
-          const { ratings, recommended, characteristics } = meta.data;
-          let { reviewsMeta } = this.state;
-          reviewsMeta = { characteristics, recommended, ratings };
-          const sum = Object.entries(ratings).slice().reduce((res, x) => {
-            // eslint-disable-next-line no-param-reassign
-            res += Number(x[0]) * Number(x[1]);
-            return res;
-          }, 0);
-          const count = Object.entries(ratings).slice().reduce((res, x) => {
-            // eslint-disable-next-line no-param-reassign
-            res += Number(x[1]);
-            return res;
-          }, 0);
-          const ratingValue = Number((sum / count).toFixed(1));
-          this.setState({
-            reviewsTotal: count,
-            reviewsAverageRating: ratingValue,
-            reviewsMeta,
-          });
-          return count;
-        })
-          .then((count) => {
-            getReviews(1, count, reviewsSort, productId)
-              .then((res) => {
-                let { data } = res;
-                data = data.results;
-                this.setState({ reviews: data, isLoading: false });
-              });
+        this.getMetaAndReviewsData();
+        this.getSelectedProductInfo();
+      });
+  }
+
+  getMetaAndReviewsData = () => {
+    const {
+      reviewsSort,
+      productId,
+    } = this.state;
+    getMetaReviews(productId).then((meta) => {
+      const { ratings, recommended, characteristics } = meta.data;
+      let { reviewsMeta } = this.state;
+      reviewsMeta = { characteristics, recommended, ratings };
+      const sum = Object.entries(ratings).slice().reduce((res, x) => {
+        // eslint-disable-next-line no-param-reassign
+        res += Number(x[0]) * Number(x[1]);
+        return res;
+      }, 0);
+      const count = Object.entries(ratings).slice().reduce((res, x) => {
+        // eslint-disable-next-line no-param-reassign
+        res += Number(x[1]);
+        return res;
+      }, 0);
+      const ratingValue = Number((sum / count).toFixed(1));
+      this.setState({
+        reviewsTotal: count,
+        reviewsAverageRating: ratingValue,
+        reviewsMeta,
+      });
+      return count;
+    })
+      .then((count) => {
+        getReviews(1, count, reviewsSort, productId)
+          .then((res) => {
+            let { data } = res;
+            data = data.results;
+            this.setState({ reviews: data, isLoading: false });
           });
       });
-
-    // Get Related - Compare - Outfit Information
-    this.getSelectedProductInfo();
-  }
+  };
 
   styleOnClick = (selectedStyle) => {
     this.setState({
@@ -532,24 +538,6 @@ class App extends React.Component {
     }
     helpPut(id);
     this.setState({ reviews });
-  };
-
-  // Reviews And Ratings click on more reviews button
-  moreReviewsOnClick = () => {
-    const {
-      reviewsCount,
-      reviewsSort,
-      productId,
-      reviewsNextPage,
-    } = this.state;
-    let { reviews, reviewsPage } = this.state;
-    reviewsPage += 1;
-    reviews = reviews.concat(reviewsNextPage);
-    getReviews(reviewsPage + 1, reviewsCount, reviewsSort, productId).then((res) => {
-      let { data } = res;
-      data = data.results;
-      this.setState({ reviews, reviewsNextPage: data, reviewsPage });
-    });
   };
 
   // Revews And Ratings sort options
@@ -574,7 +562,6 @@ class App extends React.Component {
     } else {
       reviewsNew[fieldName] = value;
     }
-
     this.setState({ reviewsNew });
   };
 
@@ -865,6 +852,7 @@ class App extends React.Component {
   };
 
   onReviewSubmit = () => {
+    // Do not touch, dangerous!!!!
     const { reviewsNew, reviewsMeta, productId } = this.state;
     const { characteristics } = reviewsMeta;
     const char = Object.keys(characteristics).reduce((res, x) => {
@@ -879,11 +867,11 @@ class App extends React.Component {
       recommend: reviewsNew.recommend === 'yes',
       name: reviewsNew.name,
       email: reviewsNew.email,
-      photos: [reviewsNew.url],
+      photos: reviewsNew.url,
       characteristics: char,
     };
     newReviewsPost(newReviews)
-      .then(() => { console.log('success'); })
+      .then(() => { this.getMetaAndReviewsData(); })
       .catch((error) => {
         console.log(error.response.data.errors);
       });
@@ -965,7 +953,6 @@ class App extends React.Component {
             recommended={recommended}
             helpOnClick={this.helpOnClick}
             data={reviews}
-            moreReviewsOnClick={this.moreReviewsOnClick}
             onSortChange={this.onSortChange}
             onFieldChange={this.onFieldChange}
             reviewsAverageRating={reviewsAverageRating}
