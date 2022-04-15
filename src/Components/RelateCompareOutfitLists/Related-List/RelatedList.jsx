@@ -18,7 +18,7 @@ export default function relatedList({
 }) {
   return (
     <div className="sliders">
-      <p>RELATED PRODUCTS</p>
+      <h3>RELATED PRODUCTS</h3>
       <div className="slider-container">
         <RelatedCards
           startComparing={startComparing}
