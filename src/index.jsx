@@ -616,6 +616,7 @@ class App extends React.Component {
       productToCompareStyles,
       productToCompareRating,
     });
+    console.log(this.state.productBundle);
   };
 
   // Relate Compare Outfit Lists - Handle 'exit compare button' click
