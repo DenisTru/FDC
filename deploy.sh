@@ -10,4 +10,4 @@ docker tag retailiation:latest 556319409837.dkr.ecr.us-east-1.amazonaws.com/reta
 echo "Pushing Image to ECR"
 docker push 556319409837.dkr.ecr.us-east-1.amazonaws.com/retailiation:latest
 
-aws ecs update-service --cluster retail-docker-aws-test-cluster --service retail-sv --force-new-deployment
+aws ecs update-service --cluster retail-docker-aws-test-cluster --service retail-docker-aws-test-cluster --force-new-deployment
