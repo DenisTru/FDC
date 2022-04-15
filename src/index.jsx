@@ -727,15 +727,18 @@ class App extends React.Component {
       })
       .then((ratings) => {
         const productRatingInfo = ratings.map((obj) => {
-          const keys = Object.keys(obj);
-          const values = Object.values(obj);
-          let numReviews = 0;
-          let sum = 0;
-          for (let i = 0; i < keys.length; i += 1) {
-            sum += keys[i] * parseInt(values[i], 10);
-            numReviews += parseInt(values[i], 10);
+          if (obj) {
+            const keys = Object.keys(obj);
+            const values = Object.values(obj);
+            let numReviews = 0;
+            let sum = 0;
+            for (let i = 0; i < keys.length; i += 1) {
+              sum += keys[i] * parseInt(values[i], 10);
+              numReviews += parseInt(values[i], 10);
+            }
+            return { rating: ((sum / numReviews) || 0), numReviews };
           }
-          return { rating: ((sum / numReviews) || 0), numReviews };
+          return { rating: 0, numReviews: 0 };
         });
         const { productBundle } = this.state;
         const { productInfo, productStyles, relatedProductsInfo } = productBundle;
