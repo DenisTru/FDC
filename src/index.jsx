@@ -20,8 +20,6 @@ import EnableColorOnDarkAppBar from './Components/navBar';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
-const config = require('./Components/Overview/config');
-
 const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
 
 const root = createRoot(document.getElementById('root'));
