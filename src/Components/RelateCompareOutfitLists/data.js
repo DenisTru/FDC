@@ -27,12 +27,7 @@ const getRelatedProductStyles = function getRelatedProductStyles(productId) {
   return axios(options);
 };
 
-// GREAT JOB TEAM VENUS!!!!!!!!!!!!!!!
 const getProductInfo = function getProductInfo(productId) {
-  // Testinng the server post request
-  // axios.post('/getProductInfo', { productId })
-  //   .then((data) => console.log('post sent: data = ', data));
-  // Below, the applicationn runs normally
   const options = {
     url: `/products/${productId}`,
     method: 'get',
