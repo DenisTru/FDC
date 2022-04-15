@@ -35,6 +35,6 @@ export default function compareModal({
   }
   document.body.classList.remove('active-modal');
   return (
-    <div> </div>
+    <div id="hidden-compare-modal"> </div>
   );
 }

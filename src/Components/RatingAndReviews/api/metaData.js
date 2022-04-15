@@ -1,11 +1,7 @@
 const axios = require('axios');
-const config = require('../config');
 
 const options = {
-  url: 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/reviews/meta',
-  headers: {
-    Authorization: config.TOKEN,
-  },
+  url: '/reviews/meta',
   method: 'get',
 };
 

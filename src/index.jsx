@@ -20,8 +20,6 @@ import EnableColorOnDarkAppBar from './Components/navBar';
 
 import { getProduct, getProductStyles } from './Components/Overview/data';
 
-const config = require('./Components/Overview/config');
-
 const emptyImageFill = require('./Components/Overview/assets/noImagefill.png');
 
 const root = createRoot(document.getElementById('root'));
@@ -443,7 +441,6 @@ class App extends React.Component {
   componentDidMount() {
     const {
       productId,
-      reviewsSort,
     } = this.state;
 
     getProduct(productId)
@@ -581,7 +578,6 @@ class App extends React.Component {
       } = this.state;
 
       const { productInfo, productStyles, productReviews } = productBundle;
-      console.log('productBundle ', productBundle);
       const addsOutfit = outfitProductsAndStyles;
       addsOutfit.push({ productInfo, productStyles, productReviews });
       const addsProductID = outfitProductIDs;
@@ -620,6 +616,7 @@ class App extends React.Component {
       productToCompareStyles,
       productToCompareRating,
     });
+    console.log(this.state.productBundle);
   };
 
   // Relate Compare Outfit Lists - Handle 'exit compare button' click
@@ -699,15 +696,18 @@ class App extends React.Component {
       })
       .then((ratings) => {
         const relatedProductRatingInfo = ratings.map((obj) => {
-          const keys = Object.keys(obj);
-          const values = Object.values(obj);
-          let numReviews = 0;
-          let sum = 0;
-          for (let i = 0; i < keys.length; i += 1) {
-            sum += keys[i] * parseInt(values[i], 10);
-            numReviews += parseInt(values[i], 10);
+          if (obj) {
+            const keys = Object.keys(obj);
+            const values = Object.values(obj);
+            let numReviews = 0;
+            let sum = 0;
+            for (let i = 0; i < keys.length; i += 1) {
+              sum += keys[i] * parseInt(values[i], 10);
+              numReviews += parseInt(values[i], 10);
+            }
+            return { rating: ((sum / numReviews) || 0), numReviews };
           }
-          return { rating: ((sum / numReviews) || 0), numReviews };
+          return { rating: 0, numReviews: 0 };
         });
         this.setState({
           relatedProductRatingInfo,
@@ -728,15 +728,18 @@ class App extends React.Component {
       })
       .then((ratings) => {
         const productRatingInfo = ratings.map((obj) => {
-          const keys = Object.keys(obj);
-          const values = Object.values(obj);
-          let numReviews = 0;
-          let sum = 0;
-          for (let i = 0; i < keys.length; i += 1) {
-            sum += keys[i] * parseInt(values[i], 10);
-            numReviews += parseInt(values[i], 10);
+          if (obj) {
+            const keys = Object.keys(obj);
+            const values = Object.values(obj);
+            let numReviews = 0;
+            let sum = 0;
+            for (let i = 0; i < keys.length; i += 1) {
+              sum += keys[i] * parseInt(values[i], 10);
+              numReviews += parseInt(values[i], 10);
+            }
+            return { rating: ((sum / numReviews) || 0), numReviews };
           }
-          return { rating: ((sum / numReviews) || 0), numReviews };
+          return { rating: 0, numReviews: 0 };
         });
         const { productBundle } = this.state;
         const { productInfo, productStyles, relatedProductsInfo } = productBundle;
@@ -877,11 +880,7 @@ class App extends React.Component {
       });
   };
 
-  onComponentClick = (element, widget, time) => axios('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfc/interactions', {
-    headers: {
-      Authorization: config.TOKEN,
-    },
-    method: 'POST',
+  onComponentClick = (element, widget, time) => axios.post('/componentClick', {
     data: {
       element,
       widget,
@@ -973,3 +972,5 @@ class App extends React.Component {
 }
 
 root.render(<App />);
+
+export default App;
