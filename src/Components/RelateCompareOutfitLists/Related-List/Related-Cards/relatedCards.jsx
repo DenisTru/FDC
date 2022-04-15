@@ -12,6 +12,7 @@ export default function relatedCards({
     <div id="related-slider">
       {productBundle.relatedProductsInfo.map((product, index) => (
         <div
+          id="product-cards"
           className="slider-cards"
           key={JSON.stringify(product + index)}
         >
@@ -29,6 +30,7 @@ export default function relatedCards({
             relatedProductStyles={product.styles}
           />
           <div
+            id="change-product"
             onClick={() => { changeProductID(product.id); }}
             role="button"
             tabIndex={0}

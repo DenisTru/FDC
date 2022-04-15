@@ -578,7 +578,6 @@ class App extends React.Component {
       } = this.state;
 
       const { productInfo, productStyles, productReviews } = productBundle;
-      console.log('productBundle ', productBundle);
       const addsOutfit = outfitProductsAndStyles;
       addsOutfit.push({ productInfo, productStyles, productReviews });
       const addsProductID = outfitProductIDs;
@@ -966,3 +965,5 @@ class App extends React.Component {
 }
 
 root.render(<App />);
+
+export default App;
