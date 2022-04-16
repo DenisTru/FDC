@@ -22,7 +22,7 @@ function SizeSelector({
   return (
     <div className="selectSize-container">
       <div className="custom-select">
-        <select value={pickSize} onChange={handleChangeSize}>
+        <select value={pickSize} onChange={(e) => handleChangeSize(e, Object.entries(currentSelectedStyle.skus).filter(x => x[1].quantity === Number(e.target.value))[0][0])}>
           <option key="default-6" value="default" disabled>Select Size</option>
           {Object.entries(currentSelectedStyle.skus).filter((item) => item[1].quantity > 0)
             .map((item) => (

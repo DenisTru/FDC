@@ -35,8 +35,8 @@ class Overview extends React.Component {
     }
   }
 
-  handleChangeSize = (e) => {
-    const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
+  handleChangeSize = (e, x) => {
+    const sku = x;
     this.setState(
       { itemStock: e.target.value, itemSku: sku, pickSize: e.target.value },
     );
