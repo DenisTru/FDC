@@ -887,7 +887,7 @@ class App extends React.Component {
 
   render() {
     const {
-      reviews, isLoading, reviewsMeta, productToCompareStyles,
+      reviews, isLoading, reviewsMeta, productToCompareStyles, productBundles,
       reviewsAverageRating, reviewsNew, reviewsTotal, productID, outfits,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
       compare, productToCompare, styleImages, currentShownImage, productBundle,
@@ -930,6 +930,7 @@ class App extends React.Component {
             startComparing={this.startComparing}
             changeProductID={this.changeProductID}
             productBundle={productBundle}
+            productBundles={productBundles}
           />
         </div>
         <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'OutfitList', Date.now().toString())}>
