@@ -1,10 +1,9 @@
 const axios = require('axios');
 const path = require('path');
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
-const urlencodedParser = bodyParser.urlencoded({ extended: true });
+// const urlencodedParser = bodyParser.urlencoded({ extended: true });
 require('dotenv').config();
 
 const { PORT, TOKEN } = process.env;
@@ -12,11 +11,11 @@ const { PORT, TOKEN } = process.env;
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../public')));
-// other configuration...
 
-// app.use(express.urlencoded());
-app.use(urlencodedParser);
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(urlencodedParser);
+// app.use(bodyParser.json());
 
 app.use('*', (req, res) => {
   const { method } = req;

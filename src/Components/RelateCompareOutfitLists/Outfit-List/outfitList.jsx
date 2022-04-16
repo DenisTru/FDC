@@ -14,16 +14,16 @@ const slideRight = () => {
 };
 
 export default function outfitList({
-  outfitProductsAndStyles, addToOutfit, removeFromOutfit,
+  addToOutfit, removeFromOutfit, outfits,
 }) {
   return (
     <div className="sliders">
       <h3>YOUR OUTFIT</h3>
       <div className="slider-container">
         <OutfitCards
-          outfitProductsAndStyles={outfitProductsAndStyles}
           addToOutfit={addToOutfit}
           removeFromOutfit={removeFromOutfit}
+          outfits={outfits}
         />
         <MdKeyboardArrowLeft size={40} className="arrow-button-left" onClick={slideLeft} />
         <MdKeyboardArrowRight size={40} className="arrow-button-right" onClick={slideRight} />

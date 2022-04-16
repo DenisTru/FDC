@@ -422,18 +422,18 @@ class App extends React.Component {
       currentSelectedStyle: mockItemStyles[0],
       product: mockProduct,
       productStyles: mockItemStyles,
-      relatedProductIDs: [],
-      relatedProducts: [],
-      relatedProductStyles: [],
-      relatedProductRatingInfo: [],
-      outfitProductsAndStyles: [],
-      outfitProductIDs: {},
+      productID: 66642,
+      productBundle: {},
+      productBundles: {},
       compare: false,
       productToCompare: {},
       productToCompareStyles: [],
       productToCompareRating: {},
-      productID: 66642,
-      productBundle: {},
+      relatedProductIDs: [],
+      relatedProducts: [],
+      relatedProductStyles: [],
+      relatedProductRatingInfo: [],
+      outfits: {},
     };
     this.onComponentClick = this.onComponentClick.bind(this);
   }
@@ -562,49 +562,25 @@ class App extends React.Component {
     this.setState({ reviewsNew });
   };
 
-  // Relate Compare Outfit Lists - Check if product is in outfit
-  productIsInOutfit = (productID) => {
-    const { outfitProductIDs } = this.state;
-    return (outfitProductIDs[productID]);
-  };
-
   // Relate Compare Outfit Lists - Handle 'add to outfit' click
   addToOutfit = () => {
-    const { productID, productBundle } = this.state;
-    if (!this.productIsInOutfit(productID)) {
-      const {
-        outfitProductsAndStyles,
-        outfitProductIDs,
-      } = this.state;
-
-      const { productInfo, productStyles, productReviews } = productBundle;
-      const addsOutfit = outfitProductsAndStyles;
-      addsOutfit.push({ productInfo, productStyles, productReviews });
-      const addsProductID = outfitProductIDs;
-      addsProductID[productID] = productID;
+    const { productID, productBundle, outfits } = this.state;
+    if (outfits[productID] === undefined) {
+      const addsOutfit = outfits;
+      addsOutfit[productID] = productBundle;
       this.setState({
-        outfitProductsAndStyles: addsOutfit,
-        outfitProductIDs: addsProductID,
+        outfits: addsOutfit,
       });
     }
   };
 
   // Relate Compare Outfit Lists - Handle 'remove from outfit' click
   removeFromOutfit = (productID) => {
-    const { outfitProductsAndStyles, outfitProductIDs } = this.state;
-    const removesProductID = outfitProductIDs;
-    delete removesProductID[productID];
-    const removesProduct = outfitProductsAndStyles;
-    for (let i = 0; i < removesProduct.length; i += 1) {
-      const product = removesProduct[i];
-      if (product.productInfo.id === productID) {
-        removesProduct.splice(i, 1);
-        break;
-      }
-    }
+    const { outfits } = this.state;
+    const removesOutfit = outfits;
+    delete removesOutfit[productID];
     this.setState({
-      outfitProductsAndStyles: removesProduct,
-      outfitProductIDs: removesProductID,
+      outfits: removesOutfit,
     });
   };
 
@@ -616,7 +592,6 @@ class App extends React.Component {
       productToCompareStyles,
       productToCompareRating,
     });
-    console.log(this.state.productBundle);
   };
 
   // Relate Compare Outfit Lists - Handle 'exit compare button' click
@@ -624,6 +599,15 @@ class App extends React.Component {
     this.setState({
       compare: false,
     });
+  };
+
+  addToProductBundles = () => {
+    const { productBundles, productBundle } = this.state;
+    const addsProductBundle = productBundles;
+    addsProductBundle[productBundle.productInfo.id] = productBundle;
+    this.setState({
+      productBundles: addsProductBundle,
+    }, () => { console.log('Line 636 index: this.state.productBundles ', this.state.productBundles); });
   };
 
   // Relate Compare Outfit Lists - creates product bundle
@@ -656,7 +640,7 @@ class App extends React.Component {
         productStyles,
         relatedProductsInfo: relatedProductsInformation,
       },
-    });
+    }, this.addToProductBundles);
   };
 
   // Relate Compare Outfit Lists - get Related Product Information
@@ -758,27 +742,36 @@ class App extends React.Component {
   getSelectedProductInfo = () => {
     const {
       productID,
+      productBundles,
     } = this.state;
-    const promises = [];
-    promises.push(getProductInfo(productID));
-    promises.push(getProductStyles(productID));
-    promises.push(getRelatedProductIds(productID));
 
-    Promise.all(promises)
-      .then((result) => {
-        this.setState({
-          relatedProductIDs: result[2].data,
-          productBundle: {
-            productInfo: result[0].data,
-            productStyles: result[1].data.results,
-            productReviews: {},
-            relatedProductsInfo: [],
-          },
-        }, this.getSelectedProductRatings);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (productBundles[productID] === undefined) {
+      const promises = [];
+      promises.push(getProductInfo(productID));
+      promises.push(getProductStyles(productID));
+      promises.push(getRelatedProductIds(productID));
+
+      Promise.all(promises)
+        .then((result) => {
+          this.setState({
+            relatedProductIDs: result[2].data,
+            productBundle: {
+              productInfo: result[0].data,
+              productStyles: result[1].data.results,
+              productReviews: {},
+              relatedProductsInfo: [],
+            },
+          }, this.getSelectedProductRatings);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      const newCurrentProductBundle = productBundles[productID];
+      this.setState({
+        productBundle: newCurrentProductBundle,
+      }, () => { console.log('Line 800 index: API call avoided!'); });
+    }
   };
 
   // Relate Compare Outfit Lists - Handle 'related item product card click' click
@@ -786,6 +779,7 @@ class App extends React.Component {
     this.setState({
       productID,
     }, this.getSelectedProductInfo);
+
     const {
       reviewsSort,
     } = this.state;
@@ -890,8 +884,8 @@ class App extends React.Component {
 
   render() {
     const {
-      reviews, isLoading, reviewsMeta, outfitProductsAndStyles, productToCompareStyles,
-      reviewsAverageRating, reviewsNew, reviewsTotal, productID,
+      reviews, isLoading, reviewsMeta, productToCompareStyles,
+      reviewsAverageRating, reviewsNew, reviewsTotal, productID, outfits,
       currentSelectedStyle, productId, productStyles, product, productToCompareRating,
       compare, productToCompare, styleImages, currentShownImage, productBundle,
     } = this.state;
@@ -926,7 +920,6 @@ class App extends React.Component {
             productToCompareRating={productToCompareRating}
             productBundle={productBundle}
           />
-
         </div>
         <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'RelatedList', Date.now().toString())}>
           <RelatedList
@@ -935,19 +928,14 @@ class App extends React.Component {
             changeProductID={this.changeProductID}
             productBundle={productBundle}
           />
-
         </div>
-
         <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'OutfitList', Date.now().toString())}>
           <OutfitList
-            outfitProductsAndStyles={outfitProductsAndStyles}
             addToOutfit={this.addToOutfit}
             removeFromOutfit={this.removeFromOutfit}
-            productBundle={productBundle}
+            outfits={outfits}
           />
-
         </div>
-
         <div aria-hidden="true" onClick={() => this.onComponentClick('div', 'RatingReviews', Date.now().toString())}>
           <RatingReviews
             productId={productId}
@@ -964,9 +952,7 @@ class App extends React.Component {
             onReviewSubmit={this.onReviewSubmit}
           />
         </div>
-
       </div>
-
     );
   }
 }
