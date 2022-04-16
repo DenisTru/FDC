@@ -35,10 +35,16 @@ class Overview extends React.Component {
     }
   }
 
-  handleChangeSize = (e) => {
-    const sku = $(`option[value="${e.target.value}"]`).attr('data-sku');
+  handleChangeSize = () => {
+    const selectBox = document.getElementById('selectBox');
+    const selectedValue = JSON.parse(selectBox.options[selectBox.selectedIndex].value);
+    console.log('LINE 41 in Overview selectedValue ', selectedValue);
     this.setState(
-      { itemStock: e.target.value, itemSku: sku, pickSize: e.target.value },
+      {
+        itemStock: selectedValue.value,
+        itemSku: selectedValue.dataSku,
+        pickSize: selectedValue.value,
+      },
     );
   };
 

@@ -59,55 +59,54 @@ export default function relatedCards({
         </div>
       );
     }
-  } else {
-    const storedProducts = Object.values(productBundles);
-    return (
-      <div id="related-slider">
-        {storedProducts.map((product, index) => (
-          <div
-            id="product-cards"
-            className="slider-cards"
-            key={JSON.stringify(product + index)}
-          >
-            <div id="image-container">
-              <RelatedCardImage
-                relatedProductStyles={product.productStyles}
-                changeProductID={changeProductID}
-                product={product.productInfo}
-              />
-            </div>
-            <RelatedCardButton
-              startComparing={startComparing}
-              product={product.productInfo}
-              relatedProductRatingInfo={product.productReviews}
-              relatedProductStyles={product.productStyles}
-            />
-            <div
-              id="change-product"
-              onClick={() => { changeProductID(product.productInfo.id); }}
-              role="button"
-              tabIndex={0}
-              onKeyPress={() => { changeProductID(product.productInfo.id); }}
-            >
-              <div id="productCategory">
-                {product.productInfo.category}
-              </div>
-              <div id="productName">
-                {product.productInfo.name}
-              </div>
-              <div id="productPrice">
-                <RelatedCardPrice
-                  productPrice={product.productInfo.default_price}
-                  productStyles={product.productStyles}
-                />
-              </div>
-              <RelatedCardReview
-                relatedProductRatingInfo={product.productReviews}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
   }
+  const storedProducts = Object.values(productBundles);
+  return (
+    <div id="related-slider">
+      {storedProducts.map((product, index) => (
+        <div
+          id="product-cards"
+          className="slider-cards"
+          key={JSON.stringify(product + index)}
+        >
+          <div id="image-container">
+            <RelatedCardImage
+              relatedProductStyles={product.productStyles}
+              changeProductID={changeProductID}
+              product={product.productInfo}
+            />
+          </div>
+          <RelatedCardButton
+            startComparing={startComparing}
+            product={product.productInfo}
+            relatedProductRatingInfo={product.productReviews}
+            relatedProductStyles={product.productStyles}
+          />
+          <div
+            id="change-product"
+            onClick={() => { changeProductID(product.productInfo.id); }}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => { changeProductID(product.productInfo.id); }}
+          >
+            <div id="productCategory">
+              {product.productInfo.category}
+            </div>
+            <div id="productName">
+              {product.productInfo.name}
+            </div>
+            <div id="productPrice">
+              <RelatedCardPrice
+                productPrice={product.productInfo.default_price}
+                productStyles={product.productStyles}
+              />
+            </div>
+            <RelatedCardReview
+              relatedProductRatingInfo={product.productReviews}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
