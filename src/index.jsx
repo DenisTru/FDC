@@ -603,11 +603,14 @@ class App extends React.Component {
 
   addToProductBundles = () => {
     const { productBundles, productBundle } = this.state;
-    const addsProductBundle = productBundles;
-    addsProductBundle[productBundle.productInfo.id] = productBundle;
-    this.setState({
-      productBundles: addsProductBundle,
-    }, () => { console.log('Line 636 index: this.state.productBundles ', this.state.productBundles); });
+    if (productBundle.relatedProductsInfo[0]
+      && productBundle.relatedProductsInfo[0].styles) {
+      const addsProductBundle = productBundles;
+      addsProductBundle[productBundle.productInfo.id] = productBundle;
+      this.setState({
+        productBundles: addsProductBundle,
+      });
+    }
   };
 
   // Relate Compare Outfit Lists - creates product bundle
@@ -770,7 +773,7 @@ class App extends React.Component {
       const newCurrentProductBundle = productBundles[productID];
       this.setState({
         productBundle: newCurrentProductBundle,
-      }, () => { console.log('Line 800 index: API call avoided!'); });
+      });
     }
   };
 
